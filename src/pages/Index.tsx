@@ -4,6 +4,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import ModernProfessional from "@/components/templates/ModernProfessional";
 import CreativeMinimal from "@/components/templates/CreativeMinimal";
 import ExecutiveClassic from "@/components/templates/ExecutiveClassic";
+import GeometricModern from "@/components/templates/GeometricModern";
+import GradientWave from "@/components/templates/GradientWave";
+import DottedPattern from "@/components/templates/DottedPattern";
 import TemplateCard from "@/components/TemplateCard";
 import { FileText, ArrowLeft } from "lucide-react";
 
@@ -27,6 +30,27 @@ const templates = [
     title: "Executive Classic",
     description: "Sophisticated single-column format. Best for senior leadership and C-level positions.",
     component: ExecutiveClassic,
+    preview: "/placeholder.svg"
+  },
+  {
+    id: "geometric-modern",
+    title: "Geometric Modern",
+    description: "Dynamic geometric patterns with gradient accents. Stand out with modern design.",
+    component: GeometricModern,
+    preview: "/placeholder.svg"
+  },
+  {
+    id: "gradient-wave",
+    title: "Gradient Wave",
+    description: "Flowing wave backgrounds with soft gradients. Perfect for tech and creative fields.",
+    component: GradientWave,
+    preview: "/placeholder.svg"
+  },
+  {
+    id: "dotted-pattern",
+    title: "Dotted Pattern",
+    description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.",
+    component: DottedPattern,
     preview: "/placeholder.svg"
   }
 ];
