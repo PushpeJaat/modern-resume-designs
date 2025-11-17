@@ -17,42 +17,36 @@ const templates = [
     title: "Modern Professional",
     description: "Clean two-column layout with blue accents. Perfect for tech and corporate roles.",
     component: ModernProfessional,
-    preview: "/placeholder.svg"
   },
   {
     id: "creative-minimal",
     title: "Creative Minimal",
     description: "Bold typography with timeline design. Ideal for designers and creative professionals.",
     component: CreativeMinimal,
-    preview: "/placeholder.svg"
   },
   {
     id: "executive-classic",
     title: "Executive Classic",
     description: "Sophisticated single-column format. Best for senior leadership and C-level positions.",
     component: ExecutiveClassic,
-    preview: "/placeholder.svg"
   },
   {
     id: "geometric-modern",
     title: "Geometric Modern",
     description: "Dynamic geometric patterns with gradient accents. Stand out with modern design.",
     component: GeometricModern,
-    preview: "/placeholder.svg"
   },
   {
     id: "gradient-wave",
     title: "Gradient Wave",
     description: "Flowing wave backgrounds with soft gradients. Perfect for tech and creative fields.",
     component: GradientWave,
-    preview: "/placeholder.svg"
   },
   {
     id: "dotted-pattern",
     title: "Dotted Pattern",
     description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.",
     component: DottedPattern,
-    preview: "/placeholder.svg"
   }
 ];
 
@@ -99,7 +93,7 @@ const Templates = () => {
                 <TemplateCard
                   title={template.title}
                   description={template.description}
-                  preview={template.preview}
+                  component={template.component}
                   onPreview={() => handlePreview(template.id)}
                 />
               </div>
