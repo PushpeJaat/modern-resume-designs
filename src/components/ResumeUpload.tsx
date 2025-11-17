@@ -76,30 +76,30 @@ const ResumeUpload = () => {
 
   return (
     <Card className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5 hover:border-primary/50 transition-all duration-300">
-      <div className="p-8">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Upload className="w-5 h-5 text-primary" />
+      <div className="p-6">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-1.5 rounded-lg bg-primary/10">
+            <Upload className="w-4 h-4 text-primary" />
           </div>
-          <h3 className="text-xl font-bold">Upload Your Resume</h3>
+          <h3 className="text-lg font-bold">Upload Your Resume</h3>
         </div>
-        <p className="text-muted-foreground mb-6">
+        <p className="text-muted-foreground text-sm mb-4">
           Have an existing resume? Upload it and we'll automatically extract your information to save you time.
         </p>
         
         {isProcessing ? (
-          <div className="flex flex-col items-center justify-center p-8 space-y-4">
-            <Loader2 className="w-12 h-12 text-primary animate-spin" />
+          <div className="flex flex-col items-center justify-center p-6 space-y-3">
+            <Loader2 className="w-10 h-10 text-primary animate-spin" />
             <div className="text-center">
-              <p className="font-medium mb-1">Processing your resume...</p>
-              <p className="text-sm text-muted-foreground">Extracting information from your document</p>
+              <p className="font-medium text-sm mb-1">Processing your resume...</p>
+              <p className="text-xs text-muted-foreground">Extracting information from your document</p>
             </div>
           </div>
         ) : !uploadedFile ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             <label htmlFor="resume-upload" className="block">
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer">
-                <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer">
+                <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
                 <p className="text-sm font-medium mb-1">Click to upload or drag and drop</p>
                 <p className="text-xs text-muted-foreground">PDF or Word document (Max 10MB)</p>
               </div>
@@ -130,7 +130,7 @@ const ResumeUpload = () => {
           <Button
             variant="outline"
             size="sm"
-            className="mt-4"
+            className="mt-3"
             onClick={() => setUploadedFile(null)}
           >
             Upload Different File

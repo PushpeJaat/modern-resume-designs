@@ -20,8 +20,8 @@ const TemplateCard = ({ title, description, component: Component, onPreview }: T
             Preview Full Template
           </Button>
         </div>
-        <div className="w-full h-full overflow-hidden p-2">
-          <div className="transform scale-[0.15] origin-top-left w-[666%] h-[666%] pointer-events-none bg-white shadow-2xl">
+        <div className="w-full h-full overflow-hidden flex items-start justify-center p-4">
+          <div className="transform scale-[0.18] origin-top w-[555%] h-[555%] pointer-events-none bg-white shadow-2xl">
             <Component />
           </div>
         </div>
