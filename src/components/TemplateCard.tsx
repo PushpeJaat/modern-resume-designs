@@ -1,16 +1,15 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
-import React from "react";
 
 interface TemplateCardProps {
   title: string;
   description: string;
-  component: React.ComponentType;
+  previewImage: string;
   onPreview: () => void;
 }
 
-const TemplateCard = ({ title, description, component: Component, onPreview }: TemplateCardProps) => {
+const TemplateCard = ({ title, description, previewImage, onPreview }: TemplateCardProps) => {
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-primary bg-card">
       <div className="aspect-[8.5/11] bg-gradient-to-br from-muted/50 to-muted relative overflow-hidden border-b-2 border-border" onClick={onPreview}>
@@ -20,11 +19,11 @@ const TemplateCard = ({ title, description, component: Component, onPreview }: T
             Preview Full Template
           </Button>
         </div>
-        <div className="w-full h-full overflow-hidden flex items-start justify-center p-2">
-          <div className="transform scale-[0.15] origin-top w-[667%] h-[667%] pointer-events-none bg-white shadow-2xl">
-            <Component />
-          </div>
-        </div>
+        <img 
+          src={previewImage} 
+          alt={`${title} preview`}
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="p-6 bg-card">
         <h3 className="font-bold text-lg mb-2 text-foreground">{title}</h3>
