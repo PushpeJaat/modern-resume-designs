@@ -10,6 +10,12 @@ import DottedPattern from "@/components/templates/DottedPattern";
 import TemplateCard from "@/components/TemplateCard";
 import ResumeUpload from "@/components/ResumeUpload";
 import { ArrowLeft, Download, Edit } from "lucide-react";
+import modernProfessionalPreview from "@/assets/previews/modern-professional.jpg";
+import creativeMinimalPreview from "@/assets/previews/creative-minimal.jpg";
+import executiveClassicPreview from "@/assets/previews/executive-classic.jpg";
+import geometricModernPreview from "@/assets/previews/geometric-modern.jpg";
+import gradientWavePreview from "@/assets/previews/gradient-wave.jpg";
+import dottedPatternPreview from "@/assets/previews/dotted-pattern.jpg";
 
 const templates = [
   {
@@ -17,36 +23,42 @@ const templates = [
     title: "Modern Professional",
     description: "Clean two-column layout with blue accents. Perfect for tech and corporate roles.",
     component: ModernProfessional,
+    previewImage: modernProfessionalPreview,
   },
   {
     id: "creative-minimal",
     title: "Creative Minimal",
     description: "Bold typography with timeline design. Ideal for designers and creative professionals.",
     component: CreativeMinimal,
+    previewImage: creativeMinimalPreview,
   },
   {
     id: "executive-classic",
     title: "Executive Classic",
     description: "Sophisticated single-column format. Best for senior leadership and C-level positions.",
     component: ExecutiveClassic,
+    previewImage: executiveClassicPreview,
   },
   {
     id: "geometric-modern",
     title: "Geometric Modern",
     description: "Dynamic geometric patterns with gradient accents. Stand out with modern design.",
     component: GeometricModern,
+    previewImage: geometricModernPreview,
   },
   {
     id: "gradient-wave",
     title: "Gradient Wave",
     description: "Flowing wave backgrounds with soft gradients. Perfect for tech and creative fields.",
     component: GradientWave,
+    previewImage: gradientWavePreview,
   },
   {
     id: "dotted-pattern",
     title: "Dotted Pattern",
     description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.",
     component: DottedPattern,
+    previewImage: dottedPatternPreview,
   }
 ];
 
@@ -93,7 +105,7 @@ const Templates = () => {
                 <TemplateCard
                   title={template.title}
                   description={template.description}
-                  component={template.component}
+                  previewImage={template.previewImage}
                   onPreview={() => handlePreview(template.id)}
                 />
               </div>
