@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ModernProfessional from "@/components/templates/ModernProfessional";
@@ -63,6 +64,7 @@ const templates = [
 ];
 
 const Templates = () => {
+  const navigate = useNavigate();
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -133,11 +135,23 @@ const Templates = () => {
                 </span>
               </DialogTitle>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="gap-2"
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    navigate(`/editor?template=${selectedTemplate}`);
+                  }}
+                >
                   <Edit className="w-4 h-4" />
                   Customize
                 </Button>
-                <Button size="sm" className="gap-2">
+                <Button 
+                  size="sm" 
+                  className="gap-2"
+                  onClick={() => navigate(`/editor?template=${selectedTemplate}`)}
+                >
                   <Download className="w-4 h-4" />
                   Use This Template
                 </Button>
