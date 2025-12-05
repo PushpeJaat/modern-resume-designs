@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Award, Target } from "lucide-react";
 
 const GradientWave = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white resume-shadow rounded-lg overflow-hidden relative">
+    <div className="w-full bg-white overflow-hidden relative">
       {/* Wave Background */}
       <div className="absolute inset-0 overflow-hidden">
         <svg className="absolute top-0 left-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
