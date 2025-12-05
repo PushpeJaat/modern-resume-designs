@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Github, Linkedin } from "lucide-react";
 
 const CreativeMinimal = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white resume-shadow rounded-lg overflow-hidden">
+    <div className="w-full bg-white overflow-hidden">
       <div className="p-12">
         {/* Header with accent */}
         <div className="mb-10">

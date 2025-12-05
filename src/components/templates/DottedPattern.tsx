@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Github, Globe, Code } from "lucide-react";
 
 const DottedPattern = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white resume-shadow rounded-lg overflow-hidden relative">
+    <div className="w-full bg-white overflow-hidden relative">
       {/* Dotted Pattern Background */}
       <div className="absolute inset-0">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">

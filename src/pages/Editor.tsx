@@ -24,28 +24,73 @@ const templates: Record<string, React.ComponentType<{ data?: ResumeData }>> = {
   "dotted-pattern": DottedPattern,
 };
 
-const initialData: ResumeData = {
+const defaultPlaceholderData: ResumeData = {
   personalInfo: {
-    name: "",
-    title: "",
-    email: "",
-    phone: "",
-    location: "",
-    linkedin: "",
-    website: "",
-    github: "",
+    name: "John Anderson",
+    title: "Senior Software Engineer",
+    email: "john.anderson@email.com",
+    phone: "+1 (555) 123-4567",
+    location: "San Francisco, CA",
+    linkedin: "linkedin.com/in/johnanderson",
+    website: "johnanderson.dev",
+    github: "github.com/johnanderson",
   },
-  summary: "",
-  experience: [],
-  education: [],
-  skills: [],
+  summary: "Innovative software engineer with 8+ years of experience building scalable web applications. Proven track record of leading cross-functional teams and delivering high-impact solutions. Passionate about clean code and modern development practices.",
+  experience: [
+    {
+      id: "1",
+      company: "TechCorp Inc.",
+      position: "Senior Software Engineer",
+      startDate: "Jan 2020",
+      endDate: "Present",
+      current: true,
+      responsibilities: [
+        "Lead development of microservices architecture serving 1M+ users",
+        "Mentor team of 5 junior developers on best practices",
+        "Reduced deployment time by 60% through CI/CD optimization",
+      ],
+    },
+    {
+      id: "2",
+      company: "StartupXYZ",
+      position: "Full Stack Developer",
+      startDate: "Jun 2016",
+      endDate: "Dec 2019",
+      current: false,
+      responsibilities: [
+        "Built and maintained React-based customer dashboard",
+        "Implemented RESTful APIs using Node.js and Express",
+        "Collaborated with design team to improve UX metrics by 40%",
+      ],
+    },
+  ],
+  education: [
+    {
+      id: "1",
+      institution: "Stanford University",
+      degree: "BS",
+      field: "Computer Science",
+      startDate: "2012",
+      endDate: "2016",
+    },
+  ],
+  skills: [
+    {
+      category: "Technical",
+      skills: ["React", "TypeScript", "Node.js", "Python", "AWS"],
+    },
+    {
+      category: "Soft Skills",
+      skills: ["Leadership", "Communication", "Problem Solving"],
+    },
+  ],
 };
 
 const Editor = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const templateId = searchParams.get("template") || "modern-professional";
-  const [resumeData, setResumeData] = useState<ResumeData>(initialData);
+  const [resumeData, setResumeData] = useState<ResumeData>(defaultPlaceholderData);
 
   const TemplateComponent = templates[templateId];
 

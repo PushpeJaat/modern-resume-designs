@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Linkedin, Award } from "lucide-react";
 
 const ExecutiveClassic = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white resume-shadow rounded-lg overflow-hidden">
+    <div className="w-full bg-white overflow-hidden">
       <div className="p-14">
         {/* Header */}
         <div className="text-center mb-10 pb-8 border-b-2 border-resume-border">

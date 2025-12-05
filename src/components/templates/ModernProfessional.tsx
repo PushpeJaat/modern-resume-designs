@@ -68,7 +68,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
     ],
   };
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white resume-shadow rounded-lg overflow-hidden">
+    <div className="w-full bg-white overflow-hidden">
       {/* Header */}
       <div className="bg-primary px-12 py-10">
         <h1 className="text-4xl font-bold text-white mb-2">{displayData.personalInfo.name || "Your Name"}</h1>
