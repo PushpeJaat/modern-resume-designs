@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,8 +90,67 @@ const defaultPlaceholderData: ResumeData = {
 const Editor = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const templateId = searchParams.get("template") || "modern-professional";
   const [resumeData, setResumeData] = useState<ResumeData>(defaultPlaceholderData);
+
+  // Check for uploaded resume data on mount
+  useEffect(() => {
+    const savedResumeData = localStorage.getItem("resumeData");
+    if (savedResumeData) {
+      try {
+        const parsed = JSON.parse(savedResumeData);
+        // Map the uploaded resume data to our ResumeData format
+        const mappedData: ResumeData = {
+          personalInfo: {
+            name: parsed.name || defaultPlaceholderData.personalInfo.name,
+            title: parsed.title || defaultPlaceholderData.personalInfo.title,
+            email: parsed.email || defaultPlaceholderData.personalInfo.email,
+            phone: parsed.phone || defaultPlaceholderData.personalInfo.phone,
+            location: parsed.location || defaultPlaceholderData.personalInfo.location,
+            linkedin: parsed.linkedin || defaultPlaceholderData.personalInfo.linkedin,
+            website: parsed.website || defaultPlaceholderData.personalInfo.website,
+            github: parsed.github || defaultPlaceholderData.personalInfo.github,
+          },
+          summary: parsed.summary || defaultPlaceholderData.summary,
+          experience: parsed.experience?.map((exp: any, idx: number) => ({
+            id: exp.id || String(idx + 1),
+            company: exp.company || "",
+            position: exp.title || exp.position || "",
+            startDate: exp.startDate || exp.duration?.split(" - ")[0] || "",
+            endDate: exp.endDate || exp.duration?.split(" - ")[1] || "",
+            current: exp.current || exp.endDate === "Present",
+            responsibilities: Array.isArray(exp.responsibilities) 
+              ? exp.responsibilities 
+              : exp.description 
+                ? [exp.description] 
+                : [""],
+          })) || defaultPlaceholderData.experience,
+          education: parsed.education?.map((edu: any, idx: number) => ({
+            id: edu.id || String(idx + 1),
+            institution: edu.institution || "",
+            degree: edu.degree?.split(" in ")[0] || edu.degree || "",
+            field: edu.degree?.split(" in ")[1] || edu.field || "",
+            startDate: edu.startDate || "",
+            endDate: edu.endDate || edu.year || "",
+          })) || defaultPlaceholderData.education,
+          skills: parsed.skills 
+            ? [{ category: "Skills", skills: Array.isArray(parsed.skills) ? parsed.skills : [] }]
+            : defaultPlaceholderData.skills,
+        };
+        
+        setResumeData(mappedData);
+        toast({
+          title: "Resume data loaded",
+          description: "Your uploaded resume information has been auto-filled.",
+        });
+        // Clear the localStorage after loading
+        localStorage.removeItem("resumeData");
+      } catch (error) {
+        console.error("Error parsing resume data:", error);
+      }
+    }
+  }, [toast]);
 
   const TemplateComponent = templates[templateId];
 
