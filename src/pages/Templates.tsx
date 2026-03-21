@@ -8,6 +8,7 @@ import ExecutiveClassic from "@/components/templates/ExecutiveClassic";
 import GeometricModern from "@/components/templates/GeometricModern";
 import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
+import DarkSidebar from "@/components/templates/DarkSidebar";
 import TemplateCard from "@/components/TemplateCard";
 import ResumeUpload from "@/components/ResumeUpload";
 import { ArrowLeft, Download, Edit } from "lucide-react";
@@ -17,6 +18,7 @@ import executiveClassicPreview from "@/assets/previews/executive-classic.jpg";
 import geometricModernPreview from "@/assets/previews/geometric-modern.jpg";
 import gradientWavePreview from "@/assets/previews/gradient-wave.jpg";
 import dottedPatternPreview from "@/assets/previews/dotted-pattern.jpg";
+import darkSidebarPreview from "@/assets/previews/dark-sidebar.jpg";
 
 const templates = [
   {
@@ -60,6 +62,13 @@ const templates = [
     description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.",
     component: DottedPattern,
     previewImage: dottedPatternPreview,
+  },
+  {
+    id: "dark-sidebar",
+    title: "Dark Sidebar",
+    description: "Dark navy sidebar with skill bars and clean right panel. Great for tech roles.",
+    component: DarkSidebar,
+    previewImage: darkSidebarPreview,
   }
 ];
 
