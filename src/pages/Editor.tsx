@@ -271,260 +271,286 @@ const Editor = () => {
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Form Section */}
-          <div className="space-y-4">
-            <Card className="p-6">
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Form Section - 40% */}
+          <div className="w-full lg:w-[38%] flex-shrink-0">
+            <Card className="p-4 lg:p-5">
               <Tabs defaultValue="personal" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
-                  <TabsTrigger value="personal">Personal</TabsTrigger>
-                  <TabsTrigger value="experience">Experience</TabsTrigger>
-                  <TabsTrigger value="education">Education</TabsTrigger>
-                  <TabsTrigger value="skills">Skills</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-4 text-xs">
+                  <TabsTrigger value="personal" className="text-xs px-1">Personal</TabsTrigger>
+                  <TabsTrigger value="experience" className="text-xs px-1">Experience</TabsTrigger>
+                  <TabsTrigger value="education" className="text-xs px-1">Education</TabsTrigger>
+                  <TabsTrigger value="skills" className="text-xs px-1">Skills</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="personal" className="space-y-4 mt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                <TabsContent value="personal" className="space-y-3 mt-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="name" className="text-xs">Full Name</Label>
                       <Input
                         id="name"
                         value={resumeData.personalInfo.name}
                         onChange={(e) => updatePersonalInfo("name", e.target.value)}
                         placeholder="John Doe"
+                        className="h-8 text-sm"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="title">Job Title</Label>
+                    <div className="space-y-1">
+                      <Label htmlFor="title" className="text-xs">Job Title</Label>
                       <Input
                         id="title"
                         value={resumeData.personalInfo.title}
                         onChange={(e) => updatePersonalInfo("title", e.target.value)}
                         placeholder="Software Engineer"
+                        className="h-8 text-sm"
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="email" className="text-xs">Email</Label>
                       <Input
                         id="email"
                         type="email"
                         value={resumeData.personalInfo.email}
                         onChange={(e) => updatePersonalInfo("email", e.target.value)}
                         placeholder="john@example.com"
+                        className="h-8 text-sm"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone</Label>
+                    <div className="space-y-1">
+                      <Label htmlFor="phone" className="text-xs">Phone</Label>
                       <Input
                         id="phone"
                         value={resumeData.personalInfo.phone}
                         onChange={(e) => updatePersonalInfo("phone", e.target.value)}
                         placeholder="+1 (555) 123-4567"
+                        className="h-8 text-sm"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="location">Location</Label>
+                  <div className="space-y-1">
+                    <Label htmlFor="location" className="text-xs">Location</Label>
                     <Input
                       id="location"
                       value={resumeData.personalInfo.location}
                       onChange={(e) => updatePersonalInfo("location", e.target.value)}
                       placeholder="San Francisco, CA"
+                      className="h-8 text-sm"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="linkedin">LinkedIn</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="linkedin" className="text-xs">LinkedIn</Label>
                       <Input
                         id="linkedin"
                         value={resumeData.personalInfo.linkedin}
                         onChange={(e) => updatePersonalInfo("linkedin", e.target.value)}
                         placeholder="linkedin.com/in/johndoe"
+                        className="h-8 text-sm"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="website">Website</Label>
+                    <div className="space-y-1">
+                      <Label htmlFor="website" className="text-xs">Website</Label>
                       <Input
                         id="website"
                         value={resumeData.personalInfo.website}
                         onChange={(e) => updatePersonalInfo("website", e.target.value)}
                         placeholder="johndoe.com"
+                        className="h-8 text-sm"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="summary">Professional Summary</Label>
+                  <div className="space-y-1">
+                    <Label htmlFor="summary" className="text-xs">Professional Summary</Label>
                     <Textarea
                       id="summary"
                       value={resumeData.summary}
                       onChange={(e) => setResumeData((prev) => ({ ...prev, summary: e.target.value }))}
                       placeholder="Brief professional summary..."
-                      rows={4}
+                      rows={3}
+                      className="text-sm"
                     />
                   </div>
                 </TabsContent>
 
-                <TabsContent value="experience" className="space-y-4 mt-4">
-                  {resumeData.experience.map((exp) => (
-                    <Card key={exp.id} className="p-4 space-y-4 relative">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeExperience(exp.id)}
-                        className="absolute top-2 right-2"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label>Company</Label>
-                          <Input
-                            value={exp.company}
-                            onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
-                            placeholder="Company Name"
+                <TabsContent value="experience" className="space-y-3 mt-3">
+                  <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
+                    {resumeData.experience.map((exp) => (
+                      <Card key={exp.id} className="p-3 space-y-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeExperience(exp.id)}
+                          className="absolute top-1 right-1 h-7 w-7 p-0"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Company</Label>
+                            <Input
+                              value={exp.company}
+                              onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
+                              placeholder="Company Name"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Position</Label>
+                            <Input
+                              value={exp.position}
+                              onChange={(e) => updateExperience(exp.id, "position", e.target.value)}
+                              placeholder="Job Title"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Start Date</Label>
+                            <Input
+                              value={exp.startDate}
+                              onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)}
+                              placeholder="Jan 2020"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">End Date</Label>
+                            <Input
+                              value={exp.endDate}
+                              onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)}
+                              placeholder="Present"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Responsibilities</Label>
+                          <Textarea
+                            value={exp.responsibilities.join("\n")}
+                            onChange={(e) => updateExperience(exp.id, "responsibilities", e.target.value.split("\n"))}
+                            placeholder="One responsibility per line..."
+                            rows={2}
+                            className="text-sm"
                           />
                         </div>
-                        <div className="space-y-2">
-                          <Label>Position</Label>
-                          <Input
-                            value={exp.position}
-                            onChange={(e) => updateExperience(exp.id, "position", e.target.value)}
-                            placeholder="Job Title"
-                          />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label>Start Date</Label>
-                          <Input
-                            value={exp.startDate}
-                            onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)}
-                            placeholder="Jan 2020"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>End Date</Label>
-                          <Input
-                            value={exp.endDate}
-                            onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)}
-                            placeholder="Present"
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Responsibilities</Label>
-                        <Textarea
-                          value={exp.responsibilities.join("\n")}
-                          onChange={(e) => updateExperience(exp.id, "responsibilities", e.target.value.split("\n"))}
-                          placeholder="One responsibility per line..."
-                          rows={3}
-                        />
-                      </div>
-                    </Card>
-                  ))}
-                  <Button onClick={addExperience} className="w-full gap-2">
-                    <Plus className="w-4 h-4" />
+                      </Card>
+                    ))}
+                  </div>
+                  <Button onClick={addExperience} className="w-full gap-2 h-8 text-sm">
+                    <Plus className="w-3 h-3" />
                     Add Experience
                   </Button>
                 </TabsContent>
 
-                <TabsContent value="education" className="space-y-4 mt-4">
-                  {resumeData.education.map((edu) => (
-                    <Card key={edu.id} className="p-4 space-y-4 relative">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeEducation(edu.id)}
-                        className="absolute top-2 right-2"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <div className="space-y-2">
-                        <Label>Institution</Label>
-                        <Input
-                          value={edu.institution}
-                          onChange={(e) => updateEducation(edu.id, "institution", e.target.value)}
-                          placeholder="University Name"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label>Degree</Label>
+                <TabsContent value="education" className="space-y-3 mt-3">
+                  <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
+                    {resumeData.education.map((edu) => (
+                      <Card key={edu.id} className="p-3 space-y-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeEducation(edu.id)}
+                          className="absolute top-1 right-1 h-7 w-7 p-0"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Institution</Label>
                           <Input
-                            value={edu.degree}
-                            onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-                            placeholder="Bachelor's"
+                            value={edu.institution}
+                            onChange={(e) => updateEducation(edu.id, "institution", e.target.value)}
+                            placeholder="University Name"
+                            className="h-8 text-sm"
                           />
                         </div>
-                        <div className="space-y-2">
-                          <Label>Field</Label>
-                          <Input
-                            value={edu.field}
-                            onChange={(e) => updateEducation(edu.id, "field", e.target.value)}
-                            placeholder="Computer Science"
-                          />
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Degree</Label>
+                            <Input
+                              value={edu.degree}
+                              onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
+                              placeholder="Bachelor's"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Field</Label>
+                            <Input
+                              value={edu.field}
+                              onChange={(e) => updateEducation(edu.id, "field", e.target.value)}
+                              placeholder="Computer Science"
+                              className="h-8 text-sm"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label>Start Date</Label>
-                          <Input
-                            value={edu.startDate}
-                            onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
-                            placeholder="2016"
-                          />
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Start Date</Label>
+                            <Input
+                              value={edu.startDate}
+                              onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
+                              placeholder="2016"
+                              className="h-8 text-sm"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">End Date</Label>
+                            <Input
+                              value={edu.endDate}
+                              onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
+                              placeholder="2020"
+                              className="h-8 text-sm"
+                            />
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label>End Date</Label>
-                          <Input
-                            value={edu.endDate}
-                            onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
-                            placeholder="2020"
-                          />
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                  <Button onClick={addEducation} className="w-full gap-2">
-                    <Plus className="w-4 h-4" />
+                      </Card>
+                    ))}
+                  </div>
+                  <Button onClick={addEducation} className="w-full gap-2 h-8 text-sm">
+                    <Plus className="w-3 h-3" />
                     Add Education
                   </Button>
                 </TabsContent>
 
-                <TabsContent value="skills" className="space-y-4 mt-4">
-                  {resumeData.skills.map((skillCat, index) => (
-                    <Card key={index} className="p-4 space-y-4 relative">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeSkillCategory(index)}
-                        className="absolute top-2 right-2"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <div className="space-y-2">
-                        <Label>Category</Label>
-                        <Input
-                          value={skillCat.category}
-                          onChange={(e) => updateSkillCategory(index, "category", e.target.value)}
-                          placeholder="e.g., Programming Languages"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Skills</Label>
-                        <Textarea
-                          value={skillCat.skills.join(", ")}
-                          onChange={(e) => updateSkillCategory(index, "skills", e.target.value.split(",").map(s => s.trim()))}
-                          placeholder="Skill 1, Skill 2, Skill 3..."
-                          rows={2}
-                        />
-                      </div>
-                    </Card>
-                  ))}
-                  <Button onClick={addSkillCategory} className="w-full gap-2">
-                    <Plus className="w-4 h-4" />
+                <TabsContent value="skills" className="space-y-3 mt-3">
+                  <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
+                    {resumeData.skills.map((skillCat, index) => (
+                      <Card key={index} className="p-3 space-y-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeSkillCategory(index)}
+                          className="absolute top-1 right-1 h-7 w-7 p-0"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Category</Label>
+                          <Input
+                            value={skillCat.category}
+                            onChange={(e) => updateSkillCategory(index, "category", e.target.value)}
+                            placeholder="e.g., Programming Languages"
+                            className="h-8 text-sm"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <Label className="text-xs">Skills</Label>
+                          <Textarea
+                            value={skillCat.skills.join(", ")}
+                            onChange={(e) => updateSkillCategory(index, "skills", e.target.value.split(",").map(s => s.trim()))}
+                            placeholder="Skill 1, Skill 2, Skill 3..."
+                            rows={2}
+                            className="text-sm"
+                          />
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                  <Button onClick={addSkillCategory} className="w-full gap-2 h-8 text-sm">
+                    <Plus className="w-3 h-3" />
                     Add Skill Category
                   </Button>
                 </TabsContent>
@@ -532,18 +558,42 @@ const Editor = () => {
             </Card>
           </div>
 
-          {/* Preview Section */}
-          <div className="lg:sticky lg:top-6 h-fit">
-            <Card className="p-6 bg-muted/30">
-              <div className="mb-4">
-                <h3 className="font-bold text-lg">Live Preview</h3>
-                <p className="text-sm text-muted-foreground">
+          {/* Preview Section - 60% */}
+          <div className="w-full lg:w-[62%] lg:sticky lg:top-6 h-fit">
+            <Card className="p-3 lg:p-4 bg-muted/30">
+              <div className="mb-3">
+                <h3 className="font-bold text-sm">Live Preview</h3>
+                <p className="text-xs text-muted-foreground">
                   See your changes in real-time
                 </p>
               </div>
-              <div className="bg-white shadow-2xl rounded-lg overflow-hidden max-h-[800px] overflow-y-auto">
-                <div className="transform scale-90 origin-top">
-                  {TemplateComponent && <TemplateComponent data={resumeData} />}
+              <div className="bg-white shadow-2xl rounded-lg overflow-hidden">
+                <div className="overflow-y-auto max-h-[75vh]">
+                  <div 
+                    className="origin-top-left"
+                    style={{
+                      width: '794px',
+                      transform: 'scale(var(--preview-scale))',
+                      transformOrigin: 'top left',
+                    }}
+                    ref={(el) => {
+                      if (el) {
+                        const updateScale = () => {
+                          const parent = el.parentElement;
+                          if (parent) {
+                            const scale = parent.clientWidth / 794;
+                            el.style.setProperty('--preview-scale', String(Math.min(scale, 1)));
+                            el.parentElement!.style.height = `${el.scrollHeight * Math.min(scale, 1)}px`;
+                          }
+                        };
+                        updateScale();
+                        const observer = new ResizeObserver(updateScale);
+                        observer.observe(el.parentElement!);
+                      }
+                    }}
+                  >
+                    {TemplateComponent && <TemplateComponent data={resumeData} />}
+                  </div>
                 </div>
               </div>
             </Card>
