@@ -62,6 +62,13 @@ const templates = [
     description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.",
     component: DottedPattern,
     previewImage: dottedPatternPreview,
+  },
+  {
+    id: "dark-sidebar",
+    title: "Dark Sidebar",
+    description: "Dark navy sidebar with skill bars and clean right panel. Great for tech roles.",
+    component: DarkSidebar,
+    previewImage: darkSidebarPreview,
   }
 ];
 

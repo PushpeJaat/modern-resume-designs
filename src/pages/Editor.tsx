@@ -15,6 +15,7 @@ import ExecutiveClassic from "@/components/templates/ExecutiveClassic";
 import GeometricModern from "@/components/templates/GeometricModern";
 import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
+import DarkSidebar from "@/components/templates/DarkSidebar";
 
 const templates: Record<string, React.ComponentType<{ data?: ResumeData }>> = {
   "modern-professional": ModernProfessional,
@@ -23,6 +24,7 @@ const templates: Record<string, React.ComponentType<{ data?: ResumeData }>> = {
   "geometric-modern": GeometricModern,
   "gradient-wave": GradientWave,
   "dotted-pattern": DottedPattern,
+  "dark-sidebar": DarkSidebar,
 };
 
 const defaultPlaceholderData: ResumeData = {
