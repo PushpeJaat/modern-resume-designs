@@ -102,7 +102,18 @@ const Editor = () => {
     if (savedResumeData) {
       try {
         const parsed = JSON.parse(savedResumeData);
-        // Map the uploaded resume data to our ResumeData format
+        
+        // If already in ResumeData format (has personalInfo), use directly
+        if (parsed.personalInfo) {
+          setResumeData(parsed as ResumeData);
+          toast({
+            title: "Resume data loaded",
+            description: "Your uploaded resume information has been auto-filled.",
+          });
+          return;
+        }
+        
+        // Legacy format mapping
         const mappedData: ResumeData = {
           personalInfo: {
             name: parsed.name || defaultPlaceholderData.personalInfo.name,
@@ -146,8 +157,6 @@ const Editor = () => {
           title: "Resume data loaded",
           description: "Your uploaded resume information has been auto-filled.",
         });
-        // Clear the localStorage after loading
-        localStorage.removeItem("resumeData");
       } catch (error) {
         console.error("Error parsing resume data:", error);
       }
