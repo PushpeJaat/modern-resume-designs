@@ -1,6 +1,61 @@
 import { Mail, Phone, MapPin, Award, Target } from "lucide-react";
+import { ResumeData } from "@/types/resume";
 
-const GradientWave = () => {
+interface GradientWaveProps {
+  data?: ResumeData;
+}
+
+const GradientWave = ({ data }: GradientWaveProps) => {
+  const d: ResumeData = data || {
+    personalInfo: {
+      name: "Alex Thompson",
+      title: "Full Stack Developer",
+      email: "alex.thompson@dev.io",
+      phone: "+1 (555) 789-0123",
+      location: "Austin, TX",
+    },
+    summary: "Passionate full-stack developer with 7 years of experience building scalable web applications. Specialized in React, Node.js, and cloud architecture. Strong advocate for clean code, testing, and agile methodologies.",
+    experience: [
+      {
+        id: "1", company: "CloudTech Solutions", position: "Senior Full Stack Developer",
+        startDate: "2021", endDate: "Present", current: true,
+        responsibilities: [
+          "Architected microservices infrastructure serving 1M+ daily users",
+          "Led team of 8 developers in agile environment",
+          "Reduced API latency by 65% through optimization",
+          "Implemented comprehensive testing suite (95% coverage)",
+        ],
+      },
+      {
+        id: "2", company: "Innovation Labs", position: "Full Stack Developer",
+        startDate: "2019", endDate: "2021", current: false,
+        responsibilities: [
+          "Developed real-time collaboration platform using WebSockets",
+          "Built responsive SPAs with React and modern tooling",
+          "Integrated third-party APIs and payment systems",
+        ],
+      },
+      {
+        id: "3", company: "Tech Startup Inc", position: "Software Developer",
+        startDate: "2017", endDate: "2019", current: false,
+        responsibilities: [
+          "Built RESTful APIs using Node.js and Express",
+          "Implemented user authentication and authorization",
+          "Participated in code reviews and pair programming",
+        ],
+      },
+    ],
+    education: [
+      { id: "1", institution: "UT Austin", degree: "BS", field: "Computer Science", startDate: "2013", endDate: "2017" },
+    ],
+    skills: [
+      { category: "Frontend", skills: ["React", "TypeScript", "Next.js", "Tailwind"] },
+      { category: "Backend", skills: ["Node.js", "Python", "PostgreSQL", "MongoDB"] },
+      { category: "DevOps", skills: ["Docker", "AWS", "CI/CD", "Git"] },
+    ],
+    certifications: ["AWS Solutions Architect (2023)", "Google Cloud Professional (2022)"],
+  };
+
   return (
     <div className="w-full bg-white overflow-hidden relative">
       {/* Wave Background */}
@@ -22,203 +77,122 @@ const GradientWave = () => {
         </svg>
       </div>
 
-      {/* Gradient Orbs */}
       <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-primary/10 to-accent/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-accent/10 to-primary/5 rounded-full blur-3xl"></div>
 
       <div className="relative p-12">
         {/* Header */}
         <div className="mb-10">
-          <div className="inline-block px-6 py-3 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-full mb-4">
-            <p className="text-sm font-semibold text-primary">Portfolio Available</p>
-          </div>
           <h1 className="text-6xl font-bold mb-2 bg-gradient-to-r from-resume-section via-primary to-accent bg-clip-text text-transparent">
-            Alex Thompson
+            {d.personalInfo.name}
           </h1>
-          <p className="text-2xl text-resume-light font-light mb-6">Full Stack Developer</p>
-          
-          {/* Contact Pills */}
+          <p className="text-2xl text-resume-light font-light mb-6">{d.personalInfo.title}</p>
           <div className="flex flex-wrap gap-3">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
-              <Mail className="w-4 h-4 text-primary" />
-              <span className="text-sm resume-text">alex.thompson@dev.io</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
-              <Phone className="w-4 h-4 text-primary" />
-              <span className="text-sm resume-text">+1 (555) 789-0123</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
-              <MapPin className="w-4 h-4 text-primary" />
-              <span className="text-sm resume-text">Austin, TX</span>
-            </div>
+            {d.personalInfo.email && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
+                <Mail className="w-4 h-4 text-primary" /><span className="text-sm resume-text">{d.personalInfo.email}</span>
+              </div>
+            )}
+            {d.personalInfo.phone && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
+                <Phone className="w-4 h-4 text-primary" /><span className="text-sm resume-text">{d.personalInfo.phone}</span>
+              </div>
+            )}
+            {d.personalInfo.location && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20 shadow-sm">
+                <MapPin className="w-4 h-4 text-primary" /><span className="text-sm resume-text">{d.personalInfo.location}</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Summary Card */}
-        <div className="mb-10 p-6 bg-gradient-to-br from-primary/5 via-white to-accent/5 rounded-2xl border border-primary/10 backdrop-blur">
-          <h2 className="text-xl font-bold text-resume-section mb-3 flex items-center gap-2">
-            <Target className="w-5 h-5 text-primary" />
-            Professional Summary
-          </h2>
-          <p className="text-sm resume-text leading-relaxed">
-            Passionate full-stack developer with 7 years of experience building scalable web applications. 
-            Specialized in React, Node.js, and cloud architecture. Strong advocate for clean code, testing, 
-            and agile methodologies. Proven ability to lead technical projects and mentor junior developers.
-          </p>
-        </div>
+        {/* Summary */}
+        {d.summary && (
+          <div className="mb-10 p-6 bg-gradient-to-br from-primary/5 via-white to-accent/5 rounded-2xl border border-primary/10 backdrop-blur">
+            <h2 className="text-xl font-bold text-resume-section mb-3 flex items-center gap-2">
+              <Target className="w-5 h-5 text-primary" />Professional Summary
+            </h2>
+            <p className="text-sm resume-text leading-relaxed">{d.summary}</p>
+          </div>
+        )}
 
         <div className="grid grid-cols-3 gap-8">
           {/* Left Column */}
           <div className="col-span-1 space-y-8">
-            {/* Technical Skills */}
-            <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
-              <h2 className="section-title mb-4">Technical Stack</h2>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-xs font-semibold resume-section mb-2">Frontend</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {["React", "TypeScript", "Next.js", "Tailwind"].map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-primary text-primary-foreground text-xs rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold resume-section mb-2">Backend</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {["Node.js", "Python", "PostgreSQL", "MongoDB"].map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-accent text-accent-foreground text-xs rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold resume-section mb-2">DevOps</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {["Docker", "AWS", "CI/CD", "Git"].map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-resume-section text-white text-xs rounded">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+            {d.skills.length > 0 && (
+              <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
+                <h2 className="section-title mb-4">Technical Stack</h2>
+                <div className="space-y-3">
+                  {d.skills.map((cat, i) => (
+                    <div key={i}>
+                      <p className="text-xs font-semibold resume-section mb-2">{cat.category}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cat.skills.filter(s => s.trim()).map((skill) => (
+                          <span key={skill} className={`px-2 py-1 text-xs rounded ${i === 0 ? "bg-primary text-primary-foreground" : i === 1 ? "bg-accent text-accent-foreground" : "bg-resume-section text-white"}`}>
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Certifications */}
-            <div className="p-5 bg-gradient-to-br from-white to-accent/5 rounded-xl border border-accent/10">
-              <h2 className="section-title mb-4 flex items-center gap-2">
-                <Award className="w-4 h-4 text-accent" />
-                Certifications
-              </h2>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="font-semibold resume-text">AWS Solutions Architect</p>
-                  <p className="text-xs resume-light-text">2023</p>
-                </div>
-                <div>
-                  <p className="font-semibold resume-text">Google Cloud Professional</p>
-                  <p className="text-xs resume-light-text">2022</p>
+            {d.certifications && d.certifications.length > 0 && (
+              <div className="p-5 bg-gradient-to-br from-white to-accent/5 rounded-xl border border-accent/10">
+                <h2 className="section-title mb-4 flex items-center gap-2">
+                  <Award className="w-4 h-4 text-accent" />Certifications
+                </h2>
+                <div className="space-y-3 text-sm">
+                  {d.certifications.map((cert, i) => (
+                    <div key={i}><p className="font-semibold resume-text">{cert}</p></div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* Education */}
-            <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
-              <h2 className="section-title mb-4">Education</h2>
-              <div>
-                <h3 className="font-semibold text-sm resume-text">BS Computer Science</h3>
-                <p className="text-xs font-medium text-primary mt-1">UT Austin</p>
-                <p className="text-xs resume-light-text">2013 - 2017</p>
+            {d.education.length > 0 && d.education[0].institution && (
+              <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
+                <h2 className="section-title mb-4">Education</h2>
+                {d.education.map((edu) => (
+                  <div key={edu.id}>
+                    <h3 className="font-semibold text-sm resume-text">{edu.degree} {edu.field}</h3>
+                    <p className="text-xs font-medium text-primary mt-1">{edu.institution}</p>
+                    <p className="text-xs resume-light-text">{edu.startDate} - {edu.endDate}</p>
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
 
           {/* Right Column */}
           <div className="col-span-2 space-y-6">
-            {/* Experience */}
-            <div>
-              <h2 className="section-title mb-6 text-2xl">Experience</h2>
-              <div className="space-y-6">
-                <div className="p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-bold text-lg resume-section">Senior Full Stack Developer</h3>
-                      <p className="text-sm font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        CloudTech Solutions
-                      </p>
+            {d.experience.length > 0 && d.experience[0].position && (
+              <div>
+                <h2 className="section-title mb-6 text-2xl">Experience</h2>
+                <div className="space-y-6">
+                  {d.experience.map((exp, i) => (
+                    <div key={exp.id} className={`p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 ${i % 2 === 0 ? "border-primary" : "border-accent"} shadow-sm`}>
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h3 className="font-bold text-lg resume-section">{exp.position}</h3>
+                          <p className="text-sm font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{exp.company}</p>
+                        </div>
+                        <span className={`text-xs resume-light-text px-3 py-1 ${i % 2 === 0 ? "bg-primary/10" : "bg-accent/10"} rounded-full`}>
+                          {exp.startDate} - {exp.current ? "Present" : exp.endDate}
+                        </span>
+                      </div>
+                      <ul className="space-y-1.5 text-sm resume-text">
+                        {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
+                          <li key={idx}>• {r}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <span className="text-xs resume-light-text px-3 py-1 bg-primary/10 rounded-full">2021 - Present</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm resume-text">
-                    <li>• Architected microservices infrastructure serving 1M+ daily users</li>
-                    <li>• Led team of 8 developers in agile environment</li>
-                    <li>• Reduced API latency by 65% through optimization</li>
-                    <li>• Implemented comprehensive testing suite (95% coverage)</li>
-                  </ul>
-                </div>
-
-                <div className="p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 border-accent shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-bold text-lg resume-section">Full Stack Developer</h3>
-                      <p className="text-sm font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        Innovation Labs
-                      </p>
-                    </div>
-                    <span className="text-xs resume-light-text px-3 py-1 bg-accent/10 rounded-full">2019 - 2021</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm resume-text">
-                    <li>• Developed real-time collaboration platform using WebSockets</li>
-                    <li>• Built responsive SPAs with React and modern tooling</li>
-                    <li>• Integrated third-party APIs and payment systems</li>
-                    <li>• Mentored 3 junior developers</li>
-                  </ul>
-                </div>
-
-                <div className="p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-bold text-lg resume-section">Software Developer</h3>
-                      <p className="text-sm font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        Tech Startup Inc
-                      </p>
-                    </div>
-                    <span className="text-xs resume-light-text px-3 py-1 bg-primary/10 rounded-full">2017 - 2019</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm resume-text">
-                    <li>• Built RESTful APIs using Node.js and Express</li>
-                    <li>• Implemented user authentication and authorization</li>
-                    <li>• Participated in code reviews and pair programming</li>
-                  </ul>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            {/* Projects Highlight */}
-            <div className="p-6 bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 rounded-2xl border border-primary/20">
-              <h2 className="section-title mb-4 text-xl">Notable Projects</h2>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <h3 className="font-bold resume-section mb-1">E-Commerce Platform</h3>
-                  <p className="resume-text text-xs">Full-stack marketplace with 50K+ users</p>
-                </div>
-                <div>
-                  <h3 className="font-bold resume-section mb-1">Analytics Dashboard</h3>
-                  <p className="resume-text text-xs">Real-time data visualization system</p>
-                </div>
-                <div>
-                  <h3 className="font-bold resume-section mb-1">Mobile App API</h3>
-                  <p className="resume-text text-xs">Backend for iOS/Android application</p>
-                </div>
-                <div>
-                  <h3 className="font-bold resume-section mb-1">DevOps Pipeline</h3>
-                  <p className="resume-text text-xs">Automated deployment infrastructure</p>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
