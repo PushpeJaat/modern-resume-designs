@@ -116,8 +116,8 @@ const Templates = () => {
                 <TemplateCard
                   title={template.title}
                   description={template.description}
-                  previewImage={template.previewImage}
                   onPreview={() => handlePreview(template.id)}
+                  livePreview={<template.component />}
                 />
               </div>
             ))}
