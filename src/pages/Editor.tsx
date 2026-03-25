@@ -271,28 +271,43 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
-      const canvas = await html2canvas(resumeRef.current, {
+      // Clone the resume element into an offscreen container at full size (no CSS transform)
+      const clone = resumeRef.current.cloneNode(true) as HTMLElement;
+      const offscreen = document.createElement("div");
+      offscreen.style.cssText = `
+        position: fixed; left: -9999px; top: 0; 
+        width: 794px; background: white; z-index: -1;
+      `;
+      // Copy all stylesheets so the clone renders identically
+      offscreen.appendChild(clone);
+      document.body.appendChild(offscreen);
+
+      // Wait for any fonts / images to settle
+      await new Promise((r) => setTimeout(r, 300));
+
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
         backgroundColor: "#ffffff",
         width: 794,
-        height: resumeRef.current.scrollHeight,
+        height: clone.scrollHeight,
         windowWidth: 794,
       });
+
+      document.body.removeChild(offscreen);
+
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "pt", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = pdfWidth / imgWidth;
-      const scaledHeight = imgHeight * ratio;
+      const pdfW = pdf.internal.pageSize.getWidth();   // 595.28
+      const pdfH = pdf.internal.pageSize.getHeight();   // 841.89
+      const ratio = pdfW / canvas.width;
+      const totalH = canvas.height * ratio;
 
-      let position = 0;
-      while (position < scaledHeight) {
-        if (position > 0) pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, -position, pdfWidth, scaledHeight);
-        position += pdfHeight;
+      let y = 0;
+      while (y < totalH) {
+        if (y > 0) pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, -y, pdfW, totalH);
+        y += pdfH;
       }
 
       const name = resumeData.personalInfo.name || "resume";
