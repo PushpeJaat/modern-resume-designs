@@ -271,6 +271,41 @@ const Editor = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
 
+  const saveResumeToCloud = async () => {
+    if (!user) return;
+    setSaving(true);
+    try {
+      const { data: existing } = await supabase
+        .from("saved_resumes")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("template_id", templateId)
+        .maybeSingle();
+
+      if (existing) {
+        await supabase
+          .from("saved_resumes")
+          .update({ resume_data: resumeData as any, updated_at: new Date().toISOString() })
+          .eq("id", existing.id);
+      } else {
+        await supabase
+          .from("saved_resumes")
+          .insert({
+            user_id: user.id,
+            template_id: templateId,
+            resume_data: resumeData as any,
+            title: resumeData.personalInfo.name + " - " + templateId,
+          });
+      }
+      toast({ title: "Resume saved to your account!" });
+    } catch (err) {
+      console.error(err);
+      toast({ title: "Save failed", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleDownloadPDF = async () => {
     if (!resumeRef.current) return;
     setDownloading(true);
