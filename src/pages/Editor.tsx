@@ -97,8 +97,10 @@ const Editor = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const templateId = searchParams.get("template") || "modern-professional";
   const [resumeData, setResumeData] = useState<ResumeData>(defaultPlaceholderData);
+  const [saving, setSaving] = useState(false);
 
   // Check for uploaded resume data on mount
   useEffect(() => {
