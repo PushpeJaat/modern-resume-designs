@@ -102,28 +102,46 @@ const Templates = () => {
 
       {/* Preview Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-7xl max-h-[95vh] overflow-hidden flex flex-col">
-          <DialogHeader className="border-b pb-4">
-            <div className="flex items-center justify-between">
-              <DialogTitle className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" onClick={() => setIsDialogOpen(false)} className="hover:bg-primary/10">
+        <DialogContent className="w-[95vw] max-w-4xl max-h-[95vh] overflow-hidden flex flex-col p-3 sm:p-6">
+          <DialogHeader className="border-b pb-3">
+            <div className="flex items-center justify-between gap-2">
+              <DialogTitle className="flex items-center gap-2 min-w-0">
+                <Button variant="ghost" size="sm" onClick={() => setIsDialogOpen(false)} className="hover:bg-primary/10 shrink-0 h-8 w-8 p-0">
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
-                <span className="text-xl font-bold">{selected?.title}</span>
+                <span className="text-base sm:text-xl font-bold truncate">{selected?.title}</span>
               </DialogTitle>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="gap-2" onClick={() => { setIsDialogOpen(false); navigate(`/editor?template=${selectedTemplate}`); }}>
-                  <Edit className="w-4 h-4" />Customize
+              <div className="flex gap-1.5 shrink-0">
+                <Button variant="outline" size="sm" className="gap-1.5 text-xs sm:text-sm h-8" onClick={() => { setIsDialogOpen(false); navigate(`/editor?template=${selectedTemplate}`); }}>
+                  <Edit className="w-3.5 h-3.5" /><span className="hidden sm:inline">Customize</span>
                 </Button>
-                <Button size="sm" className="gap-2" onClick={() => navigate(`/editor?template=${selectedTemplate}`)}>
-                  <Download className="w-4 h-4" />Use This Template
+                <Button size="sm" className="gap-1.5 text-xs sm:text-sm h-8" onClick={() => navigate(`/editor?template=${selectedTemplate}`)}>
+                  <Download className="w-3.5 h-3.5" /><span className="hidden sm:inline">Use Template</span><span className="sm:hidden">Use</span>
                 </Button>
               </div>
             </div>
           </DialogHeader>
-          <div className="flex-1 overflow-y-auto mt-4 bg-muted/30 p-8 rounded-lg border-2 border-border">
-            <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
-              {SelectedComponent && <SelectedComponent data={uploadedData || undefined} />}
+          <div className="flex-1 overflow-y-auto mt-3 bg-muted/30 p-2 sm:p-6 rounded-lg border border-border">
+            <div className="mx-auto bg-white shadow-2xl rounded-lg overflow-hidden"
+              ref={(el) => {
+                if (!el) return;
+                const inner = el.querySelector('[data-preview-inner]') as HTMLElement;
+                if (!inner) return;
+                const updateScale = () => {
+                  const parentW = el.clientWidth;
+                  const scale = Math.min(parentW / 794, 1);
+                  inner.style.transform = `scale(${scale})`;
+                  inner.style.transformOrigin = 'top left';
+                  el.style.height = `${inner.scrollHeight * scale}px`;
+                };
+                updateScale();
+                const obs = new ResizeObserver(updateScale);
+                obs.observe(el);
+              }}
+            >
+              <div data-preview-inner style={{ width: 794 }}>
+                {SelectedComponent && <SelectedComponent data={uploadedData || undefined} />}
+              </div>
             </div>
           </div>
         </DialogContent>
