@@ -108,18 +108,11 @@ const Editor = () => {
     if (savedResumeData) {
       try {
         const parsed = JSON.parse(savedResumeData);
-        
-        // If already in ResumeData format (has personalInfo), use directly
         if (parsed.personalInfo) {
           setResumeData(parsed as ResumeData);
-          toast({
-            title: "Resume data loaded",
-            description: "Your uploaded resume information has been auto-filled.",
-          });
+          toast({ title: "Resume data loaded", description: "Your uploaded resume information has been auto-filled." });
           return;
         }
-        
-        // Legacy format mapping
         const mappedData: ResumeData = {
           personalInfo: {
             name: parsed.name || defaultPlaceholderData.personalInfo.name,
@@ -139,11 +132,7 @@ const Editor = () => {
             startDate: exp.startDate || exp.duration?.split(" - ")[0] || "",
             endDate: exp.endDate || exp.duration?.split(" - ")[1] || "",
             current: exp.current || exp.endDate === "Present",
-            responsibilities: Array.isArray(exp.responsibilities) 
-              ? exp.responsibilities 
-              : exp.description 
-                ? [exp.description] 
-                : [""],
+            responsibilities: Array.isArray(exp.responsibilities) ? exp.responsibilities : exp.description ? [exp.description] : [""],
           })) || defaultPlaceholderData.experience,
           education: parsed.education?.map((edu: any, idx: number) => ({
             id: edu.id || String(idx + 1),
@@ -153,21 +142,30 @@ const Editor = () => {
             startDate: edu.startDate || "",
             endDate: edu.endDate || edu.year || "",
           })) || defaultPlaceholderData.education,
-          skills: parsed.skills 
+          skills: parsed.skills
             ? [{ category: "Skills", skills: Array.isArray(parsed.skills) ? parsed.skills : [] }]
             : defaultPlaceholderData.skills,
         };
-        
         setResumeData(mappedData);
-        toast({
-          title: "Resume data loaded",
-          description: "Your uploaded resume information has been auto-filled.",
-        });
+        toast({ title: "Resume data loaded", description: "Your uploaded resume information has been auto-filled." });
       } catch (error) {
         console.error("Error parsing resume data:", error);
       }
     }
   }, [toast]);
+
+  // Auto-trigger download after Google auth redirect
+  useEffect(() => {
+    const pendingDownload = localStorage.getItem("pendingDownload");
+    if (pendingDownload && user) {
+      localStorage.removeItem("pendingDownload");
+      // Small delay to let the component render fully
+      const timer = setTimeout(() => {
+        handleDownloadPDF();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
 
   const TemplateComponent = templates[templateId];
 
@@ -180,92 +178,43 @@ const Editor = () => {
 
   const addExperience = () => {
     const newExp: ExperienceItem = {
-      id: Date.now().toString(),
-      company: "",
-      position: "",
-      startDate: "",
-      endDate: "",
-      current: false,
-      responsibilities: [""],
+      id: Date.now().toString(), company: "", position: "", startDate: "", endDate: "", current: false, responsibilities: [""],
     };
-    setResumeData((prev) => ({
-      ...prev,
-      experience: [...prev.experience, newExp],
-    }));
+    setResumeData((prev) => ({ ...prev, experience: [...prev.experience, newExp] }));
   };
 
   const updateExperience = (id: string, field: string, value: any) => {
-    setResumeData((prev) => ({
-      ...prev,
-      experience: prev.experience.map((exp) =>
-        exp.id === id ? { ...exp, [field]: value } : exp
-      ),
-    }));
+    setResumeData((prev) => ({ ...prev, experience: prev.experience.map((exp) => exp.id === id ? { ...exp, [field]: value } : exp) }));
   };
 
   const removeExperience = (id: string) => {
-    setResumeData((prev) => ({
-      ...prev,
-      experience: prev.experience.filter((exp) => exp.id !== id),
-    }));
+    setResumeData((prev) => ({ ...prev, experience: prev.experience.filter((exp) => exp.id !== id) }));
   };
 
   const addEducation = () => {
-    const newEdu: EducationItem = {
-      id: Date.now().toString(),
-      institution: "",
-      degree: "",
-      field: "",
-      startDate: "",
-      endDate: "",
-    };
-    setResumeData((prev) => ({
-      ...prev,
-      education: [...prev.education, newEdu],
-    }));
+    const newEdu: EducationItem = { id: Date.now().toString(), institution: "", degree: "", field: "", startDate: "", endDate: "" };
+    setResumeData((prev) => ({ ...prev, education: [...prev.education, newEdu] }));
   };
 
   const updateEducation = (id: string, field: string, value: string) => {
-    setResumeData((prev) => ({
-      ...prev,
-      education: prev.education.map((edu) =>
-        edu.id === id ? { ...edu, [field]: value } : edu
-      ),
-    }));
+    setResumeData((prev) => ({ ...prev, education: prev.education.map((edu) => edu.id === id ? { ...edu, [field]: value } : edu) }));
   };
 
   const removeEducation = (id: string) => {
-    setResumeData((prev) => ({
-      ...prev,
-      education: prev.education.filter((edu) => edu.id !== id),
-    }));
+    setResumeData((prev) => ({ ...prev, education: prev.education.filter((edu) => edu.id !== id) }));
   };
 
   const addSkillCategory = () => {
-    const newCategory: SkillCategory = {
-      category: "",
-      skills: [""],
-    };
-    setResumeData((prev) => ({
-      ...prev,
-      skills: [...prev.skills, newCategory],
-    }));
+    const newCategory: SkillCategory = { category: "", skills: [""] };
+    setResumeData((prev) => ({ ...prev, skills: [...prev.skills, newCategory] }));
   };
 
   const updateSkillCategory = (index: number, field: string, value: any) => {
-    setResumeData((prev) => ({
-      ...prev,
-      skills: prev.skills.map((skill, i) =>
-        i === index ? { ...skill, [field]: value } : skill
-      ),
-    }));
+    setResumeData((prev) => ({ ...prev, skills: prev.skills.map((skill, i) => i === index ? { ...skill, [field]: value } : skill) }));
   };
 
   const removeSkillCategory = (index: number) => {
-    setResumeData((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
+    setResumeData((prev) => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }));
   };
 
   const resumeRef = useRef<HTMLDivElement>(null);
@@ -283,19 +232,9 @@ const Editor = () => {
         .maybeSingle();
 
       if (existing) {
-        await supabase
-          .from("saved_resumes")
-          .update({ resume_data: resumeData as any, updated_at: new Date().toISOString() })
-          .eq("id", existing.id);
+        await supabase.from("saved_resumes").update({ resume_data: resumeData as any, updated_at: new Date().toISOString() }).eq("id", existing.id);
       } else {
-        await supabase
-          .from("saved_resumes")
-          .insert({
-            user_id: user.id,
-            template_id: templateId,
-            resume_data: resumeData as any,
-            title: resumeData.personalInfo.name + " - " + templateId,
-          });
+        await supabase.from("saved_resumes").insert({ user_id: user.id, template_id: templateId, resume_data: resumeData as any, title: resumeData.personalInfo.name + " - " + templateId });
       }
       toast({ title: "Resume saved to your account!" });
     } catch (err) {
@@ -307,12 +246,10 @@ const Editor = () => {
   };
 
   const handleDownloadPDF = async () => {
-    // Gate download behind auth
     if (!user) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in or create an account to download your resume.",
-      });
+      // Store pending download flag so we can auto-trigger after auth
+      localStorage.setItem("pendingDownload", "true");
+      toast({ title: "Sign in required", description: "Please sign in or create an account to download your resume." });
       navigate(`/auth?returnTo=${encodeURIComponent(`/editor?template=${templateId}`)}`);
       return;
     }
@@ -322,75 +259,55 @@ const Editor = () => {
       // Clone into offscreen container at native A4 width
       const clone = resumeRef.current.cloneNode(true) as HTMLElement;
       const offscreen = document.createElement("div");
-      offscreen.style.cssText = `
-        position: fixed; left: -9999px; top: 0; 
-        width: 794px; background: white; z-index: -1;
-      `;
+      offscreen.style.cssText = `position:fixed;left:-9999px;top:0;width:794px;background:white;z-index:-1;`;
       offscreen.appendChild(clone);
       document.body.appendChild(offscreen);
 
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 500));
 
       const A4_W_PT = 595.28;
       const A4_H_PT = 841.89;
-      const MARGIN_PT = 0; // templates have their own padding
 
-      // Check if template has data-pdf-section markers
-      const sections = Array.from(clone.querySelectorAll('[data-pdf-section]')) as HTMLElement[];
+      // Capture the FULL resume as one tall canvas
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        width: 794,
+        height: clone.scrollHeight,
+        windowWidth: 794,
+      });
 
       const pdf = new jsPDF("p", "pt", "a4");
 
-      if (sections.length > 0) {
-        // Section-based rendering for templates like GradientWave
-        let currentY = MARGIN_PT;
-        const SECTION_GAP_PT = 3;
+      const imgData = canvas.toDataURL("image/jpeg", 0.95);
+      const ratio = A4_W_PT / canvas.width;
+      const totalH = canvas.height * ratio;
 
-        for (let i = 0; i < sections.length; i++) {
-          const section = sections[i];
-          const canvas = await html2canvas(section, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: null,
-            windowWidth: 794,
-          });
+      // Calculate how many pages we need
+      const pageCount = Math.ceil(totalH / A4_H_PT);
 
-          const ratio = A4_W_PT / canvas.width;
-          const sectionH = canvas.height * ratio;
-          const remaining = A4_H_PT - currentY - MARGIN_PT;
-
-          if (sectionH > remaining && currentY > MARGIN_PT) {
-            pdf.addPage();
-            currentY = MARGIN_PT;
-          }
-
-          const imgData = canvas.toDataURL("image/png");
-          pdf.addImage(imgData, "PNG", MARGIN_PT, currentY, A4_W_PT - MARGIN_PT * 2, sectionH);
-          currentY += sectionH + SECTION_GAP_PT;
-        }
-      } else {
-        // Fallback: full-page capture for templates without section markers
-        const canvas = await html2canvas(clone, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          width: 794,
-          height: clone.scrollHeight,
-          windowWidth: 794,
-        });
-
-        const imgData = canvas.toDataURL("image/png");
-        const ratio = A4_W_PT / canvas.width;
-        const totalH = canvas.height * ratio;
-
-        let y = 0;
-        while (y < totalH) {
-          if (y > 0) pdf.addPage();
-          pdf.addImage(imgData, "PNG", 0, -y, A4_W_PT, totalH);
-          y += A4_H_PT;
-        }
+      for (let page = 0; page < pageCount; page++) {
+        if (page > 0) pdf.addPage();
+        // Draw the full image offset upward for each page
+        pdf.addImage(imgData, "JPEG", 0, -(page * A4_H_PT), A4_W_PT, totalH);
       }
 
       document.body.removeChild(offscreen);
+
+      // Track download
+      try {
+        await supabase.from("download_history").insert({
+          user_id: user.id,
+          template_id: templateId,
+          resume_title: resumeData.personalInfo.name || "Untitled",
+        });
+      } catch (e) {
+        console.error("Failed to track download:", e);
+      }
+
+      // Also save resume to cloud
+      saveResumeToCloud();
 
       const name = resumeData.personalInfo.name || "resume";
       pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
@@ -407,11 +324,7 @@ const Editor = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/templates")}
-            className="gap-2"
-          >
+          <Button variant="ghost" onClick={() => navigate("/templates")} className="gap-2">
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Back to Templates</span>
             <span className="sm:hidden">Back</span>
@@ -432,7 +345,7 @@ const Editor = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Form Section - 40% */}
+          {/* Form Section */}
           <div className="w-full lg:w-[38%] flex-shrink-0">
             <Card className="p-4 lg:p-5">
               <Tabs defaultValue="personal" className="w-full">
@@ -447,90 +360,40 @@ const Editor = () => {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label htmlFor="name" className="text-xs">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={resumeData.personalInfo.name}
-                        onChange={(e) => updatePersonalInfo("name", e.target.value)}
-                        placeholder="John Doe"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="name" value={resumeData.personalInfo.name} onChange={(e) => updatePersonalInfo("name", e.target.value)} placeholder="John Doe" className="h-8 text-sm" />
                     </div>
                     <div className="space-y-1">
                       <Label htmlFor="title" className="text-xs">Job Title</Label>
-                      <Input
-                        id="title"
-                        value={resumeData.personalInfo.title}
-                        onChange={(e) => updatePersonalInfo("title", e.target.value)}
-                        placeholder="Software Engineer"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="title" value={resumeData.personalInfo.title} onChange={(e) => updatePersonalInfo("title", e.target.value)} placeholder="Software Engineer" className="h-8 text-sm" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label htmlFor="email" className="text-xs">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={resumeData.personalInfo.email}
-                        onChange={(e) => updatePersonalInfo("email", e.target.value)}
-                        placeholder="john@example.com"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="email" type="email" value={resumeData.personalInfo.email} onChange={(e) => updatePersonalInfo("email", e.target.value)} placeholder="john@example.com" className="h-8 text-sm" />
                     </div>
                     <div className="space-y-1">
                       <Label htmlFor="phone" className="text-xs">Phone</Label>
-                      <Input
-                        id="phone"
-                        value={resumeData.personalInfo.phone}
-                        onChange={(e) => updatePersonalInfo("phone", e.target.value)}
-                        placeholder="+1 (555) 123-4567"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="phone" value={resumeData.personalInfo.phone} onChange={(e) => updatePersonalInfo("phone", e.target.value)} placeholder="+1 (555) 123-4567" className="h-8 text-sm" />
                     </div>
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="location" className="text-xs">Location</Label>
-                    <Input
-                      id="location"
-                      value={resumeData.personalInfo.location}
-                      onChange={(e) => updatePersonalInfo("location", e.target.value)}
-                      placeholder="San Francisco, CA"
-                      className="h-8 text-sm"
-                    />
+                    <Input id="location" value={resumeData.personalInfo.location} onChange={(e) => updatePersonalInfo("location", e.target.value)} placeholder="San Francisco, CA" className="h-8 text-sm" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label htmlFor="linkedin" className="text-xs">LinkedIn</Label>
-                      <Input
-                        id="linkedin"
-                        value={resumeData.personalInfo.linkedin}
-                        onChange={(e) => updatePersonalInfo("linkedin", e.target.value)}
-                        placeholder="linkedin.com/in/johndoe"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="linkedin" value={resumeData.personalInfo.linkedin} onChange={(e) => updatePersonalInfo("linkedin", e.target.value)} placeholder="linkedin.com/in/johndoe" className="h-8 text-sm" />
                     </div>
                     <div className="space-y-1">
                       <Label htmlFor="website" className="text-xs">Website</Label>
-                      <Input
-                        id="website"
-                        value={resumeData.personalInfo.website}
-                        onChange={(e) => updatePersonalInfo("website", e.target.value)}
-                        placeholder="johndoe.com"
-                        className="h-8 text-sm"
-                      />
+                      <Input id="website" value={resumeData.personalInfo.website} onChange={(e) => updatePersonalInfo("website", e.target.value)} placeholder="johndoe.com" className="h-8 text-sm" />
                     </div>
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="summary" className="text-xs">Professional Summary</Label>
-                    <Textarea
-                      id="summary"
-                      value={resumeData.summary}
-                      onChange={(e) => setResumeData((prev) => ({ ...prev, summary: e.target.value }))}
-                      placeholder="Brief professional summary..."
-                      rows={3}
-                      className="text-sm"
-                    />
+                    <Textarea id="summary" value={resumeData.summary} onChange={(e) => setResumeData((prev) => ({ ...prev, summary: e.target.value }))} placeholder="Brief professional summary..." rows={3} className="text-sm" />
                   </div>
                 </TabsContent>
 
@@ -538,70 +401,38 @@ const Editor = () => {
                   <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
                     {resumeData.experience.map((exp) => (
                       <Card key={exp.id} className="p-3 space-y-3 relative">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeExperience(exp.id)}
-                          className="absolute top-1 right-1 h-7 w-7 p-0"
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => removeExperience(exp.id)} className="absolute top-1 right-1 h-7 w-7 p-0">
                           <Trash2 className="w-3 h-3" />
                         </Button>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
                             <Label className="text-xs">Company</Label>
-                            <Input
-                              value={exp.company}
-                              onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
-                              placeholder="Company Name"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={exp.company} onChange={(e) => updateExperience(exp.id, "company", e.target.value)} placeholder="Company Name" className="h-8 text-sm" />
                           </div>
                           <div className="space-y-1">
                             <Label className="text-xs">Position</Label>
-                            <Input
-                              value={exp.position}
-                              onChange={(e) => updateExperience(exp.id, "position", e.target.value)}
-                              placeholder="Job Title"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={exp.position} onChange={(e) => updateExperience(exp.id, "position", e.target.value)} placeholder="Job Title" className="h-8 text-sm" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
                             <Label className="text-xs">Start Date</Label>
-                            <Input
-                              value={exp.startDate}
-                              onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)}
-                              placeholder="Jan 2020"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={exp.startDate} onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)} placeholder="Jan 2020" className="h-8 text-sm" />
                           </div>
                           <div className="space-y-1">
                             <Label className="text-xs">End Date</Label>
-                            <Input
-                              value={exp.endDate}
-                              onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)}
-                              placeholder="Present"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={exp.endDate} onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)} placeholder="Present" className="h-8 text-sm" />
                           </div>
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Responsibilities</Label>
-                          <Textarea
-                            value={exp.responsibilities.join("\n")}
-                            onChange={(e) => updateExperience(exp.id, "responsibilities", e.target.value.split("\n"))}
-                            placeholder="One responsibility per line..."
-                            rows={2}
-                            className="text-sm"
-                          />
+                          <Textarea value={exp.responsibilities.join("\n")} onChange={(e) => updateExperience(exp.id, "responsibilities", e.target.value.split("\n"))} placeholder="One responsibility per line..." rows={2} className="text-sm" />
                         </div>
                       </Card>
                     ))}
                   </div>
                   <Button onClick={addExperience} className="w-full gap-2 h-8 text-sm">
-                    <Plus className="w-3 h-3" />
-                    Add Experience
+                    <Plus className="w-3 h-3" /> Add Experience
                   </Button>
                 </TabsContent>
 
@@ -609,69 +440,38 @@ const Editor = () => {
                   <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
                     {resumeData.education.map((edu) => (
                       <Card key={edu.id} className="p-3 space-y-3 relative">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeEducation(edu.id)}
-                          className="absolute top-1 right-1 h-7 w-7 p-0"
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => removeEducation(edu.id)} className="absolute top-1 right-1 h-7 w-7 p-0">
                           <Trash2 className="w-3 h-3" />
                         </Button>
                         <div className="space-y-1">
                           <Label className="text-xs">Institution</Label>
-                          <Input
-                            value={edu.institution}
-                            onChange={(e) => updateEducation(edu.id, "institution", e.target.value)}
-                            placeholder="University Name"
-                            className="h-8 text-sm"
-                          />
+                          <Input value={edu.institution} onChange={(e) => updateEducation(edu.id, "institution", e.target.value)} placeholder="University Name" className="h-8 text-sm" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
                             <Label className="text-xs">Degree</Label>
-                            <Input
-                              value={edu.degree}
-                              onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-                              placeholder="Bachelor's"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} placeholder="Bachelor's" className="h-8 text-sm" />
                           </div>
                           <div className="space-y-1">
                             <Label className="text-xs">Field</Label>
-                            <Input
-                              value={edu.field}
-                              onChange={(e) => updateEducation(edu.id, "field", e.target.value)}
-                              placeholder="Computer Science"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={edu.field} onChange={(e) => updateEducation(edu.id, "field", e.target.value)} placeholder="Computer Science" className="h-8 text-sm" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="space-y-1">
                             <Label className="text-xs">Start Date</Label>
-                            <Input
-                              value={edu.startDate}
-                              onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
-                              placeholder="2016"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="2016" className="h-8 text-sm" />
                           </div>
                           <div className="space-y-1">
                             <Label className="text-xs">End Date</Label>
-                            <Input
-                              value={edu.endDate}
-                              onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
-                              placeholder="2020"
-                              className="h-8 text-sm"
-                            />
+                            <Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="2020" className="h-8 text-sm" />
                           </div>
                         </div>
                       </Card>
                     ))}
                   </div>
                   <Button onClick={addEducation} className="w-full gap-2 h-8 text-sm">
-                    <Plus className="w-3 h-3" />
-                    Add Education
+                    <Plus className="w-3 h-3" /> Add Education
                   </Button>
                 </TabsContent>
 
@@ -679,63 +479,40 @@ const Editor = () => {
                   <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
                     {resumeData.skills.map((skillCat, index) => (
                       <Card key={index} className="p-3 space-y-3 relative">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeSkillCategory(index)}
-                          className="absolute top-1 right-1 h-7 w-7 p-0"
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => removeSkillCategory(index)} className="absolute top-1 right-1 h-7 w-7 p-0">
                           <Trash2 className="w-3 h-3" />
                         </Button>
                         <div className="space-y-1">
                           <Label className="text-xs">Category</Label>
-                          <Input
-                            value={skillCat.category}
-                            onChange={(e) => updateSkillCategory(index, "category", e.target.value)}
-                            placeholder="e.g., Programming Languages"
-                            className="h-8 text-sm"
-                          />
+                          <Input value={skillCat.category} onChange={(e) => updateSkillCategory(index, "category", e.target.value)} placeholder="e.g., Programming Languages" className="h-8 text-sm" />
                         </div>
                         <div className="space-y-1">
                           <Label className="text-xs">Skills</Label>
-                          <Textarea
-                            value={skillCat.skills.join(", ")}
-                            onChange={(e) => updateSkillCategory(index, "skills", e.target.value.split(",").map(s => s.trim()))}
-                            placeholder="Skill 1, Skill 2, Skill 3..."
-                            rows={2}
-                            className="text-sm"
-                          />
+                          <Textarea value={skillCat.skills.join(", ")} onChange={(e) => updateSkillCategory(index, "skills", e.target.value.split(",").map(s => s.trim()))} placeholder="Skill 1, Skill 2, Skill 3..." rows={2} className="text-sm" />
                         </div>
                       </Card>
                     ))}
                   </div>
                   <Button onClick={addSkillCategory} className="w-full gap-2 h-8 text-sm">
-                    <Plus className="w-3 h-3" />
-                    Add Skill Category
+                    <Plus className="w-3 h-3" /> Add Skill Category
                   </Button>
                 </TabsContent>
               </Tabs>
             </Card>
           </div>
 
-          {/* Preview Section - 60% */}
+          {/* Preview Section */}
           <div className="w-full lg:w-[62%] lg:sticky lg:top-6 h-fit">
             <Card className="p-3 lg:p-4 bg-muted/30">
               <div className="mb-3">
                 <h3 className="font-bold text-sm">Live Preview</h3>
-                <p className="text-xs text-muted-foreground">
-                  See your changes in real-time
-                </p>
+                <p className="text-xs text-muted-foreground">See your changes in real-time</p>
               </div>
               <div className="bg-white shadow-2xl rounded-lg overflow-hidden">
                 <div className="overflow-y-auto max-h-[75vh]">
-                  <div 
+                  <div
                     className="origin-top-left"
-                    style={{
-                      width: '794px',
-                      transform: 'scale(var(--preview-scale))',
-                      transformOrigin: 'top left',
-                    }}
+                    style={{ width: '794px', transform: 'scale(var(--preview-scale))', transformOrigin: 'top left' }}
                     ref={(el) => {
                       if (el) {
                         const updateScale = () => {

@@ -29,6 +29,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // Handle redirect after Google OAuth sign-in
+        if (_event === "SIGNED_IN" && session?.user) {
+          const returnTo = localStorage.getItem("authReturnTo");
+          if (returnTo) {
+            localStorage.removeItem("authReturnTo");
+            // Use setTimeout to avoid blocking the auth state change
+            setTimeout(() => {
+              window.location.href = returnTo;
+            }, 100);
+          }
+        }
       }
     );
 
