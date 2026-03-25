@@ -645,7 +645,9 @@ const Editor = () => {
                       }
                     }}
                   >
-                    {TemplateComponent && <TemplateComponent data={resumeData} />}
+                    <div ref={resumeRef}>
+                      {TemplateComponent && <TemplateComponent data={resumeData} />}
+                    </div>
                   </div>
                 </div>
               </div>
