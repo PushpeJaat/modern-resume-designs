@@ -7,9 +7,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Download, Plus, Trash2, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, Plus, Trash2, Loader2, Save } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { ResumeData, ExperienceItem, EducationItem, SkillCategory } from "@/types/resume";
 import ModernProfessional from "@/components/templates/ModernProfessional";
 import CreativeMinimal from "@/components/templates/CreativeMinimal";
@@ -95,8 +97,10 @@ const Editor = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const templateId = searchParams.get("template") || "modern-professional";
   const [resumeData, setResumeData] = useState<ResumeData>(defaultPlaceholderData);
+  const [saving, setSaving] = useState(false);
 
   // Check for uploaded resume data on mount
   useEffect(() => {
@@ -267,7 +271,51 @@ const Editor = () => {
   const resumeRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
 
+  const saveResumeToCloud = async () => {
+    if (!user) return;
+    setSaving(true);
+    try {
+      const { data: existing } = await supabase
+        .from("saved_resumes")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("template_id", templateId)
+        .maybeSingle();
+
+      if (existing) {
+        await supabase
+          .from("saved_resumes")
+          .update({ resume_data: resumeData as any, updated_at: new Date().toISOString() })
+          .eq("id", existing.id);
+      } else {
+        await supabase
+          .from("saved_resumes")
+          .insert({
+            user_id: user.id,
+            template_id: templateId,
+            resume_data: resumeData as any,
+            title: resumeData.personalInfo.name + " - " + templateId,
+          });
+      }
+      toast({ title: "Resume saved to your account!" });
+    } catch (err) {
+      console.error(err);
+      toast({ title: "Save failed", variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleDownloadPDF = async () => {
+    // Gate download behind auth
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in or create an account to download your resume.",
+      });
+      navigate(`/auth?returnTo=${encodeURIComponent(`/editor?template=${templateId}`)}`);
+      return;
+    }
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
@@ -358,19 +406,29 @@ const Editor = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
           <Button
             variant="ghost"
             onClick={() => navigate("/templates")}
             className="gap-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Templates
+            <span className="hidden sm:inline">Back to Templates</span>
+            <span className="sm:hidden">Back</span>
           </Button>
-          <Button className="gap-2" onClick={handleDownloadPDF} disabled={downloading}>
-            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-            {downloading ? "Generating..." : "Download PDF"}
-          </Button>
+          <div className="flex gap-2">
+            {user && (
+              <Button variant="outline" className="gap-2" onClick={saveResumeToCloud} disabled={saving}>
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                <span className="hidden sm:inline">{saving ? "Saving..." : "Save"}</span>
+              </Button>
+            )}
+            <Button className="gap-2" onClick={handleDownloadPDF} disabled={downloading}>
+              {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <span className="hidden sm:inline">{downloading ? "Generating..." : "Download PDF"}</span>
+              <span className="sm:hidden">{downloading ? "..." : "PDF"}</span>
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">

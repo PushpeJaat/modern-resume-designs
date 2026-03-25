@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
-import { FileText, Menu, X } from "lucide-react";
+import { Menu, User, LogOut } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import logoImg from "/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { label: "Home", path: "/" },
@@ -17,15 +26,11 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
           <NavLink to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-              <FileText className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">ResumeBuilder</span>
+            <img src={logoImg} alt="CVPilot" width={36} height={36} className="rounded-lg" />
+            <span className="text-xl font-bold">CVPilot</span>
           </NavLink>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <NavLink
@@ -37,12 +42,32 @@ const Navbar = () => {
                 {item.label}
               </NavLink>
             ))}
-            <Button asChild>
-              <NavLink to="/templates">Get Started</NavLink>
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <User className="w-4 h-4" />
+                    {user.user_metadata?.full_name || user.email?.split("@")[0] || "Account"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={signOut} className="gap-2 cursor-pointer">
+                    <LogOut className="w-4 h-4" /> Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
+                  <NavLink to="/auth">Sign In</NavLink>
+                </Button>
+                <Button size="sm" asChild>
+                  <NavLink to="/templates">Get Started</NavLink>
+                </Button>
+              </div>
+            )}
           </div>
 
-          {/* Mobile Navigation */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
@@ -62,11 +87,20 @@ const Navbar = () => {
                     {item.label}
                   </NavLink>
                 ))}
-                <Button asChild className="mt-4">
-                  <NavLink to="/templates" onClick={() => setIsOpen(false)}>
-                    Get Started
-                  </NavLink>
-                </Button>
+                {user ? (
+                  <Button variant="outline" onClick={() => { signOut(); setIsOpen(false); }} className="mt-4 gap-2">
+                    <LogOut className="w-4 h-4" /> Sign Out
+                  </Button>
+                ) : (
+                  <>
+                    <Button variant="outline" asChild className="mt-4">
+                      <NavLink to="/auth" onClick={() => setIsOpen(false)}>Sign In</NavLink>
+                    </Button>
+                    <Button asChild>
+                      <NavLink to="/templates" onClick={() => setIsOpen(false)}>Get Started</NavLink>
+                    </Button>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
