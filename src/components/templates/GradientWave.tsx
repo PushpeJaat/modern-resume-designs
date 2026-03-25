@@ -59,7 +59,7 @@ const GradientWave = ({ data }: GradientWaveProps) => {
   return (
     <div className="w-full bg-white overflow-hidden relative">
       {/* Wave Background */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <svg className="absolute top-0 left-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="wave-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -77,12 +77,12 @@ const GradientWave = ({ data }: GradientWaveProps) => {
         </svg>
       </div>
 
-      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-primary/10 to-accent/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-accent/10 to-primary/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-primary/10 to-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-accent/10 to-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="relative p-12">
-        {/* Header */}
-        <div className="mb-10">
+        {/* Header Section */}
+        <div data-pdf-section className="mb-10">
           <h1 className="text-6xl font-bold mb-2 bg-gradient-to-r from-resume-section via-primary to-accent bg-clip-text text-transparent">
             {d.personalInfo.name}
           </h1>
@@ -106,9 +106,9 @@ const GradientWave = ({ data }: GradientWaveProps) => {
           </div>
         </div>
 
-        {/* Summary */}
+        {/* Summary Section */}
         {d.summary && (
-          <div className="mb-10 p-6 bg-gradient-to-br from-primary/5 via-white to-accent/5 rounded-2xl border border-primary/10 backdrop-blur">
+          <div data-pdf-section className="mb-10 p-6 bg-gradient-to-br from-primary/5 via-white to-accent/5 rounded-2xl border border-primary/10 backdrop-blur">
             <h2 className="text-xl font-bold text-resume-section mb-3 flex items-center gap-2">
               <Target className="w-5 h-5 text-primary" />Professional Summary
             </h2>
@@ -120,7 +120,7 @@ const GradientWave = ({ data }: GradientWaveProps) => {
           {/* Left Column */}
           <div className="col-span-1 space-y-8">
             {d.skills.length > 0 && (
-              <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
+              <div data-pdf-section className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
                 <h2 className="section-title mb-4">Technical Stack</h2>
                 <div className="space-y-3">
                   {d.skills.map((cat, i) => (
@@ -140,7 +140,7 @@ const GradientWave = ({ data }: GradientWaveProps) => {
             )}
 
             {d.certifications && d.certifications.length > 0 && (
-              <div className="p-5 bg-gradient-to-br from-white to-accent/5 rounded-xl border border-accent/10">
+              <div data-pdf-section className="p-5 bg-gradient-to-br from-white to-accent/5 rounded-xl border border-accent/10">
                 <h2 className="section-title mb-4 flex items-center gap-2">
                   <Award className="w-4 h-4 text-accent" />Certifications
                 </h2>
@@ -153,7 +153,7 @@ const GradientWave = ({ data }: GradientWaveProps) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <div className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
+              <div data-pdf-section className="p-5 bg-gradient-to-br from-white to-primary/5 rounded-xl border border-primary/10">
                 <h2 className="section-title mb-4">Education</h2>
                 {d.education.map((edu) => (
                   <div key={edu.id}>
@@ -170,10 +170,10 @@ const GradientWave = ({ data }: GradientWaveProps) => {
           <div className="col-span-2 space-y-6">
             {d.experience.length > 0 && d.experience[0].position && (
               <div>
-                <h2 className="section-title mb-6 text-2xl">Experience</h2>
+                <h2 data-pdf-section className="section-title mb-6 text-2xl">Experience</h2>
                 <div className="space-y-6">
                   {d.experience.map((exp, i) => (
-                    <div key={exp.id} className={`p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 ${i % 2 === 0 ? "border-primary" : "border-accent"} shadow-sm`}>
+                    <div data-pdf-section key={exp.id} className={`p-5 bg-white/80 backdrop-blur rounded-xl border-l-4 ${i % 2 === 0 ? "border-primary" : "border-accent"} shadow-sm`}>
                       <div className="flex justify-between items-start mb-3">
                         <div>
                           <h3 className="font-bold text-lg resume-section">{exp.position}</h3>
