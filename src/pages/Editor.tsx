@@ -271,44 +271,78 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
-      // Clone the resume element into an offscreen container at full size (no CSS transform)
+      // Clone into offscreen container at native A4 width
       const clone = resumeRef.current.cloneNode(true) as HTMLElement;
       const offscreen = document.createElement("div");
       offscreen.style.cssText = `
         position: fixed; left: -9999px; top: 0; 
         width: 794px; background: white; z-index: -1;
       `;
-      // Copy all stylesheets so the clone renders identically
       offscreen.appendChild(clone);
       document.body.appendChild(offscreen);
 
-      // Wait for any fonts / images to settle
-      await new Promise((r) => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 400));
 
-      const canvas = await html2canvas(clone, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        width: 794,
-        height: clone.scrollHeight,
-        windowWidth: 794,
-      });
+      const A4_W_PT = 595.28;
+      const A4_H_PT = 841.89;
+      const MARGIN_PT = 0; // templates have their own padding
+
+      // Check if template has data-pdf-section markers
+      const sections = Array.from(clone.querySelectorAll('[data-pdf-section]')) as HTMLElement[];
+
+      const pdf = new jsPDF("p", "pt", "a4");
+
+      if (sections.length > 0) {
+        // Section-based rendering for templates like GradientWave
+        let currentY = MARGIN_PT;
+        const SECTION_GAP_PT = 3;
+
+        for (let i = 0; i < sections.length; i++) {
+          const section = sections[i];
+          const canvas = await html2canvas(section, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: null,
+            windowWidth: 794,
+          });
+
+          const ratio = A4_W_PT / canvas.width;
+          const sectionH = canvas.height * ratio;
+          const remaining = A4_H_PT - currentY - MARGIN_PT;
+
+          if (sectionH > remaining && currentY > MARGIN_PT) {
+            pdf.addPage();
+            currentY = MARGIN_PT;
+          }
+
+          const imgData = canvas.toDataURL("image/png");
+          pdf.addImage(imgData, "PNG", MARGIN_PT, currentY, A4_W_PT - MARGIN_PT * 2, sectionH);
+          currentY += sectionH + SECTION_GAP_PT;
+        }
+      } else {
+        // Fallback: full-page capture for templates without section markers
+        const canvas = await html2canvas(clone, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          width: 794,
+          height: clone.scrollHeight,
+          windowWidth: 794,
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+        const ratio = A4_W_PT / canvas.width;
+        const totalH = canvas.height * ratio;
+
+        let y = 0;
+        while (y < totalH) {
+          if (y > 0) pdf.addPage();
+          pdf.addImage(imgData, "PNG", 0, -y, A4_W_PT, totalH);
+          y += A4_H_PT;
+        }
+      }
 
       document.body.removeChild(offscreen);
-
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "pt", "a4");
-      const pdfW = pdf.internal.pageSize.getWidth();   // 595.28
-      const pdfH = pdf.internal.pageSize.getHeight();   // 841.89
-      const ratio = pdfW / canvas.width;
-      const totalH = canvas.height * ratio;
-
-      let y = 0;
-      while (y < totalH) {
-        if (y > 0) pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, -y, pdfW, totalH);
-        y += pdfH;
-      }
 
       const name = resumeData.personalInfo.name || "resume";
       pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
