@@ -511,23 +511,27 @@ const Editor = () => {
               <div className="bg-white shadow-2xl rounded-lg overflow-hidden">
                 <div className="overflow-y-auto max-h-[75vh]">
                   <div
-                    className="origin-top-left"
-                    style={{ width: '794px', transform: 'scale(var(--preview-scale))', transformOrigin: 'top left' }}
                     ref={(el) => {
-                      if (el) {
-                        const updateScale = () => {
-                          const parent = el.parentElement;
-                          if (parent) {
-                            const scale = parent.clientWidth / 794;
-                            el.style.setProperty('--preview-scale', String(Math.min(scale, 1)));
-                            el.parentElement!.style.height = `${el.scrollHeight * Math.min(scale, 1)}px`;
-                          }
-                        };
-                        updateScale();
-                        const observer = new ResizeObserver(updateScale);
-                        observer.observe(el.parentElement!);
-                      }
+                      if (!el) return;
+                      const updateScale = () => {
+                        const parent = el.parentElement;
+                        if (parent) {
+                          const scale = Math.min(parent.clientWidth / 794, 1);
+                          el.style.transform = `scale(${scale})`;
+                          el.style.transformOrigin = 'top left';
+                          // Use actual rendered content height, not extra space
+                          const contentH = el.firstElementChild?.scrollHeight || el.scrollHeight;
+                          parent.style.height = `${contentH * scale}px`;
+                        }
+                      };
+                      updateScale();
+                      const observer = new ResizeObserver(updateScale);
+                      observer.observe(el.parentElement!);
+                      // Also observe the inner content for height changes
+                      const mutObs = new MutationObserver(updateScale);
+                      mutObs.observe(el, { childList: true, subtree: true, characterData: true });
                     }}
+                    style={{ width: 794 }}
                   >
                     <div ref={resumeRef}>
                       {TemplateComponent && <TemplateComponent data={resumeData} />}
