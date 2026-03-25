@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      download_history: {
+        Row: {
+          downloaded_at: string
+          id: string
+          resume_title: string | null
+          template_id: string
+          user_id: string
+        }
+        Insert: {
+          downloaded_at?: string
+          id?: string
+          resume_title?: string | null
+          template_id: string
+          user_id: string
+        }
+        Update: {
+          downloaded_at?: string
+          id?: string
+          resume_title?: string | null
+          template_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
