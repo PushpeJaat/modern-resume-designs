@@ -429,7 +429,6 @@ const Editor = () => {
               <span className="sm:hidden">{downloading ? "..." : "PDF"}</span>
             </Button>
           </div>
-          </Button>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4">
