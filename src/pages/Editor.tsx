@@ -406,18 +406,29 @@ const Editor = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
           <Button
             variant="ghost"
             onClick={() => navigate("/templates")}
             className="gap-2"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Templates
+            <span className="hidden sm:inline">Back to Templates</span>
+            <span className="sm:hidden">Back</span>
           </Button>
-          <Button className="gap-2" onClick={handleDownloadPDF} disabled={downloading}>
-            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-            {downloading ? "Generating..." : "Download PDF"}
+          <div className="flex gap-2">
+            {user && (
+              <Button variant="outline" className="gap-2" onClick={saveResumeToCloud} disabled={saving}>
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                <span className="hidden sm:inline">{saving ? "Saving..." : "Save"}</span>
+              </Button>
+            )}
+            <Button className="gap-2" onClick={handleDownloadPDF} disabled={downloading}>
+              {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <span className="hidden sm:inline">{downloading ? "Generating..." : "Download PDF"}</span>
+              <span className="sm:hidden">{downloading ? "..." : "PDF"}</span>
+            </Button>
+          </div>
           </Button>
         </div>
 
