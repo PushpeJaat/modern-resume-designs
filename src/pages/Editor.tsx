@@ -264,6 +264,48 @@ const Editor = () => {
     }));
   };
 
+  const resumeRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    if (!resumeRef.current) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(resumeRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        width: 794,
+        height: resumeRef.current.scrollHeight,
+        windowWidth: 794,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "pt", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = pdfWidth / imgWidth;
+      const scaledHeight = imgHeight * ratio;
+
+      let position = 0;
+      while (position < scaledHeight) {
+        if (position > 0) pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, -position, pdfWidth, scaledHeight);
+        position += pdfHeight;
+      }
+
+      const name = resumeData.personalInfo.name || "resume";
+      pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
+      toast({ title: "PDF downloaded successfully!" });
+    } catch (err) {
+      console.error(err);
+      toast({ title: "Download failed", description: "Please try again.", variant: "destructive" });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       <div className="container mx-auto px-4 py-6">
@@ -276,9 +318,9 @@ const Editor = () => {
             <ArrowLeft className="w-4 h-4" />
             Back to Templates
           </Button>
-          <Button className="gap-2">
-            <Download className="w-4 h-4" />
-            Download PDF
+          <Button className="gap-2" onClick={handleDownloadPDF} disabled={downloading}>
+            {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            {downloading ? "Generating..." : "Download PDF"}
           </Button>
         </div>
 
