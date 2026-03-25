@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, CheckCircle2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { extractTextFromPDF, parseResumeText } from "@/lib/resumeParser";
+import { extractResumeFromPDF } from "@/lib/resumeParser";
 import { ResumeData } from "@/types/resume";
 
 interface ResumeUploadProps {
@@ -22,7 +22,16 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
     if (file.type !== "application/pdf") {
       toast({
         title: "Only PDF supported",
-        description: "Please upload a PDF file for text extraction.",
+        description: "Please upload a PDF file.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Please upload a PDF under 10MB.",
         variant: "destructive",
       });
       return;
@@ -32,24 +41,21 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
     setIsProcessing(true);
 
     try {
-      const text = await extractTextFromPDF(file);
-      const resumeData = parseResumeText(text);
+      const resumeData = await extractResumeFromPDF(file);
 
-      // Store in localStorage for editor auto-fill
       localStorage.setItem("resumeData", JSON.stringify(resumeData));
-
-      // Notify parent
       onDataExtracted?.(resumeData);
 
       toast({
         title: "Resume parsed successfully!",
-        description: "Your information has been extracted and applied to all templates.",
+        description: "Your information has been extracted using AI and applied to all templates.",
       });
     } catch (error) {
-      console.error("PDF parsing error:", error);
+      console.error("Resume parsing error:", error);
+      setUploadedFile(null);
       toast({
         title: "Error parsing resume",
-        description: "Could not extract text. Please try a different PDF.",
+        description: error instanceof Error ? error.message : "Could not extract data. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -67,15 +73,15 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
           <h3 className="text-base font-bold">Upload Your Resume</h3>
         </div>
         <p className="text-muted-foreground text-xs mb-3">
-          Upload a PDF resume to auto-fill all templates with your information.
+          Upload a PDF resume — AI will extract your data and auto-fill all templates.
         </p>
 
         {isProcessing ? (
           <div className="flex items-center justify-center gap-3 p-4">
             <Loader2 className="w-6 h-6 text-primary animate-spin" />
             <div>
-              <p className="font-medium text-sm">Extracting data...</p>
-              <p className="text-xs text-muted-foreground">Parsing your resume</p>
+              <p className="font-medium text-sm">AI is extracting your data...</p>
+              <p className="text-xs text-muted-foreground">This may take a few seconds</p>
             </div>
           </div>
         ) : !uploadedFile ? (
