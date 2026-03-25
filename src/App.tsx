@@ -11,6 +11,7 @@ import Templates from "./pages/Templates";
 import Pricing from "./pages/Pricing";
 import Editor from "./pages/Editor";
 import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,7 +32,7 @@ const App = () => (
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/editor" element={<Editor />} />
                 <Route path="/auth" element={<Auth />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
-import { Menu, User, LogOut } from "lucide-react";
+import { Menu, User, LogOut, FileText } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logoImg from "/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const navItems = [
     { label: "Home", path: "/" },
@@ -27,7 +29,7 @@ const Navbar = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
-            <img src={logoImg} alt="CVPilot" width={36} height={36} className="rounded-lg" />
+            <img src="/logo.png" alt="CVPilot" width={36} height={36} className="rounded-lg" />
             <span className="text-xl font-bold">CVPilot</span>
           </NavLink>
 
@@ -51,6 +53,10 @@ const Navbar = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate("/profile")} className="gap-2 cursor-pointer">
+                    <FileText className="w-4 h-4" /> My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut} className="gap-2 cursor-pointer">
                     <LogOut className="w-4 h-4" /> Sign Out
                   </DropdownMenuItem>
@@ -88,9 +94,14 @@ const Navbar = () => {
                   </NavLink>
                 ))}
                 {user ? (
-                  <Button variant="outline" onClick={() => { signOut(); setIsOpen(false); }} className="mt-4 gap-2">
-                    <LogOut className="w-4 h-4" /> Sign Out
-                  </Button>
+                  <>
+                    <NavLink to="/profile" onClick={() => setIsOpen(false)} className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors py-2">
+                      My Profile
+                    </NavLink>
+                    <Button variant="outline" onClick={() => { signOut(); setIsOpen(false); }} className="mt-4 gap-2">
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </Button>
+                  </>
                 ) : (
                   <>
                     <Button variant="outline" asChild className="mt-4">
