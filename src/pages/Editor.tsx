@@ -307,6 +307,15 @@ const Editor = () => {
   };
 
   const handleDownloadPDF = async () => {
+    // Gate download behind auth
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in or create an account to download your resume.",
+      });
+      navigate(`/auth?returnTo=${encodeURIComponent(`/editor?template=${templateId}`)}`);
+      return;
+    }
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
