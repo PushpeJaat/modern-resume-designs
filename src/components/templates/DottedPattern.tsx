@@ -110,7 +110,7 @@ const DottedPattern = ({ data }: DottedPatternProps) => {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Mail className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="min-w-0"><p className="text-xs resume-light-text">Email</p><p className="font-medium truncate">{d.personalInfo.email}</p></div>
+                  <div className="min-w-0"><p className="text-xs resume-light-text">Email</p><a href={`mailto:${d.personalInfo.email}`} className="font-medium text-xs break-all hover:underline">{d.personalInfo.email}</a></div>
                 </div>
               )}
               {d.personalInfo.phone && (
