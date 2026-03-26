@@ -559,7 +559,7 @@ const Editor = () => {
                     style={{ width: 794 }}
                   >
                     <div ref={resumeRef}>
-                      {TemplateComponent && <TemplateComponent data={resumeData} />}
+                      {TemplateComponent && <TemplateComponent data={resumeData} onPhotoUpload={(url: string) => updatePersonalInfo("photoUrl", url)} />}
                     </div>
                   </div>
                 </div>
