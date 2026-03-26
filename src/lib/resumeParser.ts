@@ -40,6 +40,7 @@ export async function extractResumeFromPDF(file: File): Promise<ResumeData> {
       linkedin: resumeData?.personalInfo?.linkedin || "",
       website: resumeData?.personalInfo?.website || "",
       github: resumeData?.personalInfo?.github || "",
+      photoUrl: resumeData?.personalInfo?.photoUrl || "",
     },
     summary: resumeData?.summary || "",
     experience: resumeData?.experience?.length
