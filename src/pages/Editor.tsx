@@ -249,7 +249,6 @@ const Editor = () => {
 
   const handleDownloadPDF = async () => {
     if (!user) {
-      // Store pending download flag so we can auto-trigger after auth
       localStorage.setItem("pendingDownload", "true");
       toast({ title: "Sign in required", description: "Please sign in or create an account to download your resume." });
       navigate(`/auth?returnTo=${encodeURIComponent(`/editor?template=${templateId}`)}`);
@@ -258,7 +257,6 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
-      // Clone into offscreen container at native A4 width
       const clone = resumeRef.current.cloneNode(true) as HTMLElement;
       const offscreen = document.createElement("div");
       offscreen.style.cssText = `position:fixed;left:-9999px;top:0;width:794px;background:white;z-index:-1;`;
@@ -267,37 +265,64 @@ const Editor = () => {
 
       await new Promise((r) => setTimeout(r, 500));
 
-      const A4_W_PT = 595.28;
-      const A4_H_PT = 841.89;
+      const A4_W_MM = 210;
+      const A4_H_MM = 297;
+      const MARGIN_MM = 0;
+      const CONTENT_W_MM = A4_W_MM - MARGIN_MM * 2;
+      const CONTENT_H_MM = A4_H_MM - MARGIN_MM * 2;
+      const SECTION_GAP_MM = 2;
 
-      // Capture the FULL resume as one tall canvas
-      const canvas = await html2canvas(clone, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        width: 794,
-        height: clone.scrollHeight,
-        windowWidth: 794,
-      });
+      // Find data-pdf-section elements, or fall back to direct children
+      let sections = Array.from(clone.querySelectorAll("[data-pdf-section]")) as HTMLElement[];
+      if (sections.length === 0) {
+        sections = Array.from(clone.children) as HTMLElement[];
+      }
+      if (sections.length === 0) {
+        sections = [clone];
+      }
 
-      const pdf = new jsPDF("p", "pt", "a4");
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      let currentY = MARGIN_MM;
 
-      const imgData = canvas.toDataURL("image/jpeg", 0.95);
-      const ratio = A4_W_PT / canvas.width;
-      const totalH = canvas.height * ratio;
+      for (const section of sections) {
+        const canvas = await html2canvas(section, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          width: section.scrollWidth,
+        });
 
-      // Calculate how many pages we need
-      const pageCount = Math.ceil(totalH / A4_H_PT);
+        const scaleFactor = CONTENT_W_MM / (canvas.width / 2);
+        const heightMM = (canvas.height / 2) * scaleFactor;
+        const remaining = CONTENT_H_MM - (currentY - MARGIN_MM);
 
-      for (let page = 0; page < pageCount; page++) {
-        if (page > 0) pdf.addPage();
-        // Draw the full image offset upward for each page
-        pdf.addImage(imgData, "JPEG", 0, -(page * A4_H_PT), A4_W_PT, totalH);
+        if (heightMM > remaining && currentY > MARGIN_MM) {
+          pdf.addPage();
+          currentY = MARGIN_MM;
+        }
+
+        // If section is taller than a full page, slice it
+        if (heightMM > CONTENT_H_MM) {
+          const imgData = canvas.toDataURL("image/jpeg", 0.95);
+          const totalPages = Math.ceil(heightMM / CONTENT_H_MM);
+          for (let p = 0; p < totalPages; p++) {
+            if (p > 0 || currentY > MARGIN_MM) {
+              if (p > 0) pdf.addPage();
+              currentY = MARGIN_MM;
+            }
+            pdf.addImage(imgData, "JPEG", MARGIN_MM, currentY - p * CONTENT_H_MM, CONTENT_W_MM, heightMM);
+            // Clip by simply drawing white over excess on next iteration
+          }
+          currentY = MARGIN_MM + (heightMM % CONTENT_H_MM || CONTENT_H_MM) + SECTION_GAP_MM;
+        } else {
+          const imgData = canvas.toDataURL("image/jpeg", 0.95);
+          pdf.addImage(imgData, "JPEG", MARGIN_MM, currentY, CONTENT_W_MM, heightMM);
+          currentY += heightMM + SECTION_GAP_MM;
+        }
       }
 
       document.body.removeChild(offscreen);
 
-      // Track download
       try {
         await supabase.from("download_history").insert({
           user_id: user.id,
@@ -307,8 +332,6 @@ const Editor = () => {
       } catch (e) {
         console.error("Failed to track download:", e);
       }
-
-      // Also save resume to cloud
       saveResumeToCloud();
 
       const name = resumeData.personalInfo.name || "resume";
