@@ -9,6 +9,7 @@ import GeometricModern from "@/components/templates/GeometricModern";
 import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
+import PhotoModern from "@/components/templates/PhotoModern";
 import TemplateCard from "@/components/TemplateCard";
 import ResumeUpload from "@/components/ResumeUpload";
 import { ArrowLeft, Download, Edit } from "lucide-react";
