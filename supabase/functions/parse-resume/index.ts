@@ -36,7 +36,8 @@ serve(async (req) => {
     "location": "City, State",
     "linkedin": "linkedin.com/in/username",
     "website": "website.com",
-    "github": "github.com/username"
+    "github": "github.com/username",
+    "hasPhoto": true
   },
   "summary": "Professional summary text",
   "experience": [
@@ -74,6 +75,7 @@ Rules:
 - For experience items, set "current" to true if it says "Present" or "Current"
 - Group skills by category if possible (Technical, Soft Skills, Tools, etc.)
 - Each experience and education item needs a unique "id" string
+- Set "hasPhoto" to true if you can see a profile photo/headshot in the resume
 - Return ONLY valid JSON, no markdown or extra text`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
