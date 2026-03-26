@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Download, Plus, Trash2, Loader2, Save } from "lucide-react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { ResumeData, ExperienceItem, EducationItem, SkillCategory } from "@/types/resume";
@@ -21,6 +19,7 @@ import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
 import PhotoModern from "@/components/templates/PhotoModern";
+import { buildResumePdfFromNode } from "@/lib/pdfExport";
 
 const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhotoUpload?: (url: string) => void }>> = {
   "modern-professional": ModernProfessional,
@@ -257,71 +256,7 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
-      const clone = resumeRef.current.cloneNode(true) as HTMLElement;
-      const offscreen = document.createElement("div");
-      offscreen.style.cssText = `position:fixed;left:-9999px;top:0;width:794px;background:white;z-index:-1;`;
-      offscreen.appendChild(clone);
-      document.body.appendChild(offscreen);
-
-      await new Promise((r) => setTimeout(r, 500));
-
-      const A4_W_MM = 210;
-      const A4_H_MM = 297;
-      const MARGIN_MM = 0;
-      const CONTENT_W_MM = A4_W_MM - MARGIN_MM * 2;
-      const CONTENT_H_MM = A4_H_MM - MARGIN_MM * 2;
-      const SECTION_GAP_MM = 2;
-
-      // Find data-pdf-section elements, or fall back to direct children
-      let sections = Array.from(clone.querySelectorAll("[data-pdf-section]")) as HTMLElement[];
-      if (sections.length === 0) {
-        sections = Array.from(clone.children) as HTMLElement[];
-      }
-      if (sections.length === 0) {
-        sections = [clone];
-      }
-
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      let currentY = MARGIN_MM;
-
-      for (const section of sections) {
-        const canvas = await html2canvas(section, {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          width: section.scrollWidth,
-        });
-
-        const scaleFactor = CONTENT_W_MM / (canvas.width / 2);
-        const heightMM = (canvas.height / 2) * scaleFactor;
-        const remaining = CONTENT_H_MM - (currentY - MARGIN_MM);
-
-        if (heightMM > remaining && currentY > MARGIN_MM) {
-          pdf.addPage();
-          currentY = MARGIN_MM;
-        }
-
-        // If section is taller than a full page, slice it
-        if (heightMM > CONTENT_H_MM) {
-          const imgData = canvas.toDataURL("image/jpeg", 0.95);
-          const totalPages = Math.ceil(heightMM / CONTENT_H_MM);
-          for (let p = 0; p < totalPages; p++) {
-            if (p > 0 || currentY > MARGIN_MM) {
-              if (p > 0) pdf.addPage();
-              currentY = MARGIN_MM;
-            }
-            pdf.addImage(imgData, "JPEG", MARGIN_MM, currentY - p * CONTENT_H_MM, CONTENT_W_MM, heightMM);
-            // Clip by simply drawing white over excess on next iteration
-          }
-          currentY = MARGIN_MM + (heightMM % CONTENT_H_MM || CONTENT_H_MM) + SECTION_GAP_MM;
-        } else {
-          const imgData = canvas.toDataURL("image/jpeg", 0.95);
-          pdf.addImage(imgData, "JPEG", MARGIN_MM, currentY, CONTENT_W_MM, heightMM);
-          currentY += heightMM + SECTION_GAP_MM;
-        }
-      }
-
-      document.body.removeChild(offscreen);
+      const pdf = await buildResumePdfFromNode(resumeRef.current);
 
       try {
         await supabase.from("download_history").insert({
