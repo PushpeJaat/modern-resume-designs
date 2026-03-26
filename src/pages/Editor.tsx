@@ -416,7 +416,17 @@ const Editor = () => {
                       <Input id="website" value={resumeData.personalInfo.website} onChange={(e) => updatePersonalInfo("website", e.target.value)} placeholder="johndoe.com" className="h-8 text-sm" />
                     </div>
                   </div>
-                  <div className="space-y-1">
+                   <div className="space-y-1">
+                     <Label htmlFor="photo" className="text-xs">Profile Photo</Label>
+                     <Input id="photo" type="file" accept="image/*" className="h-8 text-sm" onChange={(e) => {
+                       const file = e.target.files?.[0];
+                       if (!file) return;
+                       const reader = new FileReader();
+                       reader.onload = (ev) => updatePersonalInfo("photoUrl", ev.target?.result as string);
+                       reader.readAsDataURL(file);
+                     }} />
+                   </div>
+                   <div className="space-y-1">
                     <Label htmlFor="summary" className="text-xs">Professional Summary</Label>
                     <Textarea id="summary" value={resumeData.summary} onChange={(e) => setResumeData((prev) => ({ ...prev, summary: e.target.value }))} placeholder="Brief professional summary..." rows={3} className="text-sm" />
                   </div>
