@@ -9,6 +9,7 @@ import GeometricModern from "@/components/templates/GeometricModern";
 import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
+import PhotoModern from "@/components/templates/PhotoModern";
 import TemplateCard from "@/components/TemplateCard";
 import ResumeUpload from "@/components/ResumeUpload";
 import { ArrowLeft, Download, Edit } from "lucide-react";
@@ -22,6 +23,7 @@ const templateList = [
   { id: "gradient-wave", title: "Gradient Wave", description: "Flowing wave backgrounds with soft gradients. Perfect for tech and creative fields.", component: GradientWave },
   { id: "dotted-pattern", title: "Dotted Pattern", description: "Sophisticated dot matrix with corner accents. Professional yet distinctive.", component: DottedPattern },
   { id: "dark-sidebar", title: "Dark Sidebar", description: "Dark navy sidebar with skill bars and clean right panel. Great for tech roles.", component: DarkSidebar },
+  { id: "photo-modern", title: "Photo Modern", description: "Sleek modern layout with profile photo support. Perfect for personal branding.", component: PhotoModern },
 ];
 
 const Templates = () => {

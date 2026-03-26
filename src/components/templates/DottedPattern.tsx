@@ -86,7 +86,7 @@ const DottedPattern = ({ data }: DottedPatternProps) => {
 
       <div className="relative p-12">
         {/* Header */}
-        <div className="flex gap-8 mb-10 pb-8 border-b border-resume-border/50">
+        <div data-pdf-section className="flex gap-8 mb-10 pb-8 border-b border-resume-border/50">
           <div className="w-2 bg-gradient-to-b from-primary via-accent to-primary rounded-full flex-shrink-0"></div>
           <div className="flex-1">
             <div className="flex items-start justify-between mb-4">
@@ -110,7 +110,7 @@ const DottedPattern = ({ data }: DottedPatternProps) => {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Mail className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="min-w-0"><p className="text-xs resume-light-text">Email</p><p className="font-medium truncate">{d.personalInfo.email}</p></div>
+                  <div className="min-w-0"><p className="text-xs resume-light-text">Email</p><a href={`mailto:${d.personalInfo.email}`} className="font-medium text-xs break-all hover:underline">{d.personalInfo.email}</a></div>
                 </div>
               )}
               {d.personalInfo.phone && (
