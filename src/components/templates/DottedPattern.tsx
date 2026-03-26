@@ -86,7 +86,7 @@ const DottedPattern = ({ data }: DottedPatternProps) => {
 
       <div className="relative p-12">
         {/* Header */}
-        <div className="flex gap-8 mb-10 pb-8 border-b border-resume-border/50">
+        <div data-pdf-section className="flex gap-8 mb-10 pb-8 border-b border-resume-border/50">
           <div className="w-2 bg-gradient-to-b from-primary via-accent to-primary rounded-full flex-shrink-0"></div>
           <div className="flex-1">
             <div className="flex items-start justify-between mb-4">

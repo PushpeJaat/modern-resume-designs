@@ -70,7 +70,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
   return (
     <div className="w-full bg-white overflow-hidden">
       {/* Header */}
-      <div className="bg-primary px-12 py-10">
+      <div data-pdf-section className="bg-primary px-12 py-10">
         <h1 className="text-4xl font-bold text-white mb-2">{displayData.personalInfo.name || "Your Name"}</h1>
         <p className="text-xl text-white/90 font-light">{displayData.personalInfo.title || "Your Title"}</p>
       </div>
