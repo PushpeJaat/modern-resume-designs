@@ -20,8 +20,9 @@ import GeometricModern from "@/components/templates/GeometricModern";
 import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
+import PhotoModern from "@/components/templates/PhotoModern";
 
-const templates: Record<string, React.ComponentType<{ data?: ResumeData }>> = {
+const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhotoUpload?: (url: string) => void }>> = {
   "modern-professional": ModernProfessional,
   "creative-minimal": CreativeMinimal,
   "executive-classic": ExecutiveClassic,
@@ -29,6 +30,7 @@ const templates: Record<string, React.ComponentType<{ data?: ResumeData }>> = {
   "gradient-wave": GradientWave,
   "dotted-pattern": DottedPattern,
   "dark-sidebar": DarkSidebar,
+  "photo-modern": PhotoModern,
 };
 
 const defaultPlaceholderData: ResumeData = {
