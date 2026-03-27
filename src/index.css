@@ -166,3 +166,45 @@ All colors MUST be HSL.
     }
   }
 }
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body.printing-resume {
+    background: hsl(var(--background));
+  }
+
+  body.printing-resume > *:not(.resume-print-shell) {
+    display: none !important;
+  }
+
+  body.printing-resume .resume-print-shell {
+    display: block !important;
+  }
+
+  .resume-print-shell {
+    display: none;
+  }
+
+  .resume-print-shell [data-print-root="true"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .resume-print-shell [data-pdf-section] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-print-shell a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+}

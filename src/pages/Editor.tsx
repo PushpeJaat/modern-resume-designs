@@ -256,6 +256,11 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
+      toast({
+        title: "Preparing PDF",
+        description: "Choose Save as PDF in the print dialog for selectable text.",
+      });
+
       const pdf = await buildResumePdfFromNode(resumeRef.current);
 
       try {
@@ -270,8 +275,7 @@ const Editor = () => {
       saveResumeToCloud();
 
       const name = resumeData.personalInfo.name || "resume";
-      pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
-      toast({ title: "PDF downloaded successfully!" });
+      await pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
     } catch (err) {
       console.error(err);
       toast({ title: "Download failed", description: "Please try again.", variant: "destructive" });
