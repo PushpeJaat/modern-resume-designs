@@ -256,10 +256,7 @@ const Editor = () => {
     if (!resumeRef.current) return;
     setDownloading(true);
     try {
-      toast({
-        title: "Preparing PDF",
-        description: "Choose Save as PDF in the print dialog for selectable text.",
-      });
+      toast({ title: "Preparing PDF", description: "Your resume is being generated..." });
 
       const pdf = await buildResumePdfFromNode(resumeRef.current);
 
