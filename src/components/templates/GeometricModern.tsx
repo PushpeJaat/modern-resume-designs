@@ -168,7 +168,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Education</h2>
