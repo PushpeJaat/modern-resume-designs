@@ -70,7 +70,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
       {/* Left Sidebar */}
       <div className="w-[35%] bg-[#1e293b] text-white p-8 flex flex-col gap-6">
         {/* Name & Title */}
-        <div>
+        <div data-pdf-section>
           <h1 className="text-2xl font-bold leading-tight">{displayData.personalInfo.name || "Your Name"}</h1>
           <p className="text-sm text-sky-300 mt-1">{displayData.personalInfo.title || "Your Title"}</p>
         </div>
