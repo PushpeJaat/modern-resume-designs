@@ -151,7 +151,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
       <div className="w-[65%] p-8 flex flex-col gap-6">
         {/* Profile */}
         {displayData.summary && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-sm font-bold uppercase tracking-widest border-b-2 border-gray-200 pb-1 mb-3 text-gray-800">Profile</h2>
             <p className="text-xs leading-relaxed text-gray-600">{displayData.summary}</p>
           </div>
