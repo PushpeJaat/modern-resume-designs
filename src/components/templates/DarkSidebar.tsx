@@ -76,7 +76,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
         </div>
 
         {/* Contact */}
-        <div>
+        <div data-pdf-section>
           <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Contact</h2>
           <div className="space-y-2 text-xs">
             {displayData.personalInfo.email && (
