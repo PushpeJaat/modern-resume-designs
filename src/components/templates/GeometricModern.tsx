@@ -130,7 +130,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
             )}
 
             {allSkills.length > 0 && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Skills</h2>
