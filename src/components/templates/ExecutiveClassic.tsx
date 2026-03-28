@@ -88,7 +88,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
 
         {/* Summary */}
         {d.summary && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Executive Summary</h2>
             <p className="text-sm resume-text leading-relaxed">{d.summary}</p>
           </div>
