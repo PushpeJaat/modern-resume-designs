@@ -76,7 +76,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
 
       <div className="relative p-12">
         {/* Header */}
-        <div className="mb-10 relative">
+        <div data-pdf-section className="mb-10 relative">
           <div className="absolute -left-12 top-0 w-2 h-32 bg-gradient-to-b from-primary to-accent"></div>
           <h1 className="text-5xl font-bold text-resume-section mb-2">{d.personalInfo.name}</h1>
           <p className="text-2xl text-resume-light font-light">{d.personalInfo.title}</p>
@@ -120,7 +120,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
           {/* Left Column */}
           <div className="col-span-1 space-y-8">
             {d.summary && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Profile</h2>
@@ -130,7 +130,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
             )}
 
             {allSkills.length > 0 && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Skills</h2>
@@ -168,7 +168,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Education</h2>
@@ -187,7 +187,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
           {/* Right Column */}
           <div className="col-span-2 space-y-8">
             {d.experience.length > 0 && d.experience[0].position && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-4">
                   <Briefcase className="w-5 h-5 text-primary" />
                   <h2 className="section-title">Experience</h2>

@@ -79,7 +79,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
         {/* Left Column */}
         <div className="col-span-1 space-y-8">
           {/* Contact */}
-          <div>
+          <div data-pdf-section>
             <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Contact</h2>
             <div className="space-y-3 text-sm">
               {displayData.personalInfo.email && (
@@ -117,7 +117,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
 
           {/* Skills */}
           {displayData.skills.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Skills</h2>
               <div className="space-y-4">
                 {displayData.skills.map((skillCat, index) => (
@@ -138,7 +138,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
 
           {/* Education */}
           {displayData.education.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Education</h2>
               <div className="space-y-3">
                 {displayData.education.map((edu) => (
@@ -161,7 +161,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
         <div className="col-span-2 space-y-8">
           {/* Summary */}
           {displayData.summary && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Professional Summary</h2>
               <p className="text-sm resume-text leading-relaxed">
                 {displayData.summary}
@@ -171,7 +171,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
 
           {/* Experience */}
           {displayData.experience.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Work Experience</h2>
               <div className="space-y-6">
                 {displayData.experience.map((exp) => (

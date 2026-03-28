@@ -3,25 +3,22 @@ import jsPDF from "jspdf";
 
 const A4_W_MM = 210;
 const A4_H_MM = 297;
-const A4_W_PX = 794; // 210mm at 96dpi
-const A4_H_PX = 1123; // 297mm at 96dpi
-const SCALE = 2; // render quality
-
-interface TextItem {
-  text: string;
-  x: number; // fraction of page width  (0-1)
-  y: number; // fraction of page height (0-1)
-  fontSize: number; // in pt for PDF
-  width: number; // fraction of page width
-}
+const A4_W_PX = 794;
+const MARGIN_MM = 10;
+const CONTENT_W_MM = A4_W_MM - MARGIN_MM * 2;
+const CONTENT_H_MM = A4_H_MM - MARGIN_MM * 2;
+const SECTION_GAP_MM = 2;
+const SCALE = 2;
 
 /**
- * Walk the DOM tree and collect every visible text node with its bounding rect
- * relative to the given container.
+ * Walk DOM and collect visible text nodes with bounding rects relative to a container.
  */
-const collectTextNodes = (root: HTMLElement): { text: string; rect: DOMRect }[] => {
-  const items: { text: string; rect: DOMRect }[] = [];
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+const collectTextFromElement = (
+  el: HTMLElement,
+  containerRect: DOMRect
+): { text: string; x: number; y: number; h: number }[] => {
+  const items: { text: string; x: number; y: number; h: number }[] = [];
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
     acceptNode: (node) => {
       const txt = node.textContent?.trim();
       if (!txt) return NodeFilter.FILTER_REJECT;
@@ -42,28 +39,31 @@ const collectTextNodes = (root: HTMLElement): { text: string; rect: DOMRect }[] 
     for (let i = 0; i < rects.length; i++) {
       const r = rects[i];
       if (r.width === 0 || r.height === 0) continue;
-      const parent = node.parentElement!;
-      const fontSize = parseFloat(getComputedStyle(parent).fontSize);
-      items.push({ text: node.textContent!.trim(), rect: r });
-      break; // one rect per text node is enough
+      items.push({
+        text: node.textContent!.trim(),
+        x: r.left - containerRect.left,
+        y: r.top - containerRect.top,
+        h: r.height,
+      });
+      break;
     }
   }
   return items;
 };
 
 /**
- * Build a multi-page PDF from a resume DOM node.
- * - Uses html2canvas for pixel-perfect visuals (background image layer)
- * - Overlays invisible selectable text so the PDF is a "true PDF"
- * - Downloads directly — no print dialog
+ * Section-based PDF builder.
+ * Captures each [data-pdf-section] independently and places them on pages
+ * without ever splitting an element across a page boundary.
+ * Falls back to capturing the whole node if no sections are found.
+ * Overlays invisible selectable text for "true PDF" capability.
  */
 export const buildResumePdfFromNode = async (
   sourceNode: HTMLElement
 ): Promise<{ save: (fileName: string) => Promise<void> }> => {
   return {
     save: async (fileName: string) => {
-      // 1. Clone the node into an offscreen container so we can
-      //    measure + render without affecting the page.
+      // 1. Clone into offscreen container
       const container = document.createElement("div");
       container.style.position = "absolute";
       container.style.left = "-9999px";
@@ -83,71 +83,74 @@ export const buildResumePdfFromNode = async (
       container.appendChild(clone);
       document.body.appendChild(container);
 
-      // Wait for fonts + images
       if ("fonts" in document) await document.fonts.ready;
       await new Promise((r) => setTimeout(r, 300));
 
       try {
-        const totalHeight = clone.scrollHeight;
-        const pageCount = Math.max(1, Math.ceil(totalHeight / A4_H_PX));
+        const sections = Array.from(
+          clone.querySelectorAll("[data-pdf-section]")
+        ) as HTMLElement[];
+
+        // If no sections marked, treat whole clone as one big section
+        const captureTargets = sections.length > 0 ? sections : [clone];
 
         const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
 
-        // Collect text positions relative to clone
-        const cloneRect = clone.getBoundingClientRect();
-        const allText = collectTextNodes(clone);
+        let currentY = MARGIN_MM;
+        let pageIndex = 0;
 
-        for (let page = 0; page < pageCount; page++) {
-          if (page > 0) pdf.addPage();
-
-          const yOffset = page * A4_H_PX;
-          const captureHeight = Math.min(A4_H_PX, totalHeight - yOffset);
-
-          // Render this page slice as canvas
-          const canvas = await html2canvas(clone, {
+        for (const section of captureTargets) {
+          // Capture section
+          const canvas = await html2canvas(section, {
             scale: SCALE,
-            width: A4_W_PX,
-            height: captureHeight,
-            x: 0,
-            y: yOffset,
-            windowWidth: A4_W_PX,
-            windowHeight: captureHeight,
             useCORS: true,
             allowTaint: true,
-            backgroundColor: "#ffffff",
+            backgroundColor: null, // preserve transparency
             logging: false,
           });
 
-          const imgData = canvas.toDataURL("image/jpeg", 0.95);
-          const imgHeightMM = (captureHeight / A4_H_PX) * A4_H_MM;
-          pdf.addImage(imgData, "JPEG", 0, 0, A4_W_MM, imgHeightMM);
+          const widthPx = canvas.width;
+          const heightPx = canvas.height;
+          const scaleFactor = CONTENT_W_MM / widthPx;
+          const sectionHeightMM = heightPx * scaleFactor;
 
-          // Overlay invisible text for this page
-          pdf.setTextColor(0, 0, 0);
-
-          for (const item of allText) {
-            const textTop = item.rect.top - cloneRect.top;
-            const textBottom = textTop + item.rect.height;
-            const textLeft = item.rect.left - cloneRect.left;
-
-            // Check if text falls within this page
-            if (textBottom <= yOffset || textTop >= yOffset + captureHeight) continue;
-
-            const relX = textLeft / A4_W_PX;
-            const relY = (textTop - yOffset) / A4_H_PX;
-            const fontSizePt = Math.max(1, (item.rect.height / A4_H_PX) * A4_H_MM * 2.3);
-
-            const xMM = relX * A4_W_MM;
-            const yMM = relY * A4_H_MM + fontSizePt * 0.35; // baseline offset
-
-            // Set font as invisible (rendering mode 3 = invisible)
-            pdf.setFontSize(fontSizePt);
-            // @ts-ignore - internal API for text rendering mode
-            pdf.internal.write("3 Tr"); // invisible text rendering mode
-            pdf.text(item.text, xMM, yMM, { maxWidth: A4_W_MM - xMM });
-            // @ts-ignore
-            pdf.internal.write("0 Tr"); // reset to normal
+          // Check if section fits on current page
+          const remainingSpace = A4_H_MM - MARGIN_MM - currentY;
+          if (sectionHeightMM > remainingSpace && currentY > MARGIN_MM + 1) {
+            // Doesn't fit — move to next page
+            pdf.addPage();
+            pageIndex++;
+            currentY = MARGIN_MM;
           }
+
+          // If a single section is taller than one full page, we still place it
+          // (it will overflow, but at least we don't split mid-line)
+          const imgData = canvas.toDataURL("image/jpeg", 0.95);
+          pdf.addImage(imgData, "JPEG", MARGIN_MM, currentY, CONTENT_W_MM, sectionHeightMM);
+
+          // Overlay invisible text for this section
+          const sectionRect = section.getBoundingClientRect();
+          const textItems = collectTextFromElement(section, sectionRect);
+
+          for (const item of textItems) {
+            const xFrac = item.x / sectionRect.width;
+            const yFrac = item.y / sectionRect.height;
+            const fontSizePt = Math.max(1, (item.h / sectionRect.height) * sectionHeightMM * 2.3);
+
+            const xMM = MARGIN_MM + xFrac * CONTENT_W_MM;
+            const yMM = currentY + yFrac * sectionHeightMM + fontSizePt * 0.35;
+
+            pdf.setFontSize(fontSizePt);
+            // @ts-ignore - internal API for invisible text rendering
+            pdf.internal.write("3 Tr");
+            pdf.text(item.text, xMM, yMM, {
+              maxWidth: CONTENT_W_MM - (xMM - MARGIN_MM),
+            });
+            // @ts-ignore
+            pdf.internal.write("0 Tr");
+          }
+
+          currentY += sectionHeightMM + SECTION_GAP_MM;
         }
 
         pdf.save(fileName);

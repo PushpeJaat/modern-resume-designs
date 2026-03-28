@@ -67,7 +67,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
     <div className="w-full bg-white overflow-hidden">
       <div className="p-14">
         {/* Header */}
-        <div className="text-center mb-10 pb-8 border-b-2 border-resume-border">
+        <div data-pdf-section className="text-center mb-10 pb-8 border-b-2 border-resume-border">
           <h1 className="text-5xl font-bold text-resume-section mb-3 tracking-tight">{d.personalInfo.name}</h1>
           <p className="text-xl text-resume-light mb-4 font-light">{d.personalInfo.title}</p>
           <div className="flex justify-center flex-wrap gap-6 text-sm resume-text">
@@ -88,7 +88,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
 
         {/* Summary */}
         {d.summary && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Executive Summary</h2>
             <p className="text-sm resume-text leading-relaxed">{d.summary}</p>
           </div>
@@ -96,11 +96,11 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
 
         {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-6 uppercase tracking-wide">Professional Experience</h2>
             <div className="space-y-8">
               {d.experience.map((exp) => (
-                <div key={exp.id}>
+                <div data-pdf-section key={exp.id}>
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h3 className="text-xl font-bold text-resume-section">{exp.position}</h3>
@@ -124,7 +124,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
         {/* Education & Skills */}
         <div className="grid grid-cols-2 gap-10 mb-10">
           {d.education.length > 0 && d.education[0].institution && (
-            <div>
+            <div data-pdf-section>
               <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Education</h2>
               <div className="space-y-4">
                 {d.education.map((edu) => (
@@ -139,7 +139,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
           )}
 
           {d.skills.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Key Skills</h2>
               <div className="space-y-3 text-sm resume-text">
                 {d.skills.map((cat, i) => (

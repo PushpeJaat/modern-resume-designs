@@ -70,13 +70,13 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
       {/* Left Sidebar */}
       <div className="w-[35%] bg-[#1e293b] text-white p-8 flex flex-col gap-6">
         {/* Name & Title */}
-        <div>
+        <div data-pdf-section>
           <h1 className="text-2xl font-bold leading-tight">{displayData.personalInfo.name || "Your Name"}</h1>
           <p className="text-sm text-sky-300 mt-1">{displayData.personalInfo.title || "Your Title"}</p>
         </div>
 
         {/* Contact */}
-        <div>
+        <div data-pdf-section>
           <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Contact</h2>
           <div className="space-y-2 text-xs">
             {displayData.personalInfo.email && (
@@ -114,7 +114,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Skills with bars */}
         {displayData.skills.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Skills</h2>
             <div className="space-y-3">
               {displayData.skills.flatMap(cat => cat.skills).filter(s => s.trim()).map((skill, idx) => (
@@ -134,7 +134,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Education */}
         {displayData.education.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Education</h2>
             {displayData.education.map((edu) => (
               <div key={edu.id} className="mb-2">
@@ -151,7 +151,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
       <div className="w-[65%] p-8 flex flex-col gap-6">
         {/* Profile */}
         {displayData.summary && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-sm font-bold uppercase tracking-widest border-b-2 border-gray-200 pb-1 mb-3 text-gray-800">Profile</h2>
             <p className="text-xs leading-relaxed text-gray-600">{displayData.summary}</p>
           </div>
@@ -159,7 +159,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Experience */}
         {displayData.experience.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-sm font-bold uppercase tracking-widest border-b-2 border-gray-200 pb-1 mb-3 text-gray-800">Experience</h2>
             <div className="space-y-5">
               {displayData.experience.map((exp) => (
