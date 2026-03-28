@@ -79,7 +79,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
         {/* Left Column */}
         <div className="col-span-1 space-y-8">
           {/* Contact */}
-          <div>
+          <div data-pdf-section>
             <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Contact</h2>
             <div className="space-y-3 text-sm">
               {displayData.personalInfo.email && (
