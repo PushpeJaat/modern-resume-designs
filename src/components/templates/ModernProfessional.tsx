@@ -161,7 +161,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
         <div className="col-span-2 space-y-8">
           {/* Summary */}
           {displayData.summary && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Professional Summary</h2>
               <p className="text-sm resume-text leading-relaxed">
                 {displayData.summary}
