@@ -95,7 +95,7 @@ const CreativeMinimal = ({ data }: CreativeMinimalProps) => {
 
         {/* About */}
         {d.summary && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-4 flex items-center gap-3">
               <span className="w-12 h-1 bg-accent rounded-full"></span>
               About
