@@ -106,14 +106,14 @@ const CreativeMinimal = ({ data }: CreativeMinimalProps) => {
 
         {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-6 flex items-center gap-3">
               <span className="w-12 h-1 bg-accent rounded-full"></span>
               Experience
             </h2>
             <div className="space-y-8 ml-15">
               {d.experience.map((exp, i) => (
-                <div key={exp.id} className="relative pl-8 border-l-2 border-resume-border">
+                <div key={exp.id} data-pdf-section className="relative pl-8 border-l-2 border-resume-border">
                   <div className="absolute -left-2 top-0 w-3 h-3 rounded-full bg-accent"></div>
                   <div className="mb-2">
                     <h3 className="text-lg font-bold text-resume-section">{exp.position}</h3>
