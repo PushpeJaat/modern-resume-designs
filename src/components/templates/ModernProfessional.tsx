@@ -117,7 +117,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
 
           {/* Skills */}
           {displayData.skills.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Skills</h2>
               <div className="space-y-4">
                 {displayData.skills.map((skillCat, index) => (
