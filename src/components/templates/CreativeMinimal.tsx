@@ -136,7 +136,7 @@ const CreativeMinimal = ({ data }: CreativeMinimalProps) => {
         {/* Skills & Education Grid */}
         <div className="grid grid-cols-2 gap-10">
           {d.skills.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="text-2xl font-bold text-resume-section mb-6 flex items-center gap-3">
                 <span className="w-12 h-1 bg-accent rounded-full"></span>
                 Skills
