@@ -76,7 +76,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
 
       <div className="relative p-12">
         {/* Header */}
-        <div className="mb-10 relative">
+        <div data-pdf-section className="mb-10 relative">
           <div className="absolute -left-12 top-0 w-2 h-32 bg-gradient-to-b from-primary to-accent"></div>
           <h1 className="text-5xl font-bold text-resume-section mb-2">{d.personalInfo.name}</h1>
           <p className="text-2xl text-resume-light font-light">{d.personalInfo.title}</p>
