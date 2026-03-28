@@ -134,7 +134,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Education */}
         {displayData.education.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Education</h2>
             {displayData.education.map((edu) => (
               <div key={edu.id} className="mb-2">
