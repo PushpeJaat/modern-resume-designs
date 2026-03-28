@@ -114,7 +114,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Skills with bars */}
         {displayData.skills.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-xs font-bold uppercase tracking-widest border-b border-slate-600 pb-1 mb-3">Skills</h2>
             <div className="space-y-3">
               {displayData.skills.flatMap(cat => cat.skills).filter(s => s.trim()).map((skill, idx) => (
