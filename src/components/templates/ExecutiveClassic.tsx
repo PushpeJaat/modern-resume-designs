@@ -124,7 +124,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
         {/* Education & Skills */}
         <div className="grid grid-cols-2 gap-10 mb-10">
           {d.education.length > 0 && d.education[0].institution && (
-            <div>
+            <div data-pdf-section>
               <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Education</h2>
               <div className="space-y-4">
                 {d.education.map((edu) => (
