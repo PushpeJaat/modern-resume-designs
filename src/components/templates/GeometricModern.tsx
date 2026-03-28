@@ -120,7 +120,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
           {/* Left Column */}
           <div className="col-span-1 space-y-8">
             {d.summary && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-1 bg-primary"></div>
                   <h2 className="section-title">Profile</h2>
