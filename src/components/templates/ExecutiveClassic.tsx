@@ -96,11 +96,11 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
 
         {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
-          <div className="mb-10">
+          <div data-pdf-section className="mb-10">
             <h2 className="text-2xl font-bold text-resume-section mb-6 uppercase tracking-wide">Professional Experience</h2>
             <div className="space-y-8">
               {d.experience.map((exp) => (
-                <div key={exp.id}>
+                <div data-pdf-section key={exp.id}>
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h3 className="text-xl font-bold text-resume-section">{exp.position}</h3>
