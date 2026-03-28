@@ -159,7 +159,7 @@ const DarkSidebar = ({ data }: DarkSidebarProps) => {
 
         {/* Experience */}
         {displayData.experience.length > 0 && (
-          <div>
+          <div data-pdf-section>
             <h2 className="text-sm font-bold uppercase tracking-widest border-b-2 border-gray-200 pb-1 mb-3 text-gray-800">Experience</h2>
             <div className="space-y-5">
               {displayData.experience.map((exp) => (

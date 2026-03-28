@@ -171,7 +171,7 @@ const ModernProfessional = ({ data }: ModernProfessionalProps) => {
 
           {/* Experience */}
           {displayData.experience.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="section-title mb-4 pb-2 border-b-2 border-resume-header">Work Experience</h2>
               <div className="space-y-6">
                 {displayData.experience.map((exp) => (

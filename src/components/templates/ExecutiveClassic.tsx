@@ -139,7 +139,7 @@ const ExecutiveClassic = ({ data }: ExecutiveClassicProps) => {
           )}
 
           {d.skills.length > 0 && (
-            <div>
+            <div data-pdf-section>
               <h2 className="text-2xl font-bold text-resume-section mb-4 uppercase tracking-wide">Key Skills</h2>
               <div className="space-y-3 text-sm resume-text">
                 {d.skills.map((cat, i) => (

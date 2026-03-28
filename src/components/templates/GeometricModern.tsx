@@ -187,7 +187,7 @@ const GeometricModern = ({ data }: GeometricModernProps) => {
           {/* Right Column */}
           <div className="col-span-2 space-y-8">
             {d.experience.length > 0 && d.experience[0].position && (
-              <div>
+              <div data-pdf-section>
                 <div className="flex items-center gap-2 mb-4">
                   <Briefcase className="w-5 h-5 text-primary" />
                   <h2 className="section-title">Experience</h2>
