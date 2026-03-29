@@ -1,0 +1,20 @@
+import { ResumeData } from "@/types/resume";
+import ModernProfessionalPdf from "./ModernProfessionalPdf";
+import CreativeMinimalPdf from "./CreativeMinimalPdf";
+import ExecutiveClassicPdf from "./ExecutiveClassicPdf";
+import GeometricModernPdf from "./GeometricModernPdf";
+import GradientWavePdf from "./GradientWavePdf";
+import DottedPatternPdf from "./DottedPatternPdf";
+import DarkSidebarPdf from "./DarkSidebarPdf";
+import PhotoModernPdf from "./PhotoModernPdf";
+
+export const pdfTemplates: Record<string, React.ComponentType<{ data: ResumeData }>> = {
+  "modern-professional": ModernProfessionalPdf,
+  "creative-minimal": CreativeMinimalPdf,
+  "executive-classic": ExecutiveClassicPdf,
+  "geometric-modern": GeometricModernPdf,
+  "gradient-wave": GradientWavePdf,
+  "dotted-pattern": DottedPatternPdf,
+  "dark-sidebar": DarkSidebarPdf,
+  "photo-modern": PhotoModernPdf,
+};
