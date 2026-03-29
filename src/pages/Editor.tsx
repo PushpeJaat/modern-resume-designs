@@ -19,7 +19,7 @@ import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
 import PhotoModern from "@/components/templates/PhotoModern";
-import { buildResumePdfFromNode } from "@/lib/pdfExport";
+import { downloadResumePdf } from "@/lib/pdfExport";
 
 const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhotoUpload?: (url: string) => void }>> = {
   "modern-professional": ModernProfessional,

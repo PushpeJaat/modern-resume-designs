@@ -19,7 +19,7 @@ export const generateResumePdf = async (
   }
 
   const element = React.createElement(TemplateComponent, { data });
-  const blob = await pdf(element).toBlob();
+  const blob = await pdf(element as any).toBlob();
   return blob;
 };
 
