@@ -253,12 +253,9 @@ const Editor = () => {
       navigate(`/auth?returnTo=${encodeURIComponent(`/editor?template=${templateId}`)}`);
       return;
     }
-    if (!resumeRef.current) return;
     setDownloading(true);
     try {
       toast({ title: "Preparing PDF", description: "Your resume is being generated..." });
-
-      const pdf = await buildResumePdfFromNode(resumeRef.current);
 
       try {
         await supabase.from("download_history").insert({
@@ -272,7 +269,7 @@ const Editor = () => {
       saveResumeToCloud();
 
       const name = resumeData.personalInfo.name || "resume";
-      await pdf.save(`${name.replace(/\s+/g, "_")}_resume.pdf`);
+      await downloadResumePdf(resumeData, templateId, `${name.replace(/\s+/g, "_")}_resume.pdf`);
     } catch (err) {
       console.error(err);
       toast({ title: "Download failed", description: "Please try again.", variant: "destructive" });
