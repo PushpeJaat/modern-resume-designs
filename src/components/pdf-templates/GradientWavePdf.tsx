@@ -61,7 +61,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
           {/* Left */}
           <View style={s.leftCol}>
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Technical Stack</Text>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={s.skillBox}>
