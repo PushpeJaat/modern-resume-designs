@@ -51,7 +51,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.summaryBox} wrap={false}>
+          <View style={s.summaryBox}>
             <Text style={s.summaryTitle}>Professional Summary</Text>
             <Text style={s.summaryText}>{d.summary}</Text>
           </View>
