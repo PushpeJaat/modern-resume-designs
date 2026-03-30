@@ -57,7 +57,7 @@ const SapphireBloom = ({ data }: SapphireBloomProps) => {
     ],
   };
 
-  const photo = displayData.personalInfo.photo;
+  const photo = displayData.personalInfo.photoUrl;
 
   return (
     <div className="w-full bg-white overflow-hidden relative">

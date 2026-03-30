@@ -55,7 +55,7 @@ const s = StyleSheet.create({
 
 const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
   const d = data;
-  const photo = d.personalInfo.photo;
+  const photo = d.personalInfo.photoUrl;
 
   return (
     <Document>

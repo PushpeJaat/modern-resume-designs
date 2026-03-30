@@ -7,6 +7,7 @@ import GradientWavePdf from "./GradientWavePdf";
 import DottedPatternPdf from "./DottedPatternPdf";
 import DarkSidebarPdf from "./DarkSidebarPdf";
 import PhotoModernPdf from "./PhotoModernPdf";
+import SapphireBloomPdf from "./SapphireBloomPdf";
 
 export const pdfTemplates: Record<string, React.ComponentType<{ data: ResumeData }>> = {
   "modern-professional": ModernProfessionalPdf,
@@ -17,4 +18,5 @@ export const pdfTemplates: Record<string, React.ComponentType<{ data: ResumeData
   "dotted-pattern": DottedPatternPdf,
   "dark-sidebar": DarkSidebarPdf,
   "photo-modern": PhotoModernPdf,
+  "sapphire-bloom": SapphireBloomPdf,
 };
