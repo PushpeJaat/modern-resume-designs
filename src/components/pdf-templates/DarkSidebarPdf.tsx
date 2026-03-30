@@ -57,7 +57,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Skills */}
             {allSkills.length > 0 && (
-              <View style={s.sidebarSection} wrap={false}>
+              <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Skills</Text>
                 {allSkills.map((skill, idx) => (
                   <View key={idx}>
