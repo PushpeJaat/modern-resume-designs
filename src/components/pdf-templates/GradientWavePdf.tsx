@@ -77,7 +77,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.certifications && d.certifications.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.certTitle}>Certifications</Text>
                 {d.certifications.map((cert, i) => (
                   <Text key={i} style={s.certItem}>🏅 {cert}</Text>
