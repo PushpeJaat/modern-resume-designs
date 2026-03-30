@@ -98,7 +98,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
           {/* Left */}
           <View style={s.leftCol}>
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: colors.primary }} /><Text style={s.sectionTitle}>About Me</Text></View>
                 <View style={s.aboutBox}><Text style={s.aboutText}>{d.summary}</Text></View>
               </View>
