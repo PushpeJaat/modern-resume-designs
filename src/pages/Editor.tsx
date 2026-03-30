@@ -19,6 +19,7 @@ import GradientWave from "@/components/templates/GradientWave";
 import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
 import PhotoModern from "@/components/templates/PhotoModern";
+import SapphireBloom from "@/components/templates/SapphireBloom";
 import { downloadResumePdf } from "@/lib/pdfExport";
 
 const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhotoUpload?: (url: string) => void }>> = {
@@ -30,6 +31,7 @@ const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhoto
   "dotted-pattern": DottedPattern,
   "dark-sidebar": DarkSidebar,
   "photo-modern": PhotoModern,
+  "sapphire-bloom": SapphireBloom,
 };
 
 const defaultPlaceholderData: ResumeData = {

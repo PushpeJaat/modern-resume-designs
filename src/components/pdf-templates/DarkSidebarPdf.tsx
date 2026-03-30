@@ -46,7 +46,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
             </View>
 
             {/* Contact */}
-            <View style={s.sidebarSection} wrap={false}>
+            <View style={s.sidebarSection}>
               <Text style={s.sidebarTitle}>Contact</Text>
               {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactIcon}>✉</Text><Text style={s.contactText}>{d.personalInfo.email}</Text></View>}
               {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactIcon}>☎</Text><Text style={s.contactText}>{d.personalInfo.phone}</Text></View>}
@@ -57,7 +57,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Skills */}
             {allSkills.length > 0 && (
-              <View style={s.sidebarSection} wrap={false}>
+              <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Skills</Text>
                 {allSkills.map((skill, idx) => (
                   <View key={idx}>
@@ -72,7 +72,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Education */}
             {d.education.length > 0 && (
-              <View style={s.sidebarSection} wrap={false}>
+              <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Education</Text>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>
@@ -88,7 +88,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
           {/* Main Content */}
           <View style={s.main}>
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.mainTitle}>Profile</Text>
                 <Text style={s.profileText}>{d.summary}</Text>
               </View>

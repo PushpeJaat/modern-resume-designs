@@ -94,7 +94,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
         <View style={s.body}>
           {/* Summary */}
           {d.summary && (
-            <View style={s.section} wrap={false}>
+            <View style={s.section}>
               <View style={s.sectionTitle}>
                 <View style={s.sectionBar} />
                 <Text>Professional Summary</Text>
@@ -130,7 +130,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
           {/* Skills & Education */}
           <View style={s.grid}>
             {d.skills.length > 0 && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionTitle}>
                   <View style={s.sectionBar} />
                   <Text>Skills</Text>
@@ -149,7 +149,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionTitle}>
                   <View style={s.sectionBar} />
                   <Text>Education</Text>

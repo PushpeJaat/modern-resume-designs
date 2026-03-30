@@ -56,7 +56,7 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.section} wrap={false}>
+          <View style={s.section}>
             <View style={s.sectionHeader}>
               <View style={s.sectionBar} />
               <Text style={s.sectionTitle}>About</Text>
@@ -91,7 +91,7 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
         {/* Skills & Education Grid */}
         <View style={s.grid}>
           {d.skills.length > 0 && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <View style={s.sectionHeader}>
                 <View style={s.sectionBar} />
                 <Text style={s.sectionTitle}>Skills</Text>
@@ -106,7 +106,7 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
           )}
 
           {d.education.length > 0 && d.education[0].institution && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <View style={s.sectionHeader}>
                 <View style={s.sectionBar} />
                 <Text style={s.sectionTitle}>Education</Text>

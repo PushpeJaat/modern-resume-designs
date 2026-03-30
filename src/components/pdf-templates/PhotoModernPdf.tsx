@@ -68,7 +68,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
         <View style={s.body}>
           {/* Summary */}
           {d.summary && (
-            <View style={s.section} wrap={false}>
+            <View style={s.section}>
               <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>About Me</Text></View>
               <Text style={s.summary}>{d.summary}</Text>
             </View>
@@ -99,7 +99,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
           {/* Education & Skills */}
           <View style={s.grid}>
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>
@@ -112,7 +112,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={{ marginBottom: 6 }}>

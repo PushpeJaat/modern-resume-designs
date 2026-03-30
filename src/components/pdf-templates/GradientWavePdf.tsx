@@ -51,7 +51,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.summaryBox} wrap={false}>
+          <View style={s.summaryBox}>
             <Text style={s.summaryTitle}>Professional Summary</Text>
             <Text style={s.summaryText}>{d.summary}</Text>
           </View>
@@ -61,7 +61,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
           {/* Left */}
           <View style={s.leftCol}>
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Technical Stack</Text>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={s.skillBox}>
@@ -77,7 +77,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.certifications && d.certifications.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.certTitle}>Certifications</Text>
                 {d.certifications.map((cert, i) => (
                   <Text key={i} style={s.certItem}>🏅 {cert}</Text>
@@ -86,7 +86,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Education</Text>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>

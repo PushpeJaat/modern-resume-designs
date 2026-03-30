@@ -69,14 +69,14 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
           {/* Left Column */}
           <View style={s.leftCol}>
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Profile</Text></View>
                 <Text style={s.summary}>{d.summary}</Text>
               </View>
             )}
 
             {allSkills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {allSkills.slice(0, 6).map((skill, idx) => (
                   <View key={idx}>
@@ -93,7 +93,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Tools</Text></View>
                 <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                   {allSkills.slice(0, 8).map((tool, idx) => (
@@ -104,7 +104,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>

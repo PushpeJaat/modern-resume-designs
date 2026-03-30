@@ -41,7 +41,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
           {/* Left Column */}
           <View style={s.leftCol}>
             {/* Contact */}
-            <View style={s.section} wrap={false}>
+            <View style={s.section}>
               <Text style={s.sectionTitle}>Contact</Text>
               {d.personalInfo.email && (
                 <View style={s.contactItem}>
@@ -77,7 +77,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Skills */}
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Skills</Text>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={{ marginBottom: 8 }}>
@@ -94,7 +94,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Education */}
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Education</Text>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>
@@ -111,7 +111,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.rightCol}>
             {/* Summary */}
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Professional Summary</Text>
                 <Text style={s.summary}>{d.summary}</Text>
               </View>

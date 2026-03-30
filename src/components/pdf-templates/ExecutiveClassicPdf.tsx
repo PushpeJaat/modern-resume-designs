@@ -47,7 +47,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.section} wrap={false}>
+          <View style={s.section}>
             <Text style={s.sectionTitle}>Executive Summary</Text>
             <Text style={s.summary}>{d.summary}</Text>
           </View>
@@ -77,7 +77,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
         {/* Education & Skills */}
         <View style={s.grid}>
           {d.education.length > 0 && d.education[0].institution && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <Text style={s.sectionTitle}>Education</Text>
               {d.education.map((edu) => (
                 <View key={edu.id} style={{ marginBottom: 8 }}>
@@ -90,7 +90,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           )}
 
           {d.skills.length > 0 && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <Text style={s.sectionTitle}>Key Skills</Text>
               {d.skills.map((cat, i) => (
                 <Text key={i} style={s.skillLine}>
