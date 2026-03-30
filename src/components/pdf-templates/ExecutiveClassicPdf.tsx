@@ -47,7 +47,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.section} wrap={false}>
+          <View style={s.section}>
             <Text style={s.sectionTitle}>Executive Summary</Text>
             <Text style={s.summary}>{d.summary}</Text>
           </View>
