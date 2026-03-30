@@ -77,7 +77,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Skills */}
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Skills</Text>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={{ marginBottom: 8 }}>
