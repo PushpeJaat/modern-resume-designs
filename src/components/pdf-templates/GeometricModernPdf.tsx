@@ -76,7 +76,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {allSkills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {allSkills.slice(0, 6).map((skill, idx) => (
                   <View key={idx}>
