@@ -130,7 +130,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
           {/* Skills & Education */}
           <View style={s.grid}>
             {d.skills.length > 0 && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionTitle}>
                   <View style={s.sectionBar} />
                   <Text>Skills</Text>
