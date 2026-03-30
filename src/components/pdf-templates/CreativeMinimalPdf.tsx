@@ -56,7 +56,7 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Summary */}
         {d.summary && (
-          <View style={s.section} wrap={false}>
+          <View style={s.section}>
             <View style={s.sectionHeader}>
               <View style={s.sectionBar} />
               <Text style={s.sectionTitle}>About</Text>
