@@ -41,7 +41,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
           {/* Left Column */}
           <View style={s.leftCol}>
             {/* Contact */}
-            <View style={s.section} wrap={false}>
+            <View style={s.section}>
               <Text style={s.sectionTitle}>Contact</Text>
               {d.personalInfo.email && (
                 <View style={s.contactItem}>
