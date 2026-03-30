@@ -72,7 +72,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Education */}
             {d.education.length > 0 && (
-              <View style={s.sidebarSection} wrap={false}>
+              <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Education</Text>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>
