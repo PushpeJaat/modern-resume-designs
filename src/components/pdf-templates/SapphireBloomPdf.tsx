@@ -94,7 +94,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
         <View style={s.body}>
           {/* Summary */}
           {d.summary && (
-            <View style={s.section} wrap={false}>
+            <View style={s.section}>
               <View style={s.sectionTitle}>
                 <View style={s.sectionBar} />
                 <Text>Professional Summary</Text>
