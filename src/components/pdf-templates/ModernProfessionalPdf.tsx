@@ -111,7 +111,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.rightCol}>
             {/* Summary */}
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Professional Summary</Text>
                 <Text style={s.summary}>{d.summary}</Text>
               </View>

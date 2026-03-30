@@ -104,7 +104,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>

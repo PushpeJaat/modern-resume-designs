@@ -129,7 +129,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             ))}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={{ ...s.skillCard, borderColor: "#ddd5f5" }} wrap={false}>
+              <View style={{ ...s.skillCard, borderColor: "#ddd5f5" }}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: colors.primary }} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 4 }}>

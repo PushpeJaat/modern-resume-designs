@@ -90,7 +90,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           )}
 
           {d.skills.length > 0 && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <Text style={s.sectionTitle}>Key Skills</Text>
               {d.skills.map((cat, i) => (
                 <Text key={i} style={s.skillLine}>

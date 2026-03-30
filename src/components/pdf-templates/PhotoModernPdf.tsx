@@ -112,7 +112,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {d.skills.map((cat, i) => (
                   <View key={i} style={{ marginBottom: 6 }}>

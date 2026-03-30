@@ -149,7 +149,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.halfCol} wrap={false}>
+              <View style={s.halfCol}>
                 <View style={s.sectionTitle}>
                   <View style={s.sectionBar} />
                   <Text>Education</Text>

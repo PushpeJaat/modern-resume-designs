@@ -88,7 +88,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
           {/* Main Content */}
           <View style={s.main}>
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.mainTitle}>Profile</Text>
                 <Text style={s.profileText}>{d.summary}</Text>
               </View>
