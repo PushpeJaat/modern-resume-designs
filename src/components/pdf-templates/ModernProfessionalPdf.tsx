@@ -94,7 +94,7 @@ const ModernProfessionalPdf = ({ data }: { data: ResumeData }) => {
 
             {/* Education */}
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <Text style={s.sectionTitle}>Education</Text>
                 {d.education.map((edu) => (
                   <View key={edu.id} style={{ marginBottom: 6 }}>
