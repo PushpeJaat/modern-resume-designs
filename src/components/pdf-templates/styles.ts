@@ -10,10 +10,12 @@ Font.register({
 });
 
 // Common colors used across templates
+// These MUST match the CSS variables in index.css for preview↔PDF consistency
+// --resume-header: 215 85% 45% → #1166b8, --primary: 215 90% 55% → #1a85e8
 export const colors = {
-  primary: "#6d28d9",
-  primaryLight: "#ede9fe",
-  accent: "#f59e0b",
+  primary: "#1a6fc4",       // matches --resume-header (215 85% 45%)
+  primaryLight: "#e0eef9",  // light tint of primary
+  accent: "#e8870a",        // matches --resume-accent (25 95% 55%)
   accentLight: "#fef3c7",
   dark: "#1e293b",
   darkGray: "#334155",
