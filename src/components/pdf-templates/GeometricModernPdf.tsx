@@ -93,7 +93,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Tools</Text></View>
                 <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                   {allSkills.slice(0, 8).map((tool, idx) => (
