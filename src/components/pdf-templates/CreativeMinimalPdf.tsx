@@ -91,7 +91,7 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
         {/* Skills & Education Grid */}
         <View style={s.grid}>
           {d.skills.length > 0 && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <View style={s.sectionHeader}>
                 <View style={s.sectionBar} />
                 <Text style={s.sectionTitle}>Skills</Text>
