@@ -69,7 +69,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
           {/* Left Column */}
           <View style={s.leftCol}>
             {d.summary && (
-              <View style={s.section} wrap={false}>
+              <View style={s.section}>
                 <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Profile</Text></View>
                 <Text style={s.summary}>{d.summary}</Text>
               </View>
