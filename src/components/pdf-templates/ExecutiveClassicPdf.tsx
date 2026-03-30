@@ -77,7 +77,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
         {/* Education & Skills */}
         <View style={s.grid}>
           {d.education.length > 0 && d.education[0].institution && (
-            <View style={s.halfCol} wrap={false}>
+            <View style={s.halfCol}>
               <Text style={s.sectionTitle}>Education</Text>
               {d.education.map((edu) => (
                 <View key={edu.id} style={{ marginBottom: 8 }}>
