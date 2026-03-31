@@ -47,11 +47,11 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Contact */}
         <View style={s.contactRow} wrap={false}>
-          {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactIcon}>✉</Text><Text>{d.personalInfo.email}</Text></View>}
-          {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactIcon}>☎</Text><Text>{d.personalInfo.phone}</Text></View>}
-          {d.personalInfo.location && <View style={s.contactItem}><Text style={s.contactIcon}>📍</Text><Text>{d.personalInfo.location}</Text></View>}
-          {d.personalInfo.linkedin && <View style={s.contactItem}><Text style={s.contactIcon}>in</Text><Text>{d.personalInfo.linkedin}</Text></View>}
-          {d.personalInfo.github && <View style={s.contactItem}><Text style={s.contactIcon}>⌨</Text><Text>{d.personalInfo.github}</Text></View>}
+          {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactIcon}>E:</Text><Text>{d.personalInfo.email}</Text></View>}
+          {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactIcon}>P:</Text><Text>{d.personalInfo.phone}</Text></View>}
+          {d.personalInfo.location && <View style={s.contactItem}><Text style={s.contactIcon}>L:</Text><Text>{d.personalInfo.location}</Text></View>}
+          {d.personalInfo.linkedin && <View style={s.contactItem}><Text style={s.contactIcon}>in:</Text><Text>{d.personalInfo.linkedin}</Text></View>}
+          {d.personalInfo.github && <View style={s.contactItem}><Text style={s.contactIcon}>GH:</Text><Text>{d.personalInfo.github}</Text></View>}
         </View>
 
         {/* Summary */}
@@ -68,12 +68,12 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
         {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
           <View style={s.section}>
-            <View style={s.sectionHeader}>
+            <View style={s.sectionHeader} minPresenceAhead={48}>
               <View style={s.sectionBar} />
               <Text style={s.sectionTitle}>Experience</Text>
             </View>
             {d.experience.map((exp) => (
-              <View key={exp.id} style={s.expBlock} wrap={false} minPresenceAhead={40}>
+              <View key={exp.id} style={s.expBlock} wrap={false}>
                 <View style={s.expDot} />
                 <Text style={s.expTitle}>{exp.position}</Text>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -92,12 +92,12 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
         <View style={s.grid}>
           {d.skills.length > 0 && (
             <View style={s.halfCol}>
-              <View style={s.sectionHeader}>
+              <View style={s.sectionHeader} minPresenceAhead={48}>
                 <View style={s.sectionBar} />
                 <Text style={s.sectionTitle}>Skills</Text>
               </View>
               {d.skills.map((cat, i) => (
-                <View key={i} style={{ marginBottom: 6 }}>
+                <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                   <Text style={s.skillCat}>{cat.category}</Text>
                   <Text style={s.skillText}>{cat.skills.filter(sk => sk.trim()).join(", ")}</Text>
                 </View>
@@ -107,12 +107,12 @@ const CreativeMinimalPdf = ({ data }: { data: ResumeData }) => {
 
           {d.education.length > 0 && d.education[0].institution && (
             <View style={s.halfCol}>
-              <View style={s.sectionHeader}>
+              <View style={s.sectionHeader} minPresenceAhead={48}>
                 <View style={s.sectionBar} />
                 <Text style={s.sectionTitle}>Education</Text>
               </View>
               {d.education.map((edu) => (
-                <View key={edu.id} style={{ marginBottom: 6 }}>
+                <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
                   <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                   <Text style={s.eduInst}>{edu.institution}</Text>
                   <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>

@@ -9,13 +9,14 @@ Font.register({
   ],
 });
 
-// Common colors used across templates
-// These MUST match the CSS variables in index.css for preview↔PDF consistency
-// --resume-header: 215 85% 45% → #1166b8, --primary: 215 90% 55% → #1a85e8
+// Disable hyphenation to prevent word splitting
+Font.registerHyphenationCallback((word) => [word]);
+
+// Common colors used across templates — solid HEX only, no rgba/gradients
 export const colors = {
-  primary: "#1a6fc4",       // matches --resume-header (215 85% 45%)
-  primaryLight: "#e0eef9",  // light tint of primary
-  accent: "#e8870a",        // matches --resume-accent (25 95% 55%)
+  primary: "#1a6fc4",
+  primaryLight: "#e0eef9",
+  accent: "#e8870a",
   accentLight: "#fef3c7",
   dark: "#1e293b",
   darkGray: "#334155",
@@ -71,9 +72,5 @@ export const baseStyles = StyleSheet.create({
   },
   section: {
     marginBottom: 14,
-  },
-  // Prevent splitting inside sections
-  keepTogether: {
-    // @react-pdf uses `break` style props directly on View
   },
 });

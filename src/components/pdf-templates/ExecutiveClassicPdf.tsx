@@ -38,17 +38,17 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           <Text style={s.name}>{d.personalInfo.name}</Text>
           <Text style={s.title}>{d.personalInfo.title}</Text>
           <View style={s.contactRow}>
-            {d.personalInfo.email && <Text style={s.contactItem}>✉ {d.personalInfo.email}</Text>}
-            {d.personalInfo.phone && <Text style={s.contactItem}>☎ {d.personalInfo.phone}</Text>}
-            {d.personalInfo.location && <Text style={s.contactItem}>📍 {d.personalInfo.location}</Text>}
-            {d.personalInfo.linkedin && <Text style={s.contactItem}>in {d.personalInfo.linkedin}</Text>}
+            {d.personalInfo.email && <Text style={s.contactItem}>{d.personalInfo.email}</Text>}
+            {d.personalInfo.phone && <Text style={s.contactItem}>{d.personalInfo.phone}</Text>}
+            {d.personalInfo.location && <Text style={s.contactItem}>{d.personalInfo.location}</Text>}
+            {d.personalInfo.linkedin && <Text style={s.contactItem}>{d.personalInfo.linkedin}</Text>}
           </View>
         </View>
 
         {/* Summary */}
         {d.summary && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Executive Summary</Text>
+            <Text style={s.sectionTitle} minPresenceAhead={48}>Executive Summary</Text>
             <Text style={s.summary}>{d.summary}</Text>
           </View>
         )}
@@ -56,9 +56,9 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
         {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Professional Experience</Text>
+            <Text style={s.sectionTitle} minPresenceAhead={48}>Professional Experience</Text>
             {d.experience.map((exp) => (
-              <View key={exp.id} style={s.expBlock} wrap={false} minPresenceAhead={40}>
+              <View key={exp.id} style={s.expBlock} wrap={false}>
                 <View style={s.expRow}>
                   <View>
                     <Text style={s.expTitle}>{exp.position}</Text>
@@ -67,7 +67,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
                   <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                 </View>
                 {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
-                  <Text key={idx} style={s.bullet}>• {r}</Text>
+                  <Text key={idx} style={s.bullet}>  {r}</Text>
                 ))}
               </View>
             ))}
@@ -78,9 +78,9 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
         <View style={s.grid}>
           {d.education.length > 0 && d.education[0].institution && (
             <View style={s.halfCol}>
-              <Text style={s.sectionTitle}>Education</Text>
+              <Text style={s.sectionTitle} minPresenceAhead={48}>Education</Text>
               {d.education.map((edu) => (
-                <View key={edu.id} style={{ marginBottom: 8 }}>
+                <View key={edu.id} style={{ marginBottom: 8 }} wrap={false}>
                   <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                   <Text style={s.eduInst}>{edu.institution}</Text>
                   <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -91,7 +91,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
 
           {d.skills.length > 0 && (
             <View style={s.halfCol}>
-              <Text style={s.sectionTitle}>Key Skills</Text>
+              <Text style={s.sectionTitle} minPresenceAhead={48}>Key Skills</Text>
               {d.skills.map((cat, i) => (
                 <Text key={i} style={s.skillLine}>
                   <Text style={s.skillLabel}>{cat.category}: </Text>
@@ -104,11 +104,11 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
 
         {/* Achievements */}
         {d.achievements && d.achievements.length > 0 && (
-          <View style={{ ...s.section, marginTop: 16 }} wrap={false}>
-            <Text style={s.sectionTitle}>Awards & Recognition</Text>
+          <View style={{ ...s.section, marginTop: 16 }}>
+            <Text style={s.sectionTitle} minPresenceAhead={48}>Awards & Recognition</Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {d.achievements.map((a, i) => (
-                <Text key={i} style={{ ...s.achieveItem, width: "50%" }}>🏆 {a}</Text>
+                <Text key={i} style={{ ...s.achieveItem, width: "50%" }} wrap={false}>- {a}</Text>
               ))}
             </View>
           </View>

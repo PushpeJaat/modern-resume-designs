@@ -12,7 +12,7 @@ const s = StyleSheet.create({
   sidebarSection: { marginBottom: 16 },
   sidebarTitle: { fontSize: 8, fontWeight: "bold", color: colors.white, textTransform: "uppercase", letterSpacing: 2, borderBottomWidth: 1, borderBottomColor: colors.slate600, paddingBottom: 4, marginBottom: 8 },
   contactItem: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 5, fontSize: 8 },
-  contactIcon: { color: colors.skyBlue, fontSize: 7, fontWeight: "bold" },
+  contactLabel: { color: colors.skyBlue, fontSize: 7, fontWeight: "bold" },
   contactText: { color: "#cbd5e1" },
   skillName: { fontSize: 8, color: colors.white, marginBottom: 2 },
   skillBarBg: { height: 4, backgroundColor: colors.slate600, borderRadius: 2, marginBottom: 6 },
@@ -48,11 +48,11 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
             {/* Contact */}
             <View style={s.sidebarSection}>
               <Text style={s.sidebarTitle}>Contact</Text>
-              {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactIcon}>✉</Text><Text style={s.contactText}>{d.personalInfo.email}</Text></View>}
-              {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactIcon}>☎</Text><Text style={s.contactText}>{d.personalInfo.phone}</Text></View>}
-              {d.personalInfo.location && <View style={s.contactItem}><Text style={s.contactIcon}>📍</Text><Text style={s.contactText}>{d.personalInfo.location}</Text></View>}
-              {d.personalInfo.linkedin && <View style={s.contactItem}><Text style={s.contactIcon}>in</Text><Text style={s.contactText}>{d.personalInfo.linkedin}</Text></View>}
-              {d.personalInfo.website && <View style={s.contactItem}><Text style={s.contactIcon}>🌐</Text><Text style={s.contactText}>{d.personalInfo.website}</Text></View>}
+              {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactLabel}>Email</Text><Text style={s.contactText}>{d.personalInfo.email}</Text></View>}
+              {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactLabel}>Phone</Text><Text style={s.contactText}>{d.personalInfo.phone}</Text></View>}
+              {d.personalInfo.location && <View style={s.contactItem}><Text style={s.contactLabel}>Location</Text><Text style={s.contactText}>{d.personalInfo.location}</Text></View>}
+              {d.personalInfo.linkedin && <View style={s.contactItem}><Text style={s.contactLabel}>LinkedIn</Text><Text style={s.contactText}>{d.personalInfo.linkedin}</Text></View>}
+              {d.personalInfo.website && <View style={s.contactItem}><Text style={s.contactLabel}>Web</Text><Text style={s.contactText}>{d.personalInfo.website}</Text></View>}
             </View>
 
             {/* Skills */}
@@ -60,7 +60,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
               <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Skills</Text>
                 {allSkills.map((skill, idx) => (
-                  <View key={idx}>
+                  <View key={idx} wrap={false}>
                     <Text style={s.skillName}>{skill}</Text>
                     <View style={s.skillBarBg}>
                       <View style={{ ...s.skillBarFill, width: `${Math.max(50, 90 - idx * 8)}%` }} />
@@ -75,7 +75,7 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
               <View style={s.sidebarSection}>
                 <Text style={s.sidebarTitle}>Education</Text>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -89,16 +89,16 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.main}>
             {d.summary && (
               <View style={s.section}>
-                <Text style={s.mainTitle}>Profile</Text>
+                <Text style={s.mainTitle} minPresenceAhead={48}>Profile</Text>
                 <Text style={s.profileText}>{d.summary}</Text>
               </View>
             )}
 
             {d.experience.length > 0 && (
               <View style={s.section}>
-                <Text style={s.mainTitle}>Experience</Text>
+                <Text style={s.mainTitle} minPresenceAhead={48}>Experience</Text>
                 {d.experience.map((exp) => (
-                  <View key={exp.id} style={{ marginBottom: 12 }} wrap={false} minPresenceAhead={40}>
+                  <View key={exp.id} style={{ marginBottom: 12 }} wrap={false}>
                     <Text style={s.expTitle}>{exp.position}</Text>
                     <Text style={s.expMeta}>{exp.company} | {exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                     {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
@@ -110,10 +110,10 @@ const DarkSidebarPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.projects && d.projects.length > 0 && (
-              <View style={s.section} wrap={false}>
-                <Text style={s.mainTitle}>Projects</Text>
+              <View style={s.section}>
+                <Text style={s.mainTitle} minPresenceAhead={48}>Projects</Text>
                 {d.projects.map((proj) => (
-                  <Text key={proj.id} style={s.projItem}>• <Text style={s.projName}>{proj.name}</Text> — {proj.description}</Text>
+                  <Text key={proj.id} style={s.projItem} wrap={false}>• <Text style={s.projName}>{proj.name}</Text> — {proj.description}</Text>
                 ))}
               </View>
             )}
