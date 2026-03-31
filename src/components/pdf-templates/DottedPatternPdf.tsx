@@ -25,7 +25,7 @@ const s = StyleSheet.create({
   dot: { width: 5, height: 5, borderRadius: 3 },
   sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark },
   section: { marginBottom: 14 },
-  aboutBox: { padding: 10, backgroundColor: "#f5f3ff", borderRadius: 8, borderWidth: 1, borderColor: "#ede9fe" },
+  aboutBox: { padding: 10, backgroundColor: colors.bgLight, borderRadius: 8, borderWidth: 1, borderColor: colors.borderGray },
   aboutText: { fontSize: 8, lineHeight: 1.6, color: colors.darkGray },
   skillCard: { padding: 8, borderRadius: 6, borderWidth: 1, marginBottom: 8 },
   skillCatName: { fontSize: 8, fontWeight: "bold", color: colors.dark, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 },
@@ -34,7 +34,7 @@ const s = StyleSheet.create({
   dotsRow: { flexDirection: "row", gap: 2 },
   dotFilled: { width: 5, height: 5, borderRadius: 3, backgroundColor: colors.primary },
   dotEmpty: { width: 5, height: 5, borderRadius: 3, backgroundColor: colors.borderGray },
-  toolTag: { paddingHorizontal: 5, paddingVertical: 2, fontSize: 8, borderRadius: 3, borderWidth: 1, borderColor: "#c4b5fd", backgroundColor: "#faf8ff", color: colors.darkGray, marginRight: 4, marginBottom: 4 },
+  toolTag: { paddingHorizontal: 5, paddingVertical: 2, fontSize: 8, borderRadius: 3, borderWidth: 1, borderColor: colors.primary, backgroundColor: colors.bgLight, color: colors.darkGray, marginRight: 4, marginBottom: 4 },
   expCard: { padding: 10, backgroundColor: colors.white, borderRadius: 6, borderLeftWidth: 3, marginBottom: 10 },
   expTitle: { fontSize: 11, fontWeight: "bold", color: colors.dark },
   expCompany: { fontSize: 9, color: colors.primary, fontWeight: "bold", marginTop: 1 },
@@ -68,25 +68,25 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             <View style={s.contactGrid}>
               {d.personalInfo.email && (
                 <View style={s.contactItem}>
-                  <View style={s.contactIconBox}><Text style={s.contactIcon}>✉</Text></View>
+                  <View style={s.contactIconBox}><Text style={s.contactIcon}>E</Text></View>
                   <View><Text style={s.contactLabel}>Email</Text><Text style={s.contactValue}>{d.personalInfo.email}</Text></View>
                 </View>
               )}
               {d.personalInfo.phone && (
                 <View style={s.contactItem}>
-                  <View style={{ ...s.contactIconBox, backgroundColor: colors.accentLight }}><Text style={{ ...s.contactIcon, color: colors.accent }}>☎</Text></View>
+                  <View style={{ ...s.contactIconBox, backgroundColor: colors.accentLight }}><Text style={{ ...s.contactIcon, color: colors.accent }}>P</Text></View>
                   <View><Text style={s.contactLabel}>Phone</Text><Text style={s.contactValue}>{d.personalInfo.phone}</Text></View>
                 </View>
               )}
               {d.personalInfo.location && (
                 <View style={s.contactItem}>
-                  <View style={s.contactIconBox}><Text style={s.contactIcon}>📍</Text></View>
+                  <View style={s.contactIconBox}><Text style={s.contactIcon}>L</Text></View>
                   <View><Text style={s.contactLabel}>Location</Text><Text style={s.contactValue}>{d.personalInfo.location}</Text></View>
                 </View>
               )}
               {d.personalInfo.website && (
                 <View style={s.contactItem}>
-                  <View style={{ ...s.contactIconBox, backgroundColor: colors.accentLight }}><Text style={{ ...s.contactIcon, color: colors.accent }}>🌐</Text></View>
+                  <View style={{ ...s.contactIconBox, backgroundColor: colors.accentLight }}><Text style={{ ...s.contactIcon, color: colors.accent }}>W</Text></View>
                   <View><Text style={s.contactLabel}>Website</Text><Text style={s.contactValue}>{d.personalInfo.website}</Text></View>
                 </View>
               )}
@@ -105,7 +105,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && d.skills.map((cat, i) => (
-              <View key={i} style={{ ...s.skillCard, borderColor: i === 0 ? "#ddd5f5" : "#fde68a" }} wrap={false}>
+              <View key={i} style={{ ...s.skillCard, borderColor: i === 0 ? colors.primaryLight : colors.accentLight }} wrap={false}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: i === 0 ? colors.primary : colors.accent }} /><Text style={s.skillCatName}>{cat.category}</Text></View>
                 {i === 0 ? (
                   cat.skills.filter(sk => sk.trim()).map((skill, idx) => (
@@ -129,10 +129,10 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             ))}
 
             {d.education.length > 0 && d.education[0].institution && (
-              <View style={{ ...s.skillCard, borderColor: "#ddd5f5" }}>
+              <View style={{ ...s.skillCard, borderColor: colors.primaryLight }}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: colors.primary }} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 4 }}>
+                  <View key={edu.id} style={{ marginBottom: 4 }} wrap={false}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -146,9 +146,9 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.rightCol}>
             {d.experience.length > 0 && d.experience[0].position && (
               <View style={s.section}>
-                <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: colors.primary, width: 8, height: 8, borderRadius: 2 }} /><Text style={{ ...s.sectionTitle, fontSize: 14 }}>Work Experience</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={{ ...s.dot, backgroundColor: colors.primary, width: 8, height: 8, borderRadius: 2 }} /><Text style={{ ...s.sectionTitle, fontSize: 14 }}>Work Experience</Text></View>
                 {d.experience.map((exp, i) => (
-                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} wrap={false} minPresenceAhead={40}>
+                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} wrap={false}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
                       <View>
                         <Text style={s.expTitle}>{exp.position}</Text>

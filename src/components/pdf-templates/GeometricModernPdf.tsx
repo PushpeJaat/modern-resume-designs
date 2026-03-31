@@ -23,7 +23,7 @@ const s = StyleSheet.create({
   skillBarBg: { width: "100%", height: 4, backgroundColor: colors.borderGray, borderRadius: 2, marginBottom: 6 },
   skillBarFill: { height: 4, borderRadius: 2, backgroundColor: colors.primary },
   toolTag: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10, fontSize: 8, backgroundColor: colors.primaryLight, color: colors.darkGray, marginRight: 4, marginBottom: 4 },
-  expBlock: { paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: "#ddd5f5", marginBottom: 12 },
+  expBlock: { paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: colors.borderGray, marginBottom: 12 },
   expDot: { position: "absolute", left: -6, top: 3, width: 8, height: 8, borderRadius: 4, backgroundColor: colors.primary },
   expTitle: { fontSize: 11, fontWeight: "bold", color: colors.dark },
   expCompany: { fontSize: 10, fontWeight: "bold", color: colors.primary, marginTop: 1 },
@@ -52,13 +52,13 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
 
         <View style={s.contactGrid} wrap={false}>
           {d.personalInfo.email && (
-            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>✉</Text></View><Text>{d.personalInfo.email}</Text></View>
+            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>E</Text></View><Text>{d.personalInfo.email}</Text></View>
           )}
           {d.personalInfo.phone && (
-            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>☎</Text></View><Text>{d.personalInfo.phone}</Text></View>
+            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>P</Text></View><Text>{d.personalInfo.phone}</Text></View>
           )}
           {d.personalInfo.location && (
-            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>📍</Text></View><Text>{d.personalInfo.location}</Text></View>
+            <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>L</Text></View><Text>{d.personalInfo.location}</Text></View>
           )}
           {d.personalInfo.linkedin && (
             <View style={s.contactBox}><View style={s.contactIconBox}><Text style={s.contactIcon}>in</Text></View><Text>{d.personalInfo.linkedin}</Text></View>
@@ -77,9 +77,9 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
 
             {allSkills.length > 0 && (
               <View style={s.section}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {allSkills.slice(0, 6).map((skill, idx) => (
-                  <View key={idx}>
+                  <View key={idx} wrap={false}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                       <Text style={s.skillName}>{skill}</Text>
                       <Text style={{ fontSize: 8, color: colors.primary, fontWeight: "bold" }}>{Math.max(50, 95 - idx * 5)}%</Text>
@@ -94,7 +94,7 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
 
             {d.skills.length > 0 && (
               <View style={s.section}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Tools</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Tools</Text></View>
                 <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                   {allSkills.slice(0, 8).map((tool, idx) => (
                     <Text key={idx} style={s.toolTag}>{tool}</Text>
@@ -105,9 +105,9 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
 
             {d.education.length > 0 && d.education[0].institution && (
               <View style={s.section}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -121,9 +121,9 @@ const GeometricModernPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.rightCol}>
             {d.experience.length > 0 && d.experience[0].position && (
               <View style={s.section}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={{ ...s.sectionTitle, fontSize: 14 }}>Experience</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={{ ...s.sectionTitle, fontSize: 14 }}>Experience</Text></View>
                 {d.experience.map((exp, i) => (
-                  <View key={exp.id} style={s.expBlock} wrap={false} minPresenceAhead={40}>
+                  <View key={exp.id} style={s.expBlock} wrap={false}>
                     <View style={{ ...s.expDot, backgroundColor: i === 0 ? colors.primary : colors.accent }} />
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 3 }}>
                       <View>

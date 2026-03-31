@@ -7,12 +7,12 @@ const s = StyleSheet.create({
   header: { backgroundColor: colors.slate800, paddingHorizontal: 40, paddingVertical: 24, flexDirection: "row", alignItems: "center", gap: 20 },
   photo: { width: 70, height: 70, borderRadius: 10, objectFit: "cover" },
   initialsBox: { width: 70, height: 70, borderRadius: 10, backgroundColor: colors.slate600, justifyContent: "center", alignItems: "center" },
-  initials: { fontSize: 24, fontWeight: "bold", color: "#ffffffaa" },
+  initials: { fontSize: 24, fontWeight: "bold", color: "#cccccc" },
   headerName: { fontSize: 24, fontWeight: "bold", color: colors.white, marginBottom: 2 },
-  headerTitle: { fontSize: 13, color: "#ffffffcc", marginBottom: 8 },
+  headerTitle: { fontSize: 13, color: "#cccccc", marginBottom: 8 },
   contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
-  contactItem: { fontSize: 8, color: "#ffffffaa" },
-  contactIcon: { fontWeight: "bold", marginRight: 3 },
+  contactItem: { fontSize: 8, color: "#aaaaaa" },
+  contactLabel: { fontWeight: "bold", marginRight: 3 },
   body: { paddingHorizontal: 40, paddingTop: 20 },
   section: { marginBottom: 14 },
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 8 },
@@ -53,14 +53,14 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
             <Text style={s.headerName}>{d.personalInfo.name}</Text>
             <Text style={s.headerTitle}>{d.personalInfo.title}</Text>
             <View style={s.contactRow}>
-              {d.personalInfo.email && <Text style={s.contactItem}><Text style={s.contactIcon}>✉</Text> {d.personalInfo.email}</Text>}
-              {d.personalInfo.phone && <Text style={s.contactItem}><Text style={s.contactIcon}>☎</Text> {d.personalInfo.phone}</Text>}
-              {d.personalInfo.location && <Text style={s.contactItem}><Text style={s.contactIcon}>📍</Text> {d.personalInfo.location}</Text>}
+              {d.personalInfo.email && <Text style={s.contactItem}><Text style={s.contactLabel}>Email:</Text> {d.personalInfo.email}</Text>}
+              {d.personalInfo.phone && <Text style={s.contactItem}><Text style={s.contactLabel}>Phone:</Text> {d.personalInfo.phone}</Text>}
+              {d.personalInfo.location && <Text style={s.contactItem}><Text style={s.contactLabel}>Location:</Text> {d.personalInfo.location}</Text>}
             </View>
             <View style={{ ...s.contactRow, marginTop: 3 }}>
-              {d.personalInfo.linkedin && <Text style={s.contactItem}><Text style={s.contactIcon}>in</Text> {d.personalInfo.linkedin}</Text>}
-              {d.personalInfo.website && <Text style={s.contactItem}><Text style={s.contactIcon}>🌐</Text> {d.personalInfo.website}</Text>}
-              {d.personalInfo.github && <Text style={s.contactItem}><Text style={s.contactIcon}>⌨</Text> {d.personalInfo.github}</Text>}
+              {d.personalInfo.linkedin && <Text style={s.contactItem}><Text style={s.contactLabel}>LinkedIn:</Text> {d.personalInfo.linkedin}</Text>}
+              {d.personalInfo.website && <Text style={s.contactItem}><Text style={s.contactLabel}>Web:</Text> {d.personalInfo.website}</Text>}
+              {d.personalInfo.github && <Text style={s.contactItem}><Text style={s.contactLabel}>GitHub:</Text> {d.personalInfo.github}</Text>}
             </View>
           </View>
         </View>
@@ -77,16 +77,16 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
           {/* Experience */}
           {d.experience.length > 0 && d.experience[0].position && (
             <View style={s.section}>
-              <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Experience</Text></View>
+              <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Experience</Text></View>
               {d.experience.map((exp) => (
-                <View key={exp.id} style={s.expBlock} wrap={false} minPresenceAhead={40}>
+                <View key={exp.id} style={s.expBlock} wrap={false}>
                   <View style={s.expDot} />
                   <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 3 }}>
                     <View>
                       <Text style={s.expTitle}>{exp.position}</Text>
                       <Text style={s.expCompany}>{exp.company}</Text>
                     </View>
-                    <Text style={s.expDate}>{exp.startDate} – {exp.current ? "Present" : exp.endDate}</Text>
+                    <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                   </View>
                   {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
                     <Text key={idx} style={s.bullet}>• {r}</Text>
@@ -100,12 +100,12 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
           <View style={s.grid}>
             {d.education.length > 0 && d.education[0].institution && (
               <View style={s.halfCol}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
-                    <Text style={s.eduDate}>{edu.startDate} – {edu.endDate}</Text>
+                    <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
                   </View>
                 ))}
               </View>
@@ -113,9 +113,9 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
 
             {d.skills.length > 0 && (
               <View style={s.halfCol}>
-                <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
+                <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {d.skills.map((cat, i) => (
-                  <View key={i} style={{ marginBottom: 6 }}>
+                  <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                     <Text style={s.skillCat}>{cat.category}</Text>
                     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                       {cat.skills.filter(sk => sk.trim()).map((skill, idx) => (
