@@ -21,7 +21,7 @@ const s = StyleSheet.create({
   grid: { flexDirection: "row", gap: 30 },
   halfCol: { width: "50%" },
   eduDegree: { fontSize: 10, fontWeight: "bold", color: colors.dark },
-  eduInst: { fontSize: 9, fontWeight: "bold", color: colors.primary, marginTop: 1 },
+  eduInst: { fontSize: 9, fontWeight: "bold", color: colors.resumeHeader, marginTop: 1 },
   eduDate: { fontSize: 8, color: colors.lightGray, marginTop: 1 },
   skillLine: { fontSize: 9, color: colors.darkGray, marginBottom: 3 },
   skillLabel: { fontWeight: "bold" },
