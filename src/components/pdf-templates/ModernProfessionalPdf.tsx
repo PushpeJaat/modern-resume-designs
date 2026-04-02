@@ -6,7 +6,7 @@ const s = StyleSheet.create({
   page: { paddingTop: 0, paddingBottom: 30, paddingHorizontal: 0, fontSize: 10, fontFamily: "Helvetica", color: colors.darkGray },
   header: { backgroundColor: colors.primary, paddingHorizontal: 40, paddingVertical: 28 },
   headerName: { fontSize: 26, fontWeight: "bold", color: colors.white, marginBottom: 4 },
-  headerTitle: { fontSize: 14, color: "#dbeafe" },
+  headerTitle: { fontSize: 14, color: colors.primaryLight },
   body: { flexDirection: "row", paddingHorizontal: 40, paddingTop: 20 },
   leftCol: { width: "33%", paddingRight: 20 },
   rightCol: { width: "67%" },
