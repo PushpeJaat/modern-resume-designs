@@ -14,21 +14,30 @@ Font.registerHyphenationCallback((word) => [word]);
 
 // Common colors used across templates — solid HEX only, no rgba/gradients
 export const colors = {
-  primary: "#1a6fc4",
-  primaryLight: "#e0eef9",
-  accent: "#e8870a",
+  /** bg-primary — header backgrounds */
+  primary: "#247bf3",
+  /** resume-header — accent text, borders, links */
+  resumeHeader: "#1162d4",
+  primaryLight: "#dbeafe",
+  /** resume-accent */
+  accent: "#f97a1f",
   accentLight: "#fef3c7",
-  dark: "#1e293b",
-  darkGray: "#334155",
-  gray: "#64748b",
-  lightGray: "#94a3b8",
-  borderGray: "#e2e8f0",
-  bgLight: "#f8fafc",
+  /** resume-section — section titles, headings */
+  dark: "#333d4c",
+  /** resume-text — body text */
+  darkGray: "#414a57",
+  /** resume-light — secondary/light text */
+  gray: "#8e97a3",
+  lightGray: "#8e97a3",
+  /** resume-border */
+  borderGray: "#e1e4e9",
+  /** resume-bg */
+  bgLight: "#f9f9f9",
   white: "#ffffff",
   skyBlue: "#38bdf8",
   skyBlueDark: "#0284c7",
   slate600: "#475569",
-  slate800: "#1e293b",
+  slate800: "#333d4c",
 };
 
 // Base styles shared across templates
