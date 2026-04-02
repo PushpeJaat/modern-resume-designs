@@ -14,7 +14,7 @@ const s = StyleSheet.create({
   expBlock: { marginBottom: 14 },
   expRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
   expTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark },
-  expCompany: { fontSize: 10, fontWeight: "bold", color: colors.primary, marginTop: 1 },
+  expCompany: { fontSize: 10, fontWeight: "bold", color: colors.resumeHeader, marginTop: 1 },
   expDate: { fontSize: 9, fontWeight: "bold", color: colors.darkGray },
   bullet: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 2 },
   section: { marginBottom: 16 },
