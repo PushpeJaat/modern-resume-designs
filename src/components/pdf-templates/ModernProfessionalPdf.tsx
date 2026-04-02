@@ -10,7 +10,7 @@ const s = StyleSheet.create({
   body: { flexDirection: "row", paddingHorizontal: 40, paddingTop: 20 },
   leftCol: { width: "33%", paddingRight: 20 },
   rightCol: { width: "67%" },
-  sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark, marginBottom: 8, paddingBottom: 4, borderBottomWidth: 2, borderBottomColor: colors.primary },
+  sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark, marginBottom: 8, paddingBottom: 4, borderBottomWidth: 2, borderBottomColor: colors.resumeHeader },
   contactItem: { flexDirection: "row", marginBottom: 6, fontSize: 9, color: colors.darkGray },
   contactLabel: { fontWeight: "bold", marginRight: 4, color: colors.primary, fontSize: 8 },
   skillTag: { backgroundColor: colors.bgLight, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 3, fontSize: 8, marginRight: 4, marginBottom: 4 },
