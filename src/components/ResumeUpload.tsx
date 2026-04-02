@@ -64,32 +64,32 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
   };
 
   return (
-    <Card className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5 hover:border-primary/50 transition-all duration-300">
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="p-1.5 rounded-lg bg-primary/10">
-            <Upload className="w-4 h-4 text-primary" />
+    <Card className="border border-primary/40 bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 shadow-sm">
+      <div className="p-3">
+        <div className="flex items-center gap-2 mb-1.5">
+          <div className="p-1 rounded-md bg-primary/15">
+            <Upload className="w-3.5 h-3.5 text-primary" />
           </div>
-          <h3 className="text-base font-bold">Upload Your Resume</h3>
+          <h3 className="text-sm font-bold text-foreground">Upload Resume</h3>
         </div>
-        <p className="text-muted-foreground text-xs mb-3">
-          Upload a PDF resume — AI will extract your data and auto-fill all templates.
+        <p className="text-muted-foreground text-[11px] mb-2 leading-tight">
+          Upload PDF — AI auto-fills all templates.
         </p>
 
         {isProcessing ? (
-          <div className="flex items-center justify-center gap-3 p-4">
-            <Loader2 className="w-6 h-6 text-primary animate-spin" />
+          <div className="flex items-center gap-2 p-2.5 bg-primary/10 rounded-md">
+            <Loader2 className="w-4 h-4 text-primary animate-spin flex-shrink-0" />
             <div>
-              <p className="font-medium text-sm">AI is extracting your data...</p>
-              <p className="text-xs text-muted-foreground">This may take a few seconds</p>
+              <p className="font-medium text-xs">Extracting data...</p>
+              <p className="text-[10px] text-muted-foreground">Few seconds</p>
             </div>
           </div>
         ) : !uploadedFile ? (
           <label htmlFor="resume-upload" className="block cursor-pointer">
-            <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:border-primary/50 hover:bg-primary/5 transition-all">
-              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-1" />
-              <p className="text-sm font-medium">Click to upload</p>
-              <p className="text-xs text-muted-foreground">PDF only (Max 10MB)</p>
+            <div className="border border-dashed border-primary/40 rounded-md p-2.5 text-center hover:border-primary hover:bg-primary/10 transition-all">
+              <Upload className="w-5 h-5 text-primary/60 mx-auto mb-0.5" />
+              <p className="text-xs font-medium">Click to upload</p>
+              <p className="text-[10px] text-muted-foreground">PDF only · Max 10MB</p>
             </div>
             <input
               id="resume-upload"
@@ -100,15 +100,15 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
             />
           </label>
         ) : (
-          <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
-            <FileText className="w-6 h-6 text-primary" />
-            <div className="flex-1">
-              <p className="font-medium text-sm">{uploadedFile.name}</p>
-              <p className="text-xs text-muted-foreground">
+          <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-md border border-primary/20">
+            <FileText className="w-4 h-4 text-primary flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-xs truncate">{uploadedFile.name}</p>
+              <p className="text-[10px] text-muted-foreground">
                 {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
               </p>
             </div>
-            <CheckCircle2 className="w-5 h-5 text-green-600" />
+            <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
           </div>
         )}
 
@@ -116,7 +116,7 @@ const ResumeUpload = ({ onDataExtracted }: ResumeUploadProps) => {
           <Button
             variant="outline"
             size="sm"
-            className="mt-2"
+            className="mt-1.5 h-7 text-xs"
             onClick={() => {
               setUploadedFile(null);
               localStorage.removeItem("resumeData");
