@@ -16,7 +16,7 @@ const s = StyleSheet.create({
   skillTag: { backgroundColor: colors.bgLight, paddingHorizontal: 6, paddingVertical: 3, borderRadius: 3, fontSize: 8, marginRight: 4, marginBottom: 4 },
   expBlock: { marginBottom: 12 },
   expTitle: { fontSize: 11, fontWeight: "bold", color: colors.dark },
-  expCompany: { fontSize: 10, fontWeight: "bold", color: colors.primary, marginTop: 1 },
+  expCompany: { fontSize: 10, fontWeight: "bold", color: colors.resumeHeader, marginTop: 1 },
   expDate: { fontSize: 8, color: colors.gray },
   bullet: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 2, paddingLeft: 8 },
   summary: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 6 },
