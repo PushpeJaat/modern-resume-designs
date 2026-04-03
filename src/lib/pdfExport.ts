@@ -2,7 +2,7 @@ import { pdf } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 import { pdfTemplates } from "@/components/pdf-templates";
 import { isPremiumTemplate, premiumHtmlTemplates } from "@/lib/htmlTemplates";
-import { supabase } from "@/integrations/supabase/client";
+
 import React from "react";
 
 /**
