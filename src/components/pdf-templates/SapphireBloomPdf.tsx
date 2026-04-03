@@ -17,7 +17,15 @@ const c = {
 
 const s = StyleSheet.create({
   page: { paddingTop: 0, paddingBottom: 30, paddingHorizontal: 0, fontSize: 10, fontFamily: "Helvetica", color: c.text },
-  header: { backgroundColor: c.headerDark, paddingHorizontal: 40, paddingVertical: 24, flexDirection: "row", alignItems: "center", gap: 20 },
+  header: { backgroundColor: c.headerDark, paddingHorizontal: 40, paddingVertical: 24, flexDirection: "row", alignItems: "center", gap: 20, position: "relative", overflow: "hidden" },
+  // Gradient layers to simulate the gradient background
+  headerGradientLayer1: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: c.headerDark },
+  headerGradientLayer2: { position: "absolute", top: 0, left: "30%", right: 0, bottom: 0, backgroundColor: c.headerMid, opacity: 0.5 },
+  headerGradientLayer3: { position: "absolute", top: 0, left: "60%", right: 0, bottom: 0, backgroundColor: "#2080d0", opacity: 0.35 },
+  // Decorative circles
+  circle1: { position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: "rgba(255,255,255,0.12)" },
+  circle2: { position: "absolute", bottom: -48, left: -48, width: 156, height: 156, borderRadius: 78, borderWidth: 2, borderColor: "rgba(255,255,255,0.10)" },
+  circle3: { position: "absolute", top: 8, right: 84, width: 60, height: 60, borderRadius: 30, borderWidth: 1, borderColor: "rgba(255,255,255,0.08)" },
   photo: { width: 64, height: 64, borderRadius: 32, objectFit: "cover", borderWidth: 2, borderColor: "#6699cc" },
   photoPlaceholder: { width: 64, height: 64, borderRadius: 32, backgroundColor: "#2a5d90", borderWidth: 2, borderColor: "#6699cc" },
   headerInfo: { flex: 1 },
