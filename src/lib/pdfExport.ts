@@ -1,26 +1,74 @@
 import { pdf } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 import { pdfTemplates } from "@/components/pdf-templates";
+import { isPremiumTemplate, premiumHtmlTemplates } from "@/lib/htmlTemplates";
+
 import React from "react";
 
 /**
- * Generate a PDF blob using @react-pdf/renderer.
- * No html2canvas — produces true native PDF with selectable text,
- * proper A4 pagination, and no line cutting.
+ * Generate a PDF blob using @react-pdf/renderer (free templates).
+ */
+const generateReactPdf = async (
+  data: ResumeData,
+  templateId: string
+): Promise<Blob> => {
+  const TemplateComponent = pdfTemplates[templateId];
+  if (!TemplateComponent) {
+    throw new Error(`PDF template not found for: ${templateId}`);
+  }
+  const element = React.createElement(TemplateComponent, { data });
+  return await pdf(element as any).toBlob();
+};
+
+/**
+ * Generate a PDF blob via Browserless edge function (premium templates).
+ */
+const generatePremiumPdf = async (
+  data: ResumeData,
+  templateId: string
+): Promise<Blob> => {
+  const htmlGenerator = premiumHtmlTemplates[templateId];
+  if (!htmlGenerator) {
+    throw new Error(`Premium HTML template not found for: ${templateId}`);
+  }
+
+  const html = htmlGenerator(data);
+
+  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+  const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+  const response = await fetch(
+    `https://${projectId}.supabase.co/functions/v1/generate-pdf`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${anonKey}`,
+        "apikey": anonKey,
+      },
+      body: JSON.stringify({ html }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+  }
+
+  return await response.blob();
+};
+
+/**
+ * Generate a PDF blob — automatically routes to the correct system.
  */
 export const generateResumePdf = async (
   data: ResumeData,
   templateId: string
 ): Promise<Blob> => {
-  const TemplateComponent = pdfTemplates[templateId];
-
-  if (!TemplateComponent) {
-    throw new Error(`PDF template not found for: ${templateId}`);
+  if (isPremiumTemplate(templateId)) {
+    return generatePremiumPdf(data, templateId);
   }
-
-  const element = React.createElement(TemplateComponent, { data });
-  const blob = await pdf(element as any).toBlob();
-  return blob;
+  return generateReactPdf(data, templateId);
 };
 
 /**
