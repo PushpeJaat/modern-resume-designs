@@ -64,6 +64,14 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
       <Page size="A4" style={s.page} wrap>
         {/* Header */}
         <View style={s.header} wrap={false}>
+          {/* Gradient layers */}
+          <View style={s.headerGradientLayer1} />
+          <View style={s.headerGradientLayer2} />
+          <View style={s.headerGradientLayer3} />
+          {/* Decorative circles */}
+          <View style={s.circle1} />
+          <View style={s.circle2} />
+          <View style={s.circle3} />
           {photo ? (
             <Image src={photo} style={s.photo} />
           ) : (
