@@ -20,6 +20,8 @@ import DottedPattern from "@/components/templates/DottedPattern";
 import DarkSidebar from "@/components/templates/DarkSidebar";
 import PhotoModern from "@/components/templates/PhotoModern";
 import SapphireBloom from "@/components/templates/SapphireBloom";
+import EmeraldElegance from "@/components/templates/EmeraldElegance";
+import CoralSunset from "@/components/templates/CoralSunset";
 import { downloadResumePdf } from "@/lib/pdfExport";
 
 const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhotoUpload?: (url: string) => void }>> = {
@@ -32,6 +34,8 @@ const templates: Record<string, React.ComponentType<{ data?: ResumeData; onPhoto
   "dark-sidebar": DarkSidebar,
   "photo-modern": PhotoModern,
   "sapphire-bloom": SapphireBloom,
+  "emerald-elegance": EmeraldElegance,
+  "coral-sunset": CoralSunset,
 };
 
 const defaultPlaceholderData: ResumeData = {
