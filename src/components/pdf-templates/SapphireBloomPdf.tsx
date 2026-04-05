@@ -18,11 +18,9 @@ const c = {
 const s = StyleSheet.create({
   page: { paddingTop: 0, paddingBottom: 30, paddingHorizontal: 0, fontSize: 10, fontFamily: "Helvetica", color: c.text },
   header: { backgroundColor: c.headerDark, paddingHorizontal: 40, paddingVertical: 24, flexDirection: "row", alignItems: "center", gap: 20, position: "relative", overflow: "hidden" },
-  // Gradient layers to simulate the gradient background
   headerGradientLayer1: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: c.headerDark },
   headerGradientLayer2: { position: "absolute", top: 0, left: "30%", right: 0, bottom: 0, backgroundColor: c.headerMid, opacity: 0.5 },
   headerGradientLayer3: { position: "absolute", top: 0, left: "60%", right: 0, bottom: 0, backgroundColor: "#2080d0", opacity: 0.35 },
-  // Decorative circles
   circle1: { position: "absolute", top: -30, right: -30, width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: "rgba(255,255,255,0.12)" },
   circle2: { position: "absolute", bottom: -48, left: -48, width: 156, height: 156, borderRadius: 78, borderWidth: 2, borderColor: "rgba(255,255,255,0.10)" },
   circle3: { position: "absolute", top: 8, right: 84, width: 60, height: 60, borderRadius: 30, borderWidth: 1, borderColor: "rgba(255,255,255,0.08)" },
@@ -39,14 +37,14 @@ const s = StyleSheet.create({
   sectionBar: { width: 24, height: 3, backgroundColor: c.accent, borderRadius: 2 },
   sectionTitle: { fontSize: 10, fontWeight: "bold", color: c.headerDark, textTransform: "uppercase", letterSpacing: 1.5 },
   section: { marginBottom: 16 },
-  summary: { fontSize: 9, lineHeight: 1.7, color: c.text },
+  summary: { fontSize: 9, lineHeight: 1.5, color: c.text },
   expBlock: { paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: c.border, marginBottom: 12 },
   expTitle: { fontSize: 11, fontWeight: "bold", color: c.heading },
   expCompany: { fontSize: 10, fontWeight: "bold", color: c.accent, marginTop: 1 },
   expDate: { fontSize: 8, color: c.subtext },
-  bullet: { fontSize: 9, lineHeight: 1.6, color: c.text, marginBottom: 2, paddingLeft: 6 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: c.text, marginBottom: 2, paddingLeft: 6 },
   grid: { flexDirection: "row", gap: 30 },
-  halfCol: { width: "50%" },
+  halfCol: { flex: 1 },
   skillCat: { fontSize: 9, fontWeight: "bold", color: c.heading, marginBottom: 4 },
   skillWrap: { flexDirection: "row", flexWrap: "wrap", gap: 4 },
   skillTag: { paddingHorizontal: 6, paddingVertical: 3, fontSize: 8, borderRadius: 10, backgroundColor: c.skillBg, color: c.skillText },
@@ -62,13 +60,10 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
   return (
     <Document>
       <Page size="A4" style={s.page} wrap>
-        {/* Header */}
         <View style={s.header} wrap={false}>
-          {/* Gradient layers */}
           <View style={s.headerGradientLayer1} />
           <View style={s.headerGradientLayer2} />
           <View style={s.headerGradientLayer3} />
-          {/* Decorative circles */}
           <View style={s.circle1} />
           <View style={s.circle2} />
           <View style={s.circle3} />
@@ -81,28 +76,16 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
             <Text style={s.name}>{d.personalInfo.name}</Text>
             <Text style={s.title}>{d.personalInfo.title}</Text>
             <View style={s.contactRow}>
-              {d.personalInfo.email && (
-                <View style={s.contactItem}><Text style={s.contactLabel}>Email:</Text><Text>{d.personalInfo.email}</Text></View>
-              )}
-              {d.personalInfo.phone && (
-                <View style={s.contactItem}><Text style={s.contactLabel}>Phone:</Text><Text>{d.personalInfo.phone}</Text></View>
-              )}
-              {d.personalInfo.location && (
-                <View style={s.contactItem}><Text style={s.contactLabel}>Location:</Text><Text>{d.personalInfo.location}</Text></View>
-              )}
-              {d.personalInfo.linkedin && (
-                <View style={s.contactItem}><Text style={s.contactLabel}>LinkedIn:</Text><Text>{d.personalInfo.linkedin}</Text></View>
-              )}
-              {d.personalInfo.website && (
-                <View style={s.contactItem}><Text style={s.contactLabel}>Web:</Text><Text>{d.personalInfo.website}</Text></View>
-              )}
+              {d.personalInfo.email && <View style={s.contactItem}><Text style={s.contactLabel}>Email:</Text><Text>{d.personalInfo.email}</Text></View>}
+              {d.personalInfo.phone && <View style={s.contactItem}><Text style={s.contactLabel}>Phone:</Text><Text>{d.personalInfo.phone}</Text></View>}
+              {d.personalInfo.location && <View style={s.contactItem}><Text style={s.contactLabel}>Location:</Text><Text>{d.personalInfo.location}</Text></View>}
+              {d.personalInfo.linkedin && <View style={s.contactItem}><Text style={s.contactLabel}>LinkedIn:</Text><Text>{d.personalInfo.linkedin}</Text></View>}
+              {d.personalInfo.website && <View style={s.contactItem}><Text style={s.contactLabel}>Web:</Text><Text>{d.personalInfo.website}</Text></View>}
             </View>
           </View>
         </View>
 
-        {/* Body */}
         <View style={s.body}>
-          {/* Summary */}
           {d.summary && (
             <View style={s.section}>
               <View style={s.sectionTitleRow}>
@@ -113,7 +96,6 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
             </View>
           )}
 
-          {/* Experience */}
           {d.experience.length > 0 && d.experience[0].position && (
             <View style={s.section}>
               <View style={s.sectionTitleRow} minPresenceAhead={48}>
@@ -121,7 +103,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
                 <Text style={s.sectionTitle}>Work Experience</Text>
               </View>
               {d.experience.map((exp) => (
-                <View key={exp.id} style={s.expBlock} wrap={false}>
+                <View key={exp.id} style={s.expBlock} minPresenceAhead={60}>
                   <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View>
                       <Text style={s.expTitle}>{exp.position}</Text>
@@ -129,7 +111,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
                     </View>
                     <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                   </View>
-                  {exp.responsibilities.filter((r) => r.trim()).map((r, idx) => (
+                  {exp.responsibilities.filter((r) => r.trim()).slice(0, 6).map((r, idx) => (
                     <Text key={idx} style={s.bullet}>• {r}</Text>
                   ))}
                 </View>
@@ -137,7 +119,6 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
             </View>
           )}
 
-          {/* Skills & Education */}
           <View style={s.grid}>
             {d.skills.length > 0 && (
               <View style={s.halfCol}>
@@ -146,7 +127,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
                   <Text style={s.sectionTitle}>Skills</Text>
                 </View>
                 {d.skills.map((cat, i) => (
-                  <View key={i} style={{ marginBottom: 8 }} wrap={false}>
+                  <View key={i} style={{ marginBottom: 8 }} minPresenceAhead={30}>
                     <Text style={s.skillCat}>{cat.category}</Text>
                     <View style={s.skillWrap}>
                       {cat.skills.filter((sk) => sk.trim()).map((skill, idx) => (
@@ -165,7 +146,7 @@ const SapphireBloomPdf = ({ data }: { data: ResumeData }) => {
                   <Text style={s.sectionTitle}>Education</Text>
                 </View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} minPresenceAhead={30}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>

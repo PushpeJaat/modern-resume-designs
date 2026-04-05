@@ -18,15 +18,15 @@ const s = StyleSheet.create({
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 8 },
   sectionBar: { width: 20, height: 2, backgroundColor: colors.slate800, borderRadius: 1 },
   sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.slate800 },
-  summary: { fontSize: 9, lineHeight: 1.6, color: colors.gray },
+  summary: { fontSize: 9, lineHeight: 1.5, color: colors.gray },
   expBlock: { paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: colors.borderGray, marginBottom: 12 },
   expDot: { position: "absolute", left: -5, top: 3, width: 6, height: 6, borderRadius: 3, backgroundColor: colors.slate800 },
   expTitle: { fontSize: 11, fontWeight: "bold", color: colors.slate800 },
   expCompany: { fontSize: 9, color: colors.gray, fontWeight: "bold" },
   expDate: { fontSize: 8, color: colors.lightGray, backgroundColor: colors.bgLight, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 8 },
-  bullet: { fontSize: 9, lineHeight: 1.6, color: colors.gray, marginBottom: 2, paddingLeft: 8 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: colors.gray, marginBottom: 2, paddingLeft: 8 },
   grid: { flexDirection: "row", gap: 24 },
-  halfCol: { width: "50%" },
+  halfCol: { flex: 1 },
   eduDegree: { fontSize: 10, fontWeight: "bold", color: colors.slate800 },
   eduInst: { fontSize: 9, color: colors.gray },
   eduDate: { fontSize: 8, color: colors.lightGray },
@@ -42,7 +42,6 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
   return (
     <Document>
       <Page size="A4" style={s.page} wrap>
-        {/* Header */}
         <View style={s.header} wrap={false}>
           {photoUrl ? (
             <Image src={photoUrl} style={s.photo} />
@@ -66,7 +65,6 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
         </View>
 
         <View style={s.body}>
-          {/* Summary */}
           {d.summary && (
             <View style={s.section}>
               <View style={s.sectionHeader}><View style={s.sectionBar} /><Text style={s.sectionTitle}>About Me</Text></View>
@@ -74,12 +72,11 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
             </View>
           )}
 
-          {/* Experience */}
           {d.experience.length > 0 && d.experience[0].position && (
             <View style={s.section}>
               <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Experience</Text></View>
               {d.experience.map((exp) => (
-                <View key={exp.id} style={s.expBlock} wrap={false}>
+                <View key={exp.id} style={s.expBlock} minPresenceAhead={60}>
                   <View style={s.expDot} />
                   <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 3 }}>
                     <View>
@@ -88,7 +85,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
                     </View>
                     <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                   </View>
-                  {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
+                  {exp.responsibilities.filter(r => r.trim()).slice(0, 6).map((r, idx) => (
                     <Text key={idx} style={s.bullet}>• {r}</Text>
                   ))}
                 </View>
@@ -96,13 +93,12 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
             </View>
           )}
 
-          {/* Education & Skills */}
           <View style={s.grid}>
             {d.education.length > 0 && d.education[0].institution && (
               <View style={s.halfCol}>
                 <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} minPresenceAhead={30}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -115,7 +111,7 @@ const PhotoModernPdf = ({ data }: { data: ResumeData }) => {
               <View style={s.halfCol}>
                 <View style={s.sectionHeader} minPresenceAhead={48}><View style={s.sectionBar} /><Text style={s.sectionTitle}>Skills</Text></View>
                 {d.skills.map((cat, i) => (
-                  <View key={i} style={{ marginBottom: 6 }} wrap={false}>
+                  <View key={i} style={{ marginBottom: 6 }} minPresenceAhead={30}>
                     <Text style={s.skillCat}>{cat.category}</Text>
                     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                       {cat.skills.filter(sk => sk.trim()).map((skill, idx) => (

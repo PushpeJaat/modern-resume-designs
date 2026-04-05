@@ -11,10 +11,10 @@ const s = StyleSheet.create({
   contactLabel: { color: colors.primary, fontWeight: "bold", marginRight: 5, fontSize: 8 },
   summaryBox: { padding: 14, backgroundColor: colors.bgLight, borderRadius: 8, borderWidth: 1, borderColor: colors.borderGray, marginBottom: 18 },
   summaryTitle: { fontSize: 13, fontWeight: "bold", color: colors.dark, marginBottom: 6 },
-  summaryText: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray },
+  summaryText: { fontSize: 9, lineHeight: 1.5, color: colors.darkGray },
   body: { flexDirection: "row", gap: 20 },
-  leftCol: { width: "33%" },
-  rightCol: { width: "67%" },
+  leftCol: { flex: 1 },
+  rightCol: { flex: 2 },
   sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark, marginBottom: 8 },
   section: { marginBottom: 14 },
   skillBox: { padding: 10, backgroundColor: colors.bgLight, borderRadius: 6, borderWidth: 1, borderColor: colors.borderGray, marginBottom: 10 },
@@ -24,7 +24,7 @@ const s = StyleSheet.create({
   expTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark },
   expCompany: { fontSize: 10, fontWeight: "bold", color: colors.primary, marginTop: 1 },
   expDate: { fontSize: 8, color: colors.gray, backgroundColor: colors.primaryLight, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 },
-  bullet: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 2 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: colors.darkGray, marginBottom: 2 },
   certTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark, marginBottom: 6 },
   certItem: { fontSize: 9, fontWeight: "bold", color: colors.darkGray, marginBottom: 3 },
   eduDegree: { fontSize: 10, fontWeight: "bold", color: colors.darkGray },
@@ -39,7 +39,6 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
   return (
     <Document>
       <Page size="A4" style={s.page} wrap>
-        {/* Header */}
         <View wrap={false}>
           <Text style={s.name}>{d.personalInfo.name}</Text>
           <Text style={s.title}>{d.personalInfo.title}</Text>
@@ -51,22 +50,20 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
           {d.personalInfo.location && <View style={s.contactPill}><Text style={s.contactLabel}>Location</Text><Text>{d.personalInfo.location}</Text></View>}
         </View>
 
-        {/* Summary */}
         {d.summary && (
-          <View style={s.summaryBox} wrap={false}>
+          <View style={s.summaryBox} minPresenceAhead={60}>
             <Text style={s.summaryTitle}>Professional Summary</Text>
             <Text style={s.summaryText}>{d.summary}</Text>
           </View>
         )}
 
         <View style={s.body}>
-          {/* Left */}
           <View style={s.leftCol}>
             {d.skills.length > 0 && (
               <View style={s.section}>
                 <Text style={s.sectionTitle} minPresenceAhead={48}>Technical Stack</Text>
                 {d.skills.map((cat, i) => (
-                  <View key={i} style={s.skillBox} wrap={false}>
+                  <View key={i} style={s.skillBox} minPresenceAhead={40}>
                     <Text style={s.skillCatName}>{cat.category}</Text>
                     <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                       {cat.skills.filter(sk => sk.trim()).map((skill, idx) => (
@@ -82,7 +79,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
               <View style={s.section}>
                 <Text style={s.certTitle} minPresenceAhead={48}>Certifications</Text>
                 {d.certifications.map((cert, i) => (
-                  <Text key={i} style={s.certItem} wrap={false}>- {cert}</Text>
+                  <Text key={i} style={s.certItem} minPresenceAhead={20}>- {cert}</Text>
                 ))}
               </View>
             )}
@@ -91,7 +88,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
               <View style={s.section}>
                 <Text style={s.sectionTitle} minPresenceAhead={48}>Education</Text>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 6 }} wrap={false}>
+                  <View key={edu.id} style={{ marginBottom: 6 }} minPresenceAhead={30}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -101,13 +98,12 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
             )}
           </View>
 
-          {/* Right */}
           <View style={s.rightCol}>
             {d.experience.length > 0 && d.experience[0].position && (
               <View style={s.section}>
                 <Text style={{ ...s.sectionTitle, fontSize: 15 }} minPresenceAhead={48}>Experience</Text>
                 {d.experience.map((exp, i) => (
-                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} wrap={false}>
+                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} minPresenceAhead={60}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
                       <View>
                         <Text style={s.expTitle}>{exp.position}</Text>
@@ -115,7 +111,7 @@ const GradientWavePdf = ({ data }: { data: ResumeData }) => {
                       </View>
                       <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                     </View>
-                    {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
+                    {exp.responsibilities.filter(r => r.trim()).slice(0, 6).map((r, idx) => (
                       <Text key={idx} style={s.bullet}>• {r}</Text>
                     ))}
                   </View>

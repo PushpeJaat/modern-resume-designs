@@ -19,14 +19,14 @@ const s = StyleSheet.create({
   contactLabel: { fontSize: 7, color: colors.gray },
   contactValue: { fontSize: 9, fontWeight: "bold", color: colors.darkGray },
   body: { flexDirection: "row", gap: 20 },
-  leftCol: { width: "33%" },
-  rightCol: { width: "67%" },
+  leftCol: { flex: 1 },
+  rightCol: { flex: 2 },
   sectionHeader: { flexDirection: "row", alignItems: "center", gap: 5, marginBottom: 8 },
   dot: { width: 5, height: 5, borderRadius: 3 },
   sectionTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark },
   section: { marginBottom: 14 },
   aboutBox: { padding: 10, backgroundColor: colors.bgLight, borderRadius: 8, borderWidth: 1, borderColor: colors.borderGray },
-  aboutText: { fontSize: 8, lineHeight: 1.6, color: colors.darkGray },
+  aboutText: { fontSize: 8, lineHeight: 1.5, color: colors.darkGray },
   skillCard: { padding: 8, borderRadius: 6, borderWidth: 1, marginBottom: 8 },
   skillCatName: { fontSize: 8, fontWeight: "bold", color: colors.dark, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 },
   skillDotRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 4 },
@@ -39,7 +39,7 @@ const s = StyleSheet.create({
   expTitle: { fontSize: 11, fontWeight: "bold", color: colors.dark },
   expCompany: { fontSize: 9, color: colors.primary, fontWeight: "bold", marginTop: 1 },
   expDate: { fontSize: 8, color: colors.gray, backgroundColor: colors.primaryLight, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 8 },
-  bullet: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 2 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: colors.darkGray, marginBottom: 2 },
   eduDegree: { fontSize: 9, fontWeight: "bold", color: colors.darkGray },
   eduInst: { fontSize: 8, color: colors.primary, fontWeight: "bold", marginTop: 1 },
   eduDate: { fontSize: 8, color: colors.lightGray },
@@ -52,7 +52,6 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
   return (
     <Document>
       <Page size="A4" style={s.page} wrap>
-        {/* Header */}
         <View style={s.headerRow} wrap={false}>
           <View style={s.accentBar} />
           <View style={s.nameBlock}>
@@ -95,7 +94,6 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
         </View>
 
         <View style={s.body}>
-          {/* Left */}
           <View style={s.leftCol}>
             {d.summary && (
               <View style={s.section}>
@@ -105,7 +103,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             )}
 
             {d.skills.length > 0 && d.skills.map((cat, i) => (
-              <View key={i} style={{ ...s.skillCard, borderColor: i === 0 ? colors.primaryLight : colors.accentLight }} wrap={false}>
+              <View key={i} style={{ ...s.skillCard, borderColor: i === 0 ? colors.primaryLight : colors.accentLight }} minPresenceAhead={40}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: i === 0 ? colors.primary : colors.accent }} /><Text style={s.skillCatName}>{cat.category}</Text></View>
                 {i === 0 ? (
                   cat.skills.filter(sk => sk.trim()).map((skill, idx) => (
@@ -132,7 +130,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
               <View style={{ ...s.skillCard, borderColor: colors.primaryLight }}>
                 <View style={s.sectionHeader}><View style={{ ...s.dot, backgroundColor: colors.primary }} /><Text style={s.sectionTitle}>Education</Text></View>
                 {d.education.map((edu) => (
-                  <View key={edu.id} style={{ marginBottom: 4 }} wrap={false}>
+                  <View key={edu.id} style={{ marginBottom: 4 }} minPresenceAhead={30}>
                     <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                     <Text style={s.eduInst}>{edu.institution}</Text>
                     <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -142,13 +140,12 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
             )}
           </View>
 
-          {/* Right */}
           <View style={s.rightCol}>
             {d.experience.length > 0 && d.experience[0].position && (
               <View style={s.section}>
                 <View style={s.sectionHeader} minPresenceAhead={48}><View style={{ ...s.dot, backgroundColor: colors.primary, width: 8, height: 8, borderRadius: 2 }} /><Text style={{ ...s.sectionTitle, fontSize: 14 }}>Work Experience</Text></View>
                 {d.experience.map((exp, i) => (
-                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} wrap={false}>
+                  <View key={exp.id} style={{ ...s.expCard, borderLeftColor: i % 2 === 0 ? colors.primary : colors.accent }} minPresenceAhead={60}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 4 }}>
                       <View>
                         <Text style={s.expTitle}>{exp.position}</Text>
@@ -156,7 +153,7 @@ const DottedPatternPdf = ({ data }: { data: ResumeData }) => {
                       </View>
                       <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                     </View>
-                    {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
+                    {exp.responsibilities.filter(r => r.trim()).slice(0, 6).map((r, idx) => (
                       <Text key={idx} style={s.bullet}>• {r}</Text>
                     ))}
                   </View>

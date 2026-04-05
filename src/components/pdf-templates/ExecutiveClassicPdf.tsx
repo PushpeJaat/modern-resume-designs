@@ -10,16 +10,16 @@ const s = StyleSheet.create({
   contactRow: { flexDirection: "row", justifyContent: "center", flexWrap: "wrap", gap: 16 },
   contactItem: { fontSize: 9, color: colors.darkGray },
   sectionTitle: { fontSize: 14, fontWeight: "bold", color: colors.dark, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 10 },
-  summary: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 16 },
+  summary: { fontSize: 9, lineHeight: 1.5, color: colors.darkGray, marginBottom: 16 },
   expBlock: { marginBottom: 14 },
   expRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
   expTitle: { fontSize: 12, fontWeight: "bold", color: colors.dark },
   expCompany: { fontSize: 10, fontWeight: "bold", color: colors.resumeHeader, marginTop: 1 },
   expDate: { fontSize: 9, fontWeight: "bold", color: colors.darkGray },
-  bullet: { fontSize: 9, lineHeight: 1.6, color: colors.darkGray, marginBottom: 2 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: colors.darkGray, marginBottom: 2 },
   section: { marginBottom: 16 },
   grid: { flexDirection: "row", gap: 30 },
-  halfCol: { width: "50%" },
+  halfCol: { flex: 1 },
   eduDegree: { fontSize: 10, fontWeight: "bold", color: colors.dark },
   eduInst: { fontSize: 9, fontWeight: "bold", color: colors.resumeHeader, marginTop: 1 },
   eduDate: { fontSize: 8, color: colors.lightGray, marginTop: 1 },
@@ -33,7 +33,6 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
   return (
     <Document>
       <Page size="A4" style={s.page} wrap>
-        {/* Header */}
         <View style={s.header} wrap={false}>
           <Text style={s.name}>{d.personalInfo.name}</Text>
           <Text style={s.title}>{d.personalInfo.title}</Text>
@@ -45,7 +44,6 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           </View>
         </View>
 
-        {/* Summary */}
         {d.summary && (
           <View style={s.section}>
             <Text style={s.sectionTitle} minPresenceAhead={48}>Executive Summary</Text>
@@ -53,12 +51,11 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           </View>
         )}
 
-        {/* Experience */}
         {d.experience.length > 0 && d.experience[0].position && (
           <View style={s.section}>
             <Text style={s.sectionTitle} minPresenceAhead={48}>Professional Experience</Text>
             {d.experience.map((exp) => (
-              <View key={exp.id} style={s.expBlock} wrap={false}>
+              <View key={exp.id} style={s.expBlock} minPresenceAhead={60}>
                 <View style={s.expRow}>
                   <View>
                     <Text style={s.expTitle}>{exp.position}</Text>
@@ -66,7 +63,7 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
                   </View>
                   <Text style={s.expDate}>{exp.startDate} - {exp.current ? "Present" : exp.endDate}</Text>
                 </View>
-                {exp.responsibilities.filter(r => r.trim()).map((r, idx) => (
+                {exp.responsibilities.filter(r => r.trim()).slice(0, 6).map((r, idx) => (
                   <Text key={idx} style={s.bullet}>  {r}</Text>
                 ))}
               </View>
@@ -74,13 +71,12 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           </View>
         )}
 
-        {/* Education & Skills */}
         <View style={s.grid}>
           {d.education.length > 0 && d.education[0].institution && (
             <View style={s.halfCol}>
               <Text style={s.sectionTitle} minPresenceAhead={48}>Education</Text>
               {d.education.map((edu) => (
-                <View key={edu.id} style={{ marginBottom: 8 }} wrap={false}>
+                <View key={edu.id} style={{ marginBottom: 8 }} minPresenceAhead={30}>
                   <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
                   <Text style={s.eduInst}>{edu.institution}</Text>
                   <Text style={s.eduDate}>{edu.startDate} - {edu.endDate}</Text>
@@ -102,13 +98,12 @@ const ExecutiveClassicPdf = ({ data }: { data: ResumeData }) => {
           )}
         </View>
 
-        {/* Achievements */}
         {d.achievements && d.achievements.length > 0 && (
           <View style={{ ...s.section, marginTop: 16 }}>
             <Text style={s.sectionTitle} minPresenceAhead={48}>Awards & Recognition</Text>
             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
               {d.achievements.map((a, i) => (
-                <Text key={i} style={{ ...s.achieveItem, width: "50%" }} wrap={false}>- {a}</Text>
+                <Text key={i} style={{ ...s.achieveItem, width: "50%" }} minPresenceAhead={20}>- {a}</Text>
               ))}
             </View>
           </View>
