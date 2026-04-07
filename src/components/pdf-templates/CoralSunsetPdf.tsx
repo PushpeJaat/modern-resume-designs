@@ -1,302 +1,158 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+import { Document, Page, View, Text, StyleSheet, Image } from "@react-pdf/renderer";
+import { ResumeData } from "@/types/resume";
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+const c = {
+  primary: "#c05a2c",
+  primaryLight: "#fef3ee",
+  accent: "#d4893a",
+  dark: "#3d2518",
+  text: "#4a3228",
+  gray: "#8a6e5e",
+  border: "#e0cdc2",
+  white: "#ffffff",
+  headerStart: "#b54a2c",
+  headerMid: "#c76a32",
+  headerEnd: "#d4893a",
+};
 
-    body {
-      font-family: 'Inter', Arial, sans-serif;
-      margin: 0;
-      padding: 30px 40px;
-      color: #333;
-      font-size: 12px;
-      background: white;
-    }
+const s = StyleSheet.create({
+  page: { paddingTop: 0, paddingBottom: 30, paddingHorizontal: 0, fontSize: 10, fontFamily: "Helvetica" },
+  header: { backgroundColor: c.primary, padding: "40px 48px", flexDirection: "row", alignItems: "center", gap: 24 },
+  photo: { width: 80, height: 80, borderRadius: 40, objectFit: "cover", border: `3px solid rgba(255,255,255,0.3)` },
+  photoPlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: "rgba(255,255,255,0.2)" },
+  name: { fontSize: 22, fontWeight: "bold", color: c.white, marginBottom: 3 },
+  title: { fontSize: 11, color: "rgba(255,255,255,0.8)" },
+  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginTop: 8 },
+  contactItem: { fontSize: 8, color: "rgba(255,255,255,0.7)" },
+  body: { padding: "24px 48px" },
+  section: { marginBottom: 18 },
+  sectionTitle: { fontSize: 10, fontWeight: "bold", textTransform: "uppercase", letterSpacing: 2, color: c.primary, marginBottom: 8, flexDirection: "row", alignItems: "center", gap: 8 },
+  sectionBar: { width: 32, height: 3, backgroundColor: c.accent, borderRadius: 2 },
+  summaryText: { fontSize: 9, lineHeight: 1.5, color: c.text },
+  expItem: { marginBottom: 14, paddingLeft: 14, borderLeftWidth: 2, borderLeftColor: c.border },
+  expPosition: { fontSize: 10, fontWeight: "bold", color: c.dark },
+  expCompany: { fontSize: 9, color: c.accent },
+  expDate: { fontSize: 8, color: c.gray },
+  expHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 },
+  bullet: { fontSize: 9, lineHeight: 1.4, color: c.text, marginBottom: 2, paddingLeft: 8 },
+  twoCols: { flexDirection: "row", gap: 24 },
+  col: { flex: 1 },
+  skillCatTitle: { fontSize: 9, fontWeight: "bold", color: c.dark, marginBottom: 4 },
+  skillTag: { fontSize: 8, color: c.primary, backgroundColor: c.primaryLight, padding: "3px 8px", borderRadius: 10, marginRight: 4, marginBottom: 4 },
+  skillTags: { flexDirection: "row", flexWrap: "wrap" },
+  eduDegree: { fontSize: 10, fontWeight: "bold", color: c.dark },
+  eduInst: { fontSize: 8, color: c.gray, marginTop: 1 },
+  eduDate: { fontSize: 8, color: c.gray },
+});
 
-    .container {
-      width: 100%;
-    }
+const CoralSunsetPdf = ({ data }: { data: ResumeData }) => {
+  const d = data;
+  return (
+    <Document>
+      <Page size="A4" style={s.page} wrap>
+        <View style={s.header} wrap={false}>
+          {d.personalInfo.photoUrl ? (
+            <Image src={d.personalInfo.photoUrl} style={s.photo} />
+          ) : (
+            <View style={s.photoPlaceholder} />
+          )}
+          <View>
+            <Text style={s.name}>{d.personalInfo.name || "Your Name"}</Text>
+            <Text style={s.title}>{d.personalInfo.title || "Your Title"}</Text>
+            <View style={s.contactRow}>
+              {d.personalInfo.email && <Text style={s.contactItem}>{d.personalInfo.email}</Text>}
+              {d.personalInfo.phone && <Text style={s.contactItem}>{d.personalInfo.phone}</Text>}
+              {d.personalInfo.location && <Text style={s.contactItem}>{d.personalInfo.location}</Text>}
+              {d.personalInfo.website && <Text style={s.contactItem}>{d.personalInfo.website}</Text>}
+            </View>
+          </View>
+        </View>
 
-    /* HEADER */
-    .header {
-      display: flex;
-      border-bottom: 1px solid #e5e5e5;
-      padding-bottom: 15px;
-      margin-bottom: 20px;
-      gap: 12px;
-    }
+        <View style={s.body}>
+          {d.summary ? (
+            <View style={s.section} minPresenceAhead={80}>
+              <View style={s.sectionTitle}>
+                <View style={s.sectionBar} />
+                <Text>Professional Summary</Text>
+              </View>
+              <Text style={s.summaryText}>{d.summary}</Text>
+            </View>
+          ) : null}
 
-    .accent-bar {
-      width: 4px;
-      background: #4f46e5;
-      border-radius: 2px;
-    }
+          {d.experience.filter((e) => e.position).length > 0 && (
+            <View style={s.section} minPresenceAhead={80}>
+              <View style={s.sectionTitle}>
+                <View style={s.sectionBar} />
+                <Text>Work Experience</Text>
+              </View>
+              {d.experience
+                .filter((e) => e.position)
+                .map((exp, i) => (
+                  <View key={i} style={s.expItem} minPresenceAhead={40}>
+                    <View style={s.expHeader}>
+                      <View>
+                        <Text style={s.expPosition}>{exp.position}</Text>
+                        <Text style={s.expCompany}>{exp.company}</Text>
+                      </View>
+                      <Text style={s.expDate}>
+                        {exp.startDate} — {exp.current ? "Present" : exp.endDate}
+                      </Text>
+                    </View>
+                    {exp.responsibilities
+                      .filter((r) => r.trim())
+                      .slice(0, 6)
+                      .map((r, j) => (
+                        <Text key={j} style={s.bullet}>• {r}</Text>
+                      ))}
+                  </View>
+                ))}
+            </View>
+          )}
 
-    .header-content {
-      flex: 1;
-    }
+          <View style={s.twoCols}>
+            {d.skills.length > 0 && (
+              <View style={s.col}>
+                <View style={s.sectionTitle}>
+                  <View style={s.sectionBar} />
+                  <Text>Skills</Text>
+                </View>
+                {d.skills.map((cat, i) => (
+                  <View key={i} style={{ marginBottom: 8 }} minPresenceAhead={40}>
+                    <Text style={s.skillCatTitle}>{cat.category}</Text>
+                    <View style={s.skillTags}>
+                      {cat.skills
+                        .filter((sk) => sk.trim())
+                        .map((sk, j) => (
+                          <Text key={j} style={s.skillTag}>{sk}</Text>
+                        ))}
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
 
-    .name-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
+            {d.education.filter((e) => e.institution).length > 0 && (
+              <View style={s.col}>
+                <View style={s.sectionTitle}>
+                  <View style={s.sectionBar} />
+                  <Text>Education</Text>
+                </View>
+                {d.education
+                  .filter((e) => e.institution)
+                  .map((edu, i) => (
+                    <View key={i} style={{ marginBottom: 8 }} minPresenceAhead={40}>
+                      <Text style={s.eduDegree}>{edu.degree} {edu.field}</Text>
+                      <Text style={s.eduInst}>{edu.institution}</Text>
+                      <Text style={s.eduDate}>{edu.startDate} — {edu.endDate}</Text>
+                    </View>
+                  ))}
+              </View>
+            )}
+          </View>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
-    .name {
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .title {
-      font-size: 16px;
-      color: #666;
-    }
-
-    .initials {
-      width: 50px;
-      height: 50px;
-      border: 2px solid #4f46e5;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-
-    .contact {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .contact-item {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .icon {
-      width: 22px;
-      height: 22px;
-      background: #eef2ff;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-
-    /* BODY */
-    .body {
-      display: flex;
-      gap: 20px;
-    }
-
-    .left {
-      width: 33%;
-    }
-
-    .right {
-      width: 67%;
-    }
-
-    .section {
-      margin-bottom: 16px;
-      page-break-inside: avoid;
-    }
-
-    .section-title {
-      font-weight: 700;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-
-    .about-box {
-      background: #f8fafc;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #e5e7eb;
-      line-height: 1.5;
-    }
-
-    .skill-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      padding: 8px;
-      margin-bottom: 8px;
-      page-break-inside: avoid;
-    }
-
-    .skill-title {
-      font-size: 10px;
-      font-weight: 600;
-      margin-bottom: 5px;
-      letter-spacing: 0.5px;
-    }
-
-    .skill-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-
-    .dots {
-      display: flex;
-      gap: 3px;
-    }
-
-    .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #4f46e5;
-    }
-
-    .dot.empty {
-      background: #ddd;
-    }
-
-    .tag {
-      display: inline-block;
-      border: 1px solid #4f46e5;
-      padding: 2px 6px;
-      border-radius: 4px;
-      margin: 2px;
-      font-size: 10px;
-    }
-
-    .exp-card {
-      border-left: 3px solid #4f46e5;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      background: #fff;
-      page-break-inside: avoid;
-    }
-
-    .exp-title {
-      font-weight: 600;
-    }
-
-    .exp-company {
-      color: #4f46e5;
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .exp-date {
-      font-size: 10px;
-      color: #666;
-    }
-
-    .bullet {
-      margin-left: 10px;
-      line-height: 1.4;
-      margin-bottom: 3px;
-    }
-
-    /* PAGINATION FIX */
-    h1, h2, h3 {
-      page-break-after: avoid;
-    }
-
-  </style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="accent-bar"></div>
-
-    <div class="header-content">
-      <div class="name-row">
-        <div>
-          <div class="name">{{name}}</div>
-          <div class="title">{{title}}</div>
-        </div>
-        <div class="initials">{{initials}}</div>
-      </div>
-
-      <div class="contact">
-        {{#if email}}<div class="contact-item"><div class="icon">E</div>{{email}}</div>{{/if}}
-        {{#if phone}}<div class="contact-item"><div class="icon">P</div>{{phone}}</div>{{/if}}
-        {{#if location}}<div class="contact-item"><div class="icon">L</div>{{location}}</div>{{/if}}
-        {{#if website}}<div class="contact-item"><div class="icon">W</div>{{website}}</div>{{/if}}
-      </div>
-    </div>
-  </div>
-
-  <!-- BODY -->
-  <div class="body">
-
-    <!-- LEFT -->
-    <div class="left">
-
-      <div class="section">
-        <div class="section-title">About Me</div>
-        <div class="about-box">{{summary}}</div>
-      </div>
-
-      {{#each skills}}
-      <div class="skill-card">
-        <div class="skill-title">{{category}}</div>
-
-        {{#each skills}}
-        <div class="skill-row">
-          <span>{{this}}</span>
-          <div class="dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot empty"></div>
-            <div class="dot empty"></div>
-          </div>
-        </div>
-        {{/each}}
-
-      </div>
-      {{/each}}
-
-    </div>
-
-    <!-- RIGHT -->
-    <div class="right">
-
-      <div class="section">
-        <div class="section-title">Work Experience</div>
-
-        {{#each experience}}
-        <div class="exp-card">
-          <div class="exp-title">{{position}}</div>
-          <div class="exp-company">{{company}}</div>
-          <div class="exp-date">{{startDate}} - {{endDate}}</div>
-
-          {{#each responsibilities}}
-          <div class="bullet">• {{this}}</div>
-          {{/each}}
-
-        </div>
-        {{/each}}
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-</body>
-</html>
+export default CoralSunsetPdf;
