@@ -10,6 +10,7 @@ import PhotoModernPdf from "./PhotoModernPdf";
 import SapphireBloomPdf from "./SapphireBloomPdf";
 import EmeraldElegancePdf from "./EmeraldElegancePdf";
 import CoralSunsetPdf from "./CoralSunsetPdf";
+import PurplePeakPdf from "./PurplePeakPdf";
 
 export const pdfTemplates: Record<string, React.ComponentType<{ data: ResumeData }>> = {
   "modern-professional": ModernProfessionalPdf,
@@ -23,4 +24,5 @@ export const pdfTemplates: Record<string, React.ComponentType<{ data: ResumeData
   "sapphire-bloom": SapphireBloomPdf,
   "emerald-elegance": EmeraldElegancePdf,
   "coral-sunset": CoralSunsetPdf,
+  "purple-peak": PurplePeakPdf,
 };

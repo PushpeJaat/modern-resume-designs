@@ -13,6 +13,7 @@ import PhotoModern from "@/components/templates/PhotoModern";
 import SapphireBloom from "@/components/templates/SapphireBloom";
 import EmeraldElegance from "@/components/templates/EmeraldElegance";
 import CoralSunset from "@/components/templates/CoralSunset";
+import PurplePeak from "@/components/templates/PurplePeak";
 import TemplateCard from "@/components/TemplateCard";
 import ResumeUpload from "@/components/ResumeUpload";
 import { ArrowLeft, Download, Edit } from "lucide-react";
@@ -30,6 +31,7 @@ const templateList = [
   { id: "sapphire-bloom", title: "Sapphire Bloom", description: "Fresh gradient header with decorative visuals, photo support, and clean layout.", component: SapphireBloom },
   { id: "emerald-elegance", title: "Emerald Elegance", description: "Rich green gradient header with rounded photo, diamond accents, and nature-inspired palette.", component: EmeraldElegance },
   { id: "coral-sunset", title: "Coral Sunset", description: "Warm coral-to-amber gradient with decorative circles, wave strip, and sunset tones.", component: CoralSunset },
+  { id: "purple-peak", title: "Purple Peak", description: "Bold purple-gold gradient header, two-column layout with skill bars, timeline experience, projects, certifications & achievements.", component: PurplePeak },
 ];
 
 const Templates = () => {
